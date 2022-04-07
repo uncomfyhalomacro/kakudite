@@ -1,4 +1,4 @@
-snippet_support = false
+snippet_support = true
 verbosity = 2
 
 [server]
@@ -159,6 +159,9 @@ args = ["--stdio"]
 filetypes = ["julia"]
 roots = ["Project.toml", ".git", ".hg"]
 command = "julia"
+# I am using a sysimage here. Remove this line if you don't.
+# If you are planning to use a sysimage, use absolute path and not `$HOME` or relative path.
+# Create a sysimage first by following the docs of https://github.com/JuliaLang/PackageCompiler.jl
 args = [
     "-J/home/uncomfy/.julia/environments/kak-lspconfig/languageserver.so",
     "--startup-file=no",
