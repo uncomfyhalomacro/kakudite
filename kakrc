@@ -13,7 +13,7 @@ evaluate-commands %sh{
 plug "andreyorst/plug.kak" noload
 
 plug "kak-lsp/kak-lsp" config %{
-    set global lsp_cmd "kak-lsp -s %val{session} -vvv --log /tmp/kak-lsp.log"
+    set global lsp_cmd "kak-lsp -c $HOME/.config/kak/kak-lsp.toml -s %val{session} -vvv --log /tmp/kak-lsp.log"
         hook global WinSetOption filetype=(rust|python|haskell|julia|sh|latex) %{
             set global lsp_hover_anchor false
             lsp-enable-window
