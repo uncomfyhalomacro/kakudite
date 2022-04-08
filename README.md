@@ -1,4 +1,4 @@
 # kakudite
 
 ## TODO
-- [ ] fix Julia repl command
+- [X] fix Julia repl command

@@ -49,7 +49,7 @@ hook global WinSetOption filetype=(julia) %{
             then
                 echo "tmux-repl-vertical 'julia --project=$1'"
             else
-                project_path="$(dirname $kak_buffile)"
+                project_path="$(julia -q --startup-file=no --history-file=no -e 'println(dirname(Base.current_project(dirname(ENV["kak_buffile"]))))')"                
                 echo "tmux-repl-vertical 'julia --project=$project_path'"
             fi
         }
