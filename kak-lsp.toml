@@ -150,50 +150,24 @@ command = "json-languageserver"
 args = ["--stdio"]
 
 # Requires Julia packages "LanguageServer"
-# Run: `julia --project=@kak-lspconfig -e 'import Pkg; Pkg.add("LanguageServer")'` to install it
-# No need to import SymbolServer because it is no longer required
-# Reference: https://github.com/julia-vscode/SymbolServer.jl/issues/54#issuecomment-643667218
-# Configuration taken from https://github.com/neovim/nvim-lspconfig/blob/master/lua/lspconfig/server_configurations/julials.lua
-# and modified to use `kak_buffile` to set project path
+# Run: `julia --project=@kak-lsp -e 'import Pkg; Pkg.add("LanguageServer")'` to install it
 [language.julia]
 filetypes = ["julia"]
 roots = ["Project.toml", ".git", ".hg"]
 command = "julia"
-# I am using a sysimage here. Remove this line if you don't.
-# If you are planning to use a sysimage, use absolute path and not `$HOME` or relative path.
-# Create a sysimage first by following the docs of https://github.com/JuliaLang/PackageCompiler.jl
 args = [
-    "-J/home/uncomfy/.julia/environments/kak-lspconfig/languageserver.so",
     "--startup-file=no",
     "--history-file=no",
     "-e",
     """
-    ls_install_path = joinpath(get(DEPOT_PATH, 1, joinpath(homedir(), ".julia")), "environments", "kak-lspconfig");
+    ls_install_path = joinpath(get(DEPOT_PATH, 1, joinpath(homedir(), ".julia")), "environments", "kak-lsp");
     pushfirst!(LOAD_PATH, ls_install_path);
     using LanguageServer;
     popfirst!(LOAD_PATH);
     depot_path = get(ENV, "JULIA_DEPOT_PATH", "");
-    project_path = let
-        dirname(something(
-            ## 1. Look for a Project.toml file in the current working directory,
-            ##    or parent directories, with $HOME as an upper boundary
-            ##    As you can see, we use `kak_buffile` because if we do not use it
-            ##    and run `kak` outside the root of a project, it will default to
-            ##    global project environment -> `~/.julia/environments/<current-version-of-julia>`
-            ##    or find the nearest Project.toml file which will be incorrect.
-            Base.current_project(dirname(something(ENV["kak_buffile"], Base.current_project()))),
-            ## 2. Finds an explicitly set project (JULIA_PROJECT)
-            Base.load_path_expand((
-                p = get(ENV, "JULIA_PROJECT", nothing);
-                p === nothing ? nothing : isempty(p) ? nothing : p
-            )),
-            ## 3. First entry in the load path
-            get(Base.load_path(), 1, nothing),
-            ## 4. Fallback to default global environment,
-            ##    this is more or less unreachable
-            Base.load_path_expand("@v#.#"),
-        ))
-    end
+    buffer_file = ENV["kak_buffile"];
+    project_path = dirname(something(Base.current_project(dirname(buffer_file)), Base.active_project()));
+    
     server = LanguageServer.LanguageServerInstance(stdin, stdout, project_path, depot_path);
     server.runlinter = true;
     run(server);

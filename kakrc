@@ -17,7 +17,14 @@ plug "kak-lsp/kak-lsp" config %{
         hook global WinSetOption filetype=(rust|python|haskell|julia|sh|latex) %{
             set global lsp_hover_anchor false
             lsp-enable-window
-            map global goto w '<esc>: lsp-hover-buffer lsp-info-window <ret>' -docstring 'lsp-info-window' 
+
+            map global goto w '<esc>: lsp-hover-buffer lsp-info-window <ret>' -docstring 'lsp-info-window'
+
+            define-command -docstring 'lsp-logs: shows lsp logs on tmux window' lsp-logs -params 0 %{
+                tmux-repl-vertical 'less +F /tmp/kak-lsp.log'
+            }
+
+            map global goto L '<esc>: lsp-logs <ret>' -docstring 'show lsp logs on tmux'
         }
 }
 
