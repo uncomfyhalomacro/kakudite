@@ -1,5 +1,3 @@
-colorscheme gruvbox-light
-
 set-option global tabstop     4
 set-option global indentwidth 4
 
@@ -37,6 +35,12 @@ plug "andreyorst/kaktree" config %{
     }
     kaktree-enable
 }
+
+plug "uncomfyhalomacro/catppuccin.kak" theme config %{
+    colorscheme catppuccin
+    add-highlighter global/ number-lines
+}
+
 
 plug "abuffseagull/kakoune-discord" do %{ cargo install --path . --force } %{
     discord-presence-enable
