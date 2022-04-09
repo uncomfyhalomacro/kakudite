@@ -1,6 +1,8 @@
-set-option global tabstop     4
-set-option global indentwidth 4
-
+set-option global tabstop		4
+set-option global indentwidth	4
+hook global ModuleLoaded wayland %{
+	set-option global termcmd "foot sh -c"
+}
 evaluate-commands %sh{
     plugins="$kak_config/plugins"
     mkdir -p "$plugins"
@@ -26,7 +28,12 @@ plug "kak-lsp/kak-lsp" config %{
         }
 }
 
-plug "andreyorst/kaktree" config %{
+plug "andreyorst/kaktree" defer kaktree %{
+	set-option global kaktree_dir_icon_close	''
+    set-option global kaktree_dir_icon_open		''
+    set-option global kaktree_file_icon			'☶'
+    set-option global kaktree_keep_focus		true
+} config %{
     hook global WinSetOption filetype=kaktree %{
         remove-highlighter buffer/numbers
         remove-highlighter buffer/matching
@@ -36,7 +43,7 @@ plug "andreyorst/kaktree" config %{
     kaktree-enable
 }
 
-plug "uncomfyhalomacro/catppuccin.kak" theme config %{
+plug "uncomfyhalomacro/kakoune" theme config %{
     colorscheme catppuccin
     add-highlighter global/ number-lines
 }
@@ -51,12 +58,14 @@ hook global WinSetOption filetype=(julia) %{
         evaluate-commands %sh{
             if [ -n "$1" ]
             then
-                echo "tmux-repl-vertical 'julia --project=$1'"
+                printf "%s\n" "terminal julia --project=$1"
             else
                 project_path="$(julia -q --startup-file=no --history-file=no -e 'println(dirname(Base.current_project(dirname(ENV["kak_buffile"]))))')"                
-                echo "tmux-repl-vertical 'julia --project=$project_path'"
+                printf "%s\n" "terminal julia --project=$project_path"
             fi
         }
     }
     map global normal P -docstring 'julia-repl' ': julia-repl <ret>'
 }
+
+map global normal <F8> ':cd %sh{dirname $kak_buffile} <ret> :kaktree-toggle <ret>' -docstring 'open kaktree on current working directory'
