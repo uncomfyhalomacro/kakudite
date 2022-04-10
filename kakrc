@@ -1,8 +1,6 @@
 set-option global tabstop		4
 set-option global indentwidth	4
-hook global ModuleLoaded wayland %{
-	set-option global termcmd "foot sh -c"
-}
+
 evaluate-commands %sh{
     plugins="$kak_config/plugins"
     mkdir -p "$plugins"
@@ -11,6 +9,10 @@ evaluate-commands %sh{
     printf "%s\n" "source '$plugins/plug.kak/rc/plug.kak'"
 }
 plug "andreyorst/plug.kak" noload
+
+plug "catppuccin/kakoune" theme config %{
+    colorscheme catppuccin
+}
 
 plug "kak-lsp/kak-lsp" config %{
     set global lsp_cmd "kak-lsp -c $HOME/.config/kak/kak-lsp.toml -s %val{session} -vvv --log /tmp/kak-lsp.log"
@@ -33,24 +35,17 @@ plug "andreyorst/kaktree" defer kaktree %{
     set-option global kaktree_dir_icon_open		''
     set-option global kaktree_file_icon			'☶'
     set-option global kaktree_keep_focus		true
+    set-option global kaktree_size 40
 } config %{
     hook global WinSetOption filetype=kaktree %{
-        remove-highlighter buffer/numbers
+        remove-highlighter buffer/numbers-lines
         remove-highlighter buffer/matching
         remove-highlighter buffer/wrap
         remove-highlighter buffer/show-whitespaces
     }
     kaktree-enable
+	map global normal <F8> ':cd %sh{dirname $kak_buffile} <ret> :kaktree-toggle <ret>' -docstring 'open kaktree on current working directory'
 }
-
-plug "catppuccin/kakoune" theme config %{
-    colorscheme catppuccin
-    add-highlighter global/ number-lines
-    add-highlighter global/	show-matching
-    add-highlighter global/ show-whitespaces
-
-}
-
 
 plug "abuffseagull/kakoune-discord" do %{ cargo install --path . --force } %{
     discord-presence-enable
@@ -71,4 +66,7 @@ hook global WinSetOption filetype=(julia) %{
     map global normal P -docstring 'julia-repl' ': julia-repl <ret>'
 }
 
-map global normal <F8> ':cd %sh{dirname $kak_buffile} <ret> :kaktree-toggle <ret>' -docstring 'open kaktree on current working directory'
+hook global ModuleLoaded wayland %{
+	set-option global termcmd "foot sh -c"
+}
+
