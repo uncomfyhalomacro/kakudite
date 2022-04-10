@@ -66,7 +66,4 @@ hook global WinSetOption filetype=(julia) %{
     map global normal P -docstring 'julia-repl' ': julia-repl <ret>'
 }
 
-hook global ModuleLoaded wayland %{
-	set-option global termcmd "foot sh -c"
-}
 
