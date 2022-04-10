@@ -21,7 +21,7 @@ plug "kak-lsp/kak-lsp" config %{
             map global goto w '<esc>: lsp-hover-buffer lsp-info-window <ret>' -docstring 'lsp-info-window'
 
             define-command -docstring 'lsp-logs: shows lsp logs on tmux window' lsp-logs -params 0 %{
-                tmux-repl-vertical 'less +F /tmp/kak-lsp.log'
+                terminal 'less +F /tmp/kak-lsp.log'
             }
 
             map global goto L '<esc>: lsp-logs <ret>' -docstring 'show lsp logs on tmux'
@@ -43,9 +43,12 @@ plug "andreyorst/kaktree" defer kaktree %{
     kaktree-enable
 }
 
-plug "uncomfyhalomacro/kakoune" theme config %{
+plug "catppuccin/kakoune" theme config %{
     colorscheme catppuccin
     add-highlighter global/ number-lines
+    add-highlighter global/	show-matching
+    add-highlighter global/ show-whitespaces
+
 }
 
 
