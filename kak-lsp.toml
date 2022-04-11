@@ -160,11 +160,16 @@ args = [
     "--history-file=no",
     "-e",
     """
-    ls_install_path = joinpath(get(DEPOT_PATH, 1, joinpath(homedir(), ".julia")), "environments", "kak-lsp");
-    pushfirst!(LOAD_PATH, ls_install_path);
-    using LanguageServer;
-    popfirst!(LOAD_PATH);
-    depot_path = get(ENV, "JULIA_DEPOT_PATH", "");
+    function recurse_project_paths(path::AbstractString)
+        isnothing(Base.current_project(path)) && return
+        tmp = path
+        CUSTOM_LOAD_PATH = []
+        while !isnothing(Base.current_project(tmp))
+            pushfirst!(CUSTOM_LOAD_PATH, tmp)
+            tmp = dirname(tmp)
+        end
+        return joinpath(CUSTOM_LOAD_PATH[1], "Project.toml")
+    end
     buffer_file = ENV["kak_buffile"];
     project_path = let 
       dirname(something(
@@ -173,15 +178,32 @@ args = [
           p = get(ENV, "JULIA_PROJECT", nothing);
           p === nothing ? nothing : isempty(p) ? nothing : p
         )),
-        # 2. Check for Project.toml in current working directory
-        Base.current_project(pwd()),
-        # 3. Check for Project.toml from buffer's full file path exluding the file name
+        # 2. Check if project in current working directory is a subproject.
+        #    If so, we use the main project instead of the subproject.
+        recurse_project_paths(dirname(buffer_file)),
         Base.current_project(dirname(buffer_file)),
-        # 4. Fallback to global environment
+       	recurse_project_paths(pwd()),
+        Base.current_project(pwd()),
+        # 3. Check for Project.toml in current working directory
+        # 4. Check for Project.toml from buffer's full file path exluding the file name
+        # 5. Fallback to global environment
         Base.active_project()
       ))
     end
-    
+    # Some projects require Pkg to activate and instantiate it
+    # Activate the project 
+    import Pkg;
+    Pkg.activate(project_path);
+    # Instantiate project
+    Pkg.instantiate();
+    @info "Current active project: $(Base.active_project())"
+    @info "LOAD PATHS: $(Base.load_path())"
+    ls_install_path = joinpath(get(DEPOT_PATH, 1, joinpath(homedir(), ".julia")), "environments", "kak-lsp");
+    pushfirst!(LOAD_PATH, ls_install_path);
+    using LanguageServer;
+    popfirst!(LOAD_PATH);
+    depot_path = get(ENV, "JULIA_DEPOT_PATH", "");
+	@info "LanguageServer.jl has started in $project_path"
     server = LanguageServer.LanguageServerInstance(stdin, stdout, project_path, depot_path);
     server.runlinter = true;
     run(server);
