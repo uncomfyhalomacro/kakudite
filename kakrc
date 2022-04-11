@@ -1,6 +1,10 @@
 set-option global tabstop		4
 set-option global indentwidth	4
-
+# hook global WinSetOption filetype=(?!kak).* %{
+#     add-highlighter buffer/ number-lines
+#     add-highlighter buffer/  show-matching
+#     add-highlighter buffer/  show-whitespaces
+# }
 evaluate-commands %sh{
     plugins="$kak_config/plugins"
     mkdir -p "$plugins"
@@ -12,16 +16,20 @@ plug "andreyorst/plug.kak" noload
 
 plug "catppuccin/kakoune" theme config %{
     colorscheme catppuccin
-    add-highlighter global/ number-lines
-    add-highlighter global/ show-matching
-    add-highlighter global/ show-whitespaces
+    
 }
 
 plug "kak-lsp/kak-lsp" config %{
     set global lsp_cmd "kak-lsp -c $HOME/.config/kak/kak-lsp.toml -s %val{session} -vvv --log /tmp/kak-lsp.log"
         hook global WinSetOption filetype=(rust|python|haskell|julia|sh|latex) %{
+            add-highlighter buffer/	number-lines
+            add-highlighter buffer/	show-matching
+            add-highlighter buffer/	show-whitespaces
+			
+
             set global lsp_hover_anchor false
             lsp-enable-window
+            map global user l %{: enter-user-mode lsp<ret>} -docstring "LSP mode"
 
             map global goto w '<esc>: lsp-hover-buffer lsp-info-window <ret>' -docstring 'lsp-info-window'
 
@@ -34,17 +42,22 @@ plug "kak-lsp/kak-lsp" config %{
 }
 
 plug "andreyorst/kaktree" defer kaktree %{
-	set-option global kaktree_dir_icon_close	''
-    set-option global kaktree_dir_icon_open		''
-    set-option global kaktree_file_icon			'☶'
+	set-option global kaktree_dir_icon_close	' '
+    set-option global kaktree_dir_icon_open		' '
+    set-option global kaktree_file_icon			' ☶'
     set-option global kaktree_keep_focus		true
-    set-option global kaktree_size 40
+    set-option global kaktree_size				40
+    set-option global kaktree_show_hidden		true
 } config %{
-    hook global WinSetOption filetype=kaktree %{
-        remove-highlighter global/number-lines
-        remove-highlighter global/matching
-        remove-highlighter global/wrap
-        remove-highlighter global/show-whitespaces
+    hook global WinSetOption filetype=(?!kaktree)(?!sh).* %{
+        remove-highlighter buffer/numbers
+        remove-highlighter buffer/matching
+        remove-highlighter buffer/wrap
+        remove-highlighter buffer/show-whitespace
+
+        # add-highlighter buffer/	number-lines
+        # add-highlighter buffer/	show-matching
+        # add-highlighter buffer/	show-whitespaces
     }
     kaktree-enable
 	map global normal <F8> ':cd %sh{dirname $kak_buffile} <ret> :kaktree-toggle <ret>' -docstring 'open kaktree on current working directory'
@@ -53,6 +66,8 @@ plug "andreyorst/kaktree" defer kaktree %{
 plug "abuffseagull/kakoune-discord" do %{ cargo install --path . --force } %{
     discord-presence-enable
 }
+
+plug "andreyorst/fzf.kak"
 
 hook global ModuleLoaded kitty %{
     hook global WinSetOption filetype=(julia) %{
