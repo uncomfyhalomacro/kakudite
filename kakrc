@@ -12,6 +12,9 @@ plug "andreyorst/plug.kak" noload
 
 plug "catppuccin/kakoune" theme config %{
     colorscheme catppuccin
+    add-highlighter global/ number-lines
+    add-highlighter global/ show-matching
+    add-highlighter global/ show-whitespaces
 }
 
 plug "kak-lsp/kak-lsp" config %{
@@ -23,10 +26,10 @@ plug "kak-lsp/kak-lsp" config %{
             map global goto w '<esc>: lsp-hover-buffer lsp-info-window <ret>' -docstring 'lsp-info-window'
 
             define-command -docstring 'lsp-logs: shows lsp logs on tmux window' lsp-logs -params 0 %{
-                terminal 'less +F /tmp/kak-lsp.log'
+                terminal sh -c 'less +F /tmp/kak-lsp.log'
             }
 
-            map global goto L '<esc>: lsp-logs <ret>' -docstring 'show lsp logs on tmux'
+            map global goto L '<esc>: lsp-logs <ret>' -docstring 'show lsp logs on another window'
         }
 }
 
@@ -38,10 +41,10 @@ plug "andreyorst/kaktree" defer kaktree %{
     set-option global kaktree_size 40
 } config %{
     hook global WinSetOption filetype=kaktree %{
-        remove-highlighter buffer/numbers-lines
-        remove-highlighter buffer/matching
-        remove-highlighter buffer/wrap
-        remove-highlighter buffer/show-whitespaces
+        remove-highlighter global/number-lines
+        remove-highlighter global/matching
+        remove-highlighter global/wrap
+        remove-highlighter global/show-whitespaces
     }
     kaktree-enable
 	map global normal <F8> ':cd %sh{dirname $kak_buffile} <ret> :kaktree-toggle <ret>' -docstring 'open kaktree on current working directory'
@@ -51,19 +54,35 @@ plug "abuffseagull/kakoune-discord" do %{ cargo install --path . --force } %{
     discord-presence-enable
 }
 
-hook global WinSetOption filetype=(julia) %{
-    define-command -docstring 'julia-repl: Open Julia REPL at current project or pwd' julia-repl -params 0..1 %{
-        evaluate-commands %sh{
-            if [ -n "$1" ]
-            then
-                printf "%s\n" "terminal julia --project=$1"
-            else
-                project_path="$(julia -q --startup-file=no --history-file=no -e 'println(dirname(Base.current_project(dirname(ENV["kak_buffile"]))))')"                
-                printf "%s\n" "terminal julia --project=$project_path"
-            fi
+hook global ModuleLoaded kitty %{
+    hook global WinSetOption filetype=(julia) %{
+        define-command -docstring 'julia-repl: Open Julia REPL at current project or pwd' julia-repl -params 0..1 %{
+            evaluate-commands %sh{
+                if [ -n "$1" ]
+                then
+                    printf "%s\n" "kitty-repl julia --project=$1"
+                else
+                    project_path="$(julia -q --startup-file=no --history-file=no -e 'println(dirname(Base.current_project(dirname(ENV["kak_buffile"]))))')"                
+                    printf "%s\n" "kitty-repl julia --project=$project_path"
+                fi
+            }
         }
     }
-    map global normal P -docstring 'julia-repl' ': julia-repl <ret>'
+}
+hook global ModuleLoaded tmux %{
+    hook global WinSetOption filetype=(julia) %{
+        define-command -docstring 'julia-repl: Open Julia REPL at current project or pwd' julia-repl -params 0..1 %{
+            evaluate-commands %sh{
+                if [ -n "$1" ]
+                then
+                    printf "%s\n" "tmux-repl-vertical julia --project=$1"
+                else
+                    project_path="$(julia -q --startup-file=no --history-file=no -e 'println(dirname(Base.current_project(dirname(ENV["kak_buffile"]))))')"                
+                    printf "%s\n" "tmux-repl-vertical julia --project=$project_path"
+                fi
+            }
+        }
+    }
 }
 
-
+map global normal P -docstring 'julia-repl' ': julia-repl <ret>'
