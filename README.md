@@ -11,4 +11,4 @@ I will be exploring this editor. For a working editor config and *not kakoune*, 
 - [ ] add code runner command for julia
 - [ ] ~~git integration?~~ You have a multiplexer, do it in another window
 - [X] kaktree toggle on current working directory
-
+- [ ] create own plugin manager :)
