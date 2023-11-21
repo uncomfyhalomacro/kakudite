@@ -17,7 +17,7 @@ hook global InsertCompletionShow .* %{
 hook global WinSetOption filetype=.* %{
     add-highlighter buffer/ show-whitespaces
     add-highlighter buffer/ show-matching
-    add-highlighter buffer/ wrap -indent -word -width 90 -marker '↝'
+    add-highlighter buffer/ wrap -indent -word -width 120 -marker '↝'
     add-highlighter -override buffer/ number-lines -relative
     hook global ModeChange (push|pop):.*:insert %{
         set-face buffer PrimarySelection white,green+F
@@ -110,6 +110,9 @@ evaluate-commands %sh{
     fi
 }
 set-option global ui_options terminal_assistant=cat terminal_status_on_top=false
+# TODO move mappings somewhere
 map global insert <c-[> <esc>
+map global normal <c-a> ': inc-dec-modify-numbers + %val{count}<ret>'
+map global normal <c-x> ': inc-dec-modify-numbers - %val{count}<ret>'
 define-command -docstring "save and quit" x "write-all; quit"
 
