@@ -153,9 +153,9 @@ hook global ModuleLoaded zellij %{
             evaluate-commands %sh{
                 if [ -n "$1" ]
                 then
-                    printf "%s\n" "zellij action new-pane -d up -- $1"
+                    printf "%s\n" "zellij-action new-pane -d up -- $1"
                 else
-                    printf "%s\n" "zellij action new-pane -d up"
+                    printf "%s\n" "zellij-action new-pane -d up"
                 fi
             }
     }
@@ -174,6 +174,13 @@ evaluate-commands %sh{
 
     kak-tree-sitter -dks --session $kak_session
 }
-
-colorscheme catppuccin_mocha
+evaluate-commands %sh{
+    theme_mode="$(gsettings get org.gnome.desktop.interface color-scheme)"
+    if [ "$theme_mode" = "'prefer-light'" ]
+    then
+        printf "%s\n" "colorscheme catppuccin_latte"
+    else
+        printf "%s\n" "colorscheme catppuccin_mocha"
+    fi
+}
 set-option global ui_options terminal_assistant=cat terminal_status_on_top=false
