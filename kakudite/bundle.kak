@@ -69,3 +69,7 @@ bundle-customload smarttab https://github.com/andreyorst/smarttab.kak %{
     set-option global smarttab_smarttab_mode_name 'smart'
 } %{}
 
+bundle-customload kakoune-inc-dec https://gitlab.com/Screwtapello/kakoune-inc-dec %{
+    source "%opt{bundle_path}/kakoune-inc-dec/inc-dec.kak"
+} %{}
+
