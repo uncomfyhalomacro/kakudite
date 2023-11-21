@@ -1,2 +1,2 @@
-source kakudite/bundle.kak
-source kakudite/options.kak
+source "%val{config}/kakudite/bundle.kak"
+source "%val{config}/kakudite/options.kak"
