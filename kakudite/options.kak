@@ -18,7 +18,7 @@ hook global WinSetOption filetype=.* %{
     add-highlighter buffer/ show-whitespaces
     add-highlighter buffer/ show-matching
     add-highlighter buffer/ wrap -indent -word -width 120 -marker '↝'
-    add-highlighter -override buffer/ number-lines -relative
+    add-highlighter -override buffer/ number-lines -relative -min-digits 6
     hook global ModeChange (push|pop):.*:insert %{
         set-face buffer PrimarySelection white,green+F
         set-face buffer SecondarySelection black,green+F
@@ -26,8 +26,8 @@ hook global WinSetOption filetype=.* %{
         set-face buffer SecondaryCursor black,bright-green+F
         set-face buffer PrimaryCursorEol black,bright-yellow
         set-face buffer SecondaryCursorEol black,bright-green
-        add-highlighter -override buffer/ number-lines
-        remove-highlighter buffer/number-lines_-relative
+        add-highlighter -override buffer/ number-lines -min-digits 6
+        remove-highlighter buffer/number-lines_-relative_-min-digits_6
     }
 
 
@@ -39,8 +39,8 @@ hook global WinSetOption filetype=.* %{
         unset-face buffer SecondaryCursor
         unset-face buffer PrimaryCursorEol
         unset-face buffer SecondaryCursorEol
-        add-highlighter -override buffer/ number-lines -relative
-        remove-highlighter buffer/number-lines
+        add-highlighter -override buffer/ number-lines -relative -min-digits 6
+        remove-highlighter buffer/number-lines_-min-digits_6
     }
 }
 
