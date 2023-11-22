@@ -106,7 +106,7 @@ evaluate-commands %sh{
     then
         printf "%s\n" "colorscheme catppuccin_latte"
     else
-        printf "%s\n" "colorscheme catppuccin_mocha"
+        printf "%s\n" "colorscheme catppuccin_macchiato"
     fi
 }
 set-option global ui_options terminal_assistant=cat terminal_status_on_top=false
