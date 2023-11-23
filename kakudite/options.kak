@@ -116,3 +116,44 @@ map global normal <c-a> ': inc-dec-modify-numbers + %val{count}<ret>'
 map global normal <c-x> ': inc-dec-modify-numbers - %val{count}<ret>'
 define-command -docstring "save and quit" x "write-all; quit"
 
+# Status line
+set-face global BufferList  "%opt{background},%opt{rosewater}"
+set-face global DateTime    "%opt{background},%opt{cyan}"
+set-face global StatusLine  "%opt{foreground},%opt{background}"
+set-face global GitBranch   "%opt{background},%opt{mauve}"
+set-face global GitModified "%opt{background},%opt{teal}"
+set-face global BlackOnWhiteBg "%opt{background},%opt{foreground}"
+
+set-option global modelinefmt '%val{bufname} %val{cursor_line}:%val{cursor_char_column} {BlackOnWhiteBg}[%opt{filetype}]{StatusLine} {{context_info}} {{mode_info}} - %val{client}@[%val{session}]%opt{lsp_modeline_message_requests} %opt{lsp_modeline_progress} {BufferList}U+%sh{printf "%04x" "$kak_cursor_char_value"}{StatusLine} {BlackOnWhiteBg}%sh{printf "﬘->%s"  $(printf %s\\n $kak_buflist |wc -w) }{StatusLine} {DateTime}%sh{ date "+%Y-%m-%d %T"}'
+
+declare-option -docstring "name of the git branch holding the current buffer" \
+    str modeline_git_branch
+
+declare-option -docstring "if the tracked file is modified or not" \
+    str modeline_git_modified
+
+hook global WinCreate .* %{
+    hook window NormalIdle .* %{
+        evaluate-commands %sh{
+        branch=$(cd "$(dirname "${kak_buffile}")" && git rev-parse --abbrev-ref HEAD 2>/dev/null)
+        if [ -n "${branch}" ]; then
+            printf 'set-option window modeline_git_branch %%{%s}' "${branch}"
+        fi
+        }
+    }
+    hook window NormalIdle .* %{
+        evaluate-commands %sh{
+        ismodified=$(cd "$(dirname "${kak_buffile}")" && git status "$kak_buffile" --porcelain 2>/dev/null)
+        if [ -n "${ismodified}" ]; then
+            printf 'set-option window modeline_git_modified %%{%s}' "[M]"
+        fi
+        }
+    }
+    evaluate-commands %sh{
+        is_work_tree=$(cd "$(dirname "${kak_buffile}")" && git rev-parse --is-inside-work-tree 2>/dev/null)
+        if [ "${is_work_tree}" = 'true' ]; then
+            printf 'set-option window modelinefmt %%{%s}' "{GitBranch} %opt{modeline_git_branch}{StatusLine} {GitModified}%opt{modeline_git_modified}{StatusLine} ${kak_opt_modelinefmt}"
+        fi
+    }
+}
+
