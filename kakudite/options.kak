@@ -44,6 +44,40 @@ hook global WinSetOption filetype=.* %{
     }
 }
 
+declare-option -docstring "name of the git branch holding the current buffer" \
+    str modeline_git_branch
+
+declare-option -docstring "if the tracked file is modified or not" \
+    str modeline_git_modified
+
+hook global WinCreate .* %{
+    hook window NormalIdle .* %{
+        evaluate-commands %sh{
+            branch=$(cd "$(dirname "${kak_buffile}")" && git rev-parse --abbrev-ref HEAD 2>/dev/null)
+            if [ -n "${branch}" ]; then
+                printf 'set-option window modeline_git_branch %%{%s}\n' "${branch}"
+                ismodified=$(cd "$(dirname "${kak_buffile}")" && git status "$kak_buffile" --porcelain 2>/dev/null)
+                if [ -n "${ismodified}" ]; then
+                    printf 'set-option window modeline_git_modified %%{%s}\n' "[M]"
+                    printf 'git show-diff'
+                else
+                    printf 'unset-option window modeline_git_modified\n'
+                    printf 'git hide-diff'
+                fi
+            else
+                printf 'unset-option window modeline_git_modified\n'
+            fi
+        }
+    }
+
+    evaluate-commands %sh{
+        is_work_tree=$(cd "$(dirname "${kak_buffile}")" && git rev-parse --is-inside-work-tree 2>/dev/null)
+        if [ "${is_work_tree}" = 'true' ]; then
+            printf 'set-option window modelinefmt %%{%s}' "{GitBranch} %opt{modeline_git_branch}{StatusLine} {GitModified}%opt{modeline_git_modified}{StatusLine} ${kak_opt_modelinefmt}"
+        fi
+    }
+}
+
 hook global ModuleLoaded zellij %{
     define-command -docstring 'vsplit-right (zellij): Open a new vertical split on the right relative to the active pane' vsplit-right -params 0..1 %{
             evaluate-commands %sh{
@@ -125,39 +159,4 @@ set-face global GitModified "%opt{background},%opt{teal}"
 set-face global BlackOnWhiteBg "%opt{background},%opt{foreground}"
 
 set-option global modelinefmt '%val{bufname} %val{cursor_line}:%val{cursor_char_column} {BlackOnWhiteBg}[%opt{filetype}]{StatusLine} {{context_info}} {{mode_info}} - %val{client}@[%val{session}]%opt{lsp_modeline_message_requests} %opt{lsp_modeline_progress} {BufferList}U+%sh{printf "%04x" "$kak_cursor_char_value"}{StatusLine} {BlackOnWhiteBg}%sh{printf "﬘->%s"  $(printf %s\\n $kak_buflist |wc -w) }{StatusLine} {DateTime}%sh{ date "+%Y-%m-%d %T"}'
-
-declare-option -docstring "name of the git branch holding the current buffer" \
-    str modeline_git_branch
-
-declare-option -docstring "if the tracked file is modified or not" \
-    str modeline_git_modified
-
-hook global WinCreate .* %{
-    hook window NormalIdle .* %{
-        evaluate-commands %sh{
-        branch=$(cd "$(dirname "${kak_buffile}")" && git rev-parse --abbrev-ref HEAD 2>/dev/null)
-        if [ -n "${branch}" ]; then
-            printf 'set-option window modeline_git_branch %%{%s}' "${branch}"
-        else
-            printf 'unset-option window modeline_git_modified'
-        fi
-        }
-    }
-    hook window NormalIdle .* %{
-        evaluate-commands %sh{
-        ismodified=$(cd "$(dirname "${kak_buffile}")" && git status "$kak_buffile" --porcelain 2>/dev/null)
-        if [ -n "${ismodified}" ]; then
-            printf 'set-option window modeline_git_modified %%{%s}' "[M]"
-        else
-            printf 'unset-option window modeline_git_modified'
-        fi
-        }
-    }
-    evaluate-commands %sh{
-        is_work_tree=$(cd "$(dirname "${kak_buffile}")" && git rev-parse --is-inside-work-tree 2>/dev/null)
-        if [ "${is_work_tree}" = 'true' ]; then
-            printf 'set-option window modelinefmt %%{%s}' "{GitBranch} %opt{modeline_git_branch}{StatusLine} {GitModified}%opt{modeline_git_modified}{StatusLine} ${kak_opt_modelinefmt}"
-        fi
-    }
-}
 
