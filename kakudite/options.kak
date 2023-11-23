@@ -138,6 +138,8 @@ hook global WinCreate .* %{
         branch=$(cd "$(dirname "${kak_buffile}")" && git rev-parse --abbrev-ref HEAD 2>/dev/null)
         if [ -n "${branch}" ]; then
             printf 'set-option window modeline_git_branch %%{%s}' "${branch}"
+        else
+            printf 'unset-option window modeline_git_modified'
         fi
         }
     }
@@ -146,6 +148,8 @@ hook global WinCreate .* %{
         ismodified=$(cd "$(dirname "${kak_buffile}")" && git status "$kak_buffile" --porcelain 2>/dev/null)
         if [ -n "${ismodified}" ]; then
             printf 'set-option window modeline_git_modified %%{%s}' "[M]"
+        else
+            printf 'unset-option window modeline_git_modified'
         fi
         }
     }
