@@ -122,6 +122,20 @@ hook global ModuleLoaded zellij %{
                 fi
             }
     }
+    define-command -docstring 'open-xplr: Open a file manager in a specific direction relative from the active pane' \
+    open-xplr -params 0..1 %{
+       evaluate-commands %sh{
+           cwd=$(dirname "$kak_buffile" 2>/dev/null)
+           if [ -n "$1" ]
+           then
+                printf "%s\n" "zellij-action new-pane --cwd '$cwd' -d $1 -- xplr"
+           else
+                printf "%s\n" "zellij-action new-pane --cwd '$cwd' -- xplr"
+           fi
+           printf "%s\n" "zellij-action focus-previous-pane"
+       }
+    }
+    
 }
 
 evaluate-commands %sh{
@@ -148,6 +162,8 @@ set-option global ui_options terminal_assistant=cat terminal_status_on_top=false
 map global insert <c-[> <esc>
 map global normal <c-a> ': inc-dec-modify-numbers + %val{count}<ret>'
 map global normal <c-x> ': inc-dec-modify-numbers - %val{count}<ret>'
+map -docstring "open-xplr: Open a file manager in a new pane at the buffer's current working directory" \
+    global user   <f>   ': open-xplr<ret>'
 define-command -docstring "save and quit" x "write-all; quit"
 
 # Status line
