@@ -1,17 +1,11 @@
 hook global InsertCompletionShow .* %{
-    try %{
-        # this command temporarily removes cursors preceded by whitespace;
-        # if there are no cursors left, it raises an error, does not
-        # continue to execute the mapping commands, and the error is eaten
-        # by the `try` command so no warning appears.
-        execute-keys -draft 'h<a-K>\h<ret>'
-        map window insert <tab> <c-n>
-        map window insert <s-tab> <c-p>
-        hook -once -always window InsertCompletionHide .* %{
-            unmap window insert <tab> <c-n>
-            unmap window insert <s-tab> <c-p>
-        }
-    }
+	map global insert <tab> <c-n>
+	map global insert <s-tab> <c-p>
+}
+
+hook global InsertCompletionHide .* %{
+	unmap global insert <tab>
+	unmap global insert <s-tab>
 }
 
 hook global WinSetOption filetype=.* %{
@@ -127,9 +121,9 @@ hook global ModuleLoaded zellij %{
            cwd=$(dirname "$kak_buffile" 2>/dev/null)
            if [ -n "$1" ]
            then
-                printf "%s\n" "zellij-action new-pane --cwd "$cwd" -d $1 -- xplr --vroot "$cwd""
+                printf "%s\n" "zellij-action new-pane --cwd "$cwd" -d $1 -- xplr --vroot $cwd"
            else
-                printf "%s\n" "zellij-action new-pane --cwd "$cwd" -- xplr --vroot "$cwd""
+                printf "%s\n" "zellij-action new-pane --cwd "$cwd" -- xplr --vroot $cwd"
            fi
            printf "%s\n" "zellij-action focus-previous-pane"
        }
@@ -137,16 +131,6 @@ hook global ModuleLoaded zellij %{
     
 }
 
-evaluate-commands %sh{
-  kak_tree_sitter="$kak_config/kak-tree-sitter"
-  [ ! -e "$kak_tree_sitter" ] && \
-    git clone -q https://github.com/phaazon/kak-tree-sitter "$kak_tree_sitter" && \
-    pushd "$kak_tree_sitter" && cargo build -q --release && popd && \
-    cp "$kak_tree_sitter/target/release/ktsctl" "$HOME/.local/bin" && \
-    cp "$kak_tree_sitter/target/release/kak-tree-sitter" "$HOME/.local/bin"
-
-    kak-tree-sitter -dks --session $kak_session
-}
 evaluate-commands %sh{
     theme_mode="$(gsettings get org.gnome.desktop.interface color-scheme)"
     if [ "$theme_mode" = "'prefer-light'" ]
@@ -175,3 +159,13 @@ set-face global BlackOnWhiteBg "%opt{background},%opt{foreground}"
 
 set-option global modelinefmt '%val{bufname} %val{cursor_line}:%val{cursor_char_column} {BlackOnWhiteBg}[%opt{filetype}]{StatusLine} {{context_info}} {{mode_info}} - %val{client}@[%val{session}]%opt{lsp_modeline_message_requests} %opt{lsp_modeline_progress} {BufferList}U+%sh{printf "%04x" "$kak_cursor_char_value"}{StatusLine} {BlackOnWhiteBg}%sh{printf "﬘->%s"  $(printf %s\\n $kak_buflist |wc -w) }{StatusLine} {DateTime}%sh{ date "+%Y-%m-%d %T"}'
 
+evaluate-commands %sh{
+  kak_tree_sitter="$kak_config/kak-tree-sitter"
+  [ ! -e "$kak_tree_sitter" ] && \
+    git clone -q https://github.com/phaazon/kak-tree-sitter "$kak_tree_sitter" && \
+    pushd "$kak_tree_sitter" && cargo build -q --release && popd && \
+    cp "$kak_tree_sitter/target/release/ktsctl" "$HOME/.local/bin" && \
+    cp "$kak_tree_sitter/target/release/kak-tree-sitter" "$HOME/.local/bin"
+
+    kak-tree-sitter -dks --session $kak_session
+}
