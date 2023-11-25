@@ -128,9 +128,9 @@ hook global ModuleLoaded zellij %{
            cwd=$(dirname "$kak_buffile" 2>/dev/null)
            if [ -n "$1" ]
            then
-                printf "%s\n" "zellij-action new-pane --cwd "$cwd" -d $1 -- xplr "$cwd""
+                printf "%s\n" "zellij-action new-pane --cwd "$cwd" -d $1 -- xplr --vroot "$cwd""
            else
-                printf "%s\n" "zellij-action new-pane --cwd "$cwd" -- xplr "$cwd""
+                printf "%s\n" "zellij-action new-pane --cwd "$cwd" -- xplr --vroot "$cwd""
            fi
            printf "%s\n" "zellij-action focus-previous-pane"
        }
