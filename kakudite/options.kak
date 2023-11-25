@@ -50,7 +50,7 @@ declare-option -docstring "name of the git branch holding the current buffer" \
 declare-option -docstring "if the tracked file is modified or not" \
     str modeline_git_modified
 
-hook global WinDisplay .* %{
+hook global WinCreate .* %{
     hook window NormalIdle .* %{
         evaluate-commands %sh{
             branch=$(cd "$(dirname "${kak_buffile}")" && git rev-parse --abbrev-ref HEAD 2>/dev/null)
