@@ -53,11 +53,11 @@ bundle kak-lsp https://github.com/kak-lsp/kak-lsp  %{
 
 bundle-customload smarttab https://github.com/andreyorst/smarttab.kak %{
     source "%opt{bundle_path}/smarttab.kak/rc/smarttab.kak"
-    hook global BufCreate .*  %{
-        editorconfig-load
-        autoconfigtab
+    hook global ModuleLoaded editorconfig %{
+        hook global BufCreate .*  %{
+            autoconfigtab
+        }
     }
-
     # you can configure text that is being used to represent curent active mode
     hook global WinSetOption filetype=.* %{
         expandtab # must be before softtabstop

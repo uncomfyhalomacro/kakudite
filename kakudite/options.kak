@@ -50,7 +50,7 @@ declare-option -docstring "name of the git branch holding the current buffer" \
 declare-option -docstring "if the tracked file is modified or not" \
     str modeline_git_modified
 
-hook global WinCreate .* %{
+hook global WinDisplay .* %{
     hook window NormalIdle .* %{
         evaluate-commands %sh{
             branch=$(cd "$(dirname "${kak_buffile}")" && git rev-parse --abbrev-ref HEAD 2>/dev/null)
@@ -69,7 +69,6 @@ hook global WinCreate .* %{
             fi
         }
     }
-
     evaluate-commands %sh{
         is_work_tree=$(cd "$(dirname "${kak_buffile}")" && git rev-parse --is-inside-work-tree 2>/dev/null)
         if [ "${is_work_tree}" = 'true' ]; then
