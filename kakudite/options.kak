@@ -71,6 +71,19 @@ hook global WinCreate .* %{
     }
 }
 
+hook global ModuleLoaded lsp %{
+    hook global WinSetOption filetype=(rust|python|haskell|julia|sh|latex) %{
+        set global lsp_hover_anchor false
+        lsp-enable-window
+        map global user l %{: enter-user-mode lsp<ret>} -docstring "lsp mode commands"
+        map global goto w '<esc>: lsp-hover-buffer lsp-info-window <ret>' -docstring 'lsp-info-window'
+        define-command -docstring 'lsp-logs: shows lsp logs on tmux window' lsp-logs -params 0 %{
+            terminal sh -c 'less +F /tmp/kak-lsp.log'
+        }
+        map global goto L '<esc>: lsp-logs <ret>' -docstring 'show lsp logs on another window'
+    }
+}
+
 hook global ModuleLoaded zellij %{
     define-command -docstring 'vsplit-right (zellij): Open a new vertical split on the right relative to the active pane' vsplit-right -params 0..1 %{
             evaluate-commands %sh{
