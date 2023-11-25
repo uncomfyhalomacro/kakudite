@@ -37,7 +37,7 @@ bundle-install-hook kakoune-discord %{
     cp target/release/kakoune-discord "$HOME/.local/bin" 
 } 
 
-bundle kak-lsp https://github.com/kak-lsp/kak-lsp  %{
+bundle kak-lsp 'git clone -b v15.0.0 https://github.com/kak-lsp/kak-lsp'  %{
     set global lsp_cmd "kak-lsp -c %val{config}/kak-lsp.toml -s %val{session} -vvv --log /tmp/kak-lsp.log"
         hook global WinSetOption filetype=(rust|python|haskell|julia|sh|latex) %{
             set global lsp_hover_anchor false
