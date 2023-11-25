@@ -40,6 +40,17 @@ bundle-install-hook kakoune-discord %{
 bundle kak-lsp 'git clone -b v15.0.0 https://github.com/kak-lsp/kak-lsp'  %{
     set global lsp_cmd "kak-lsp -c %val{config}/kak-lsp.toml -s %val{session} -vvv --log /tmp/kak-lsp.log"
 
+    hook global WinSetOption filetype=(rust|crystal|python|haskell|julia|sh|latex) %{
+        set global lsp_hover_anchor false
+        lsp-enable-window
+        map global user l %{: enter-user-mode lsp<ret>} -docstring "lsp mode commands"
+        map global goto w '<esc>: lsp-hover-buffer lsp-info-window <ret>' -docstring 'lsp-info-window'
+        define-command -docstring 'lsp-logs: shows lsp logs on tmux window' lsp-logs -params 0 %{
+            terminal sh -c 'less +F /tmp/kak-lsp.log'
+        }
+        map global goto L '<esc>: lsp-logs <ret>' -docstring 'show lsp logs on another window'
+    }
+
 } %{}
 
 bundle-customload smarttab https://github.com/andreyorst/smarttab.kak %{
