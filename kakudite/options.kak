@@ -140,6 +140,7 @@ evaluate-commands %sh{
         printf "%s\n" "colorscheme catppuccin_macchiato"
     fi
 }
+
 set-option global ui_options terminal_assistant=cat terminal_status_on_top=false
 # TODO move mappings somewhere
 map global insert <c-[> <esc>
