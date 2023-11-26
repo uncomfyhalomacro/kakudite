@@ -10,10 +10,10 @@ evaluate-commands %sh{
 
   for language in "${languages[@]}"
   do
-    lang_grammar_path="~/.local/share/kak-tree-sitter/grammars/${language}.so"i
-    lang_queries_path="~/.local/share/kak-tree-sitter/queries/${language}"
-    [ ! -e "${lang_grammar_path}" ] || [ ! -d "${lang_grammar_path}" ] && \
-        ktsctl -fci "${language}" /dev/null 2>&1 &
+    lang_grammar_path="${HOME}/.local/share/kak-tree-sitter/grammars/${language}.so"
+    lang_queries_path="${HOME}/.local/share/kak-tree-sitter/queries/${language}"
+    [[ ! -e "${lang_grammar_path}" || ! -d "${lang_queries_path}" ]] && \
+        ktsctl -fci "${language}" > /dev/null 2>&1
   done
 
   kak-tree-sitter -dks --session $kak_session
