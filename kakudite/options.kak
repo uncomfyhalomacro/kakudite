@@ -1,11 +1,11 @@
 hook global InsertCompletionShow .* %{
-	map global insert <tab> <c-n>
-	map global insert <s-tab> <c-p>
+	map buffer insert <tab> <c-n>
+	map buffer insert <s-tab> <c-p>
 }
 
 hook global InsertCompletionHide .* %{
-	unmap global insert <tab>
-	unmap global insert <s-tab>
+	unmap buffer insert <tab>
+	unmap buffer insert <s-tab>
 }
 
 hook global WinSetOption filetype=.* %{
@@ -76,9 +76,9 @@ hook global ModuleLoaded zellij %{
             evaluate-commands %sh{
                 if [ -n "$1" ]
                 then
-                    printf "%s\n" "zellij-action new-pane -d right -- $1"
+                    printf "%s\n" "zellij-action new-pane -c -d right -- $1"
                 else
-                    printf "%s\n" "zellij-action new-pane -d right"
+                    printf "%s\n" "zellij-action new-pane -c -d right"
                 fi
             }
     }
@@ -87,9 +87,9 @@ hook global ModuleLoaded zellij %{
             evaluate-commands %sh{
                 if [ -n "$1" ]
                 then
-                    printf "%s\n" "zellij-action new-pane -d left -- $1"
+                    printf "%s\n" "zellij-action new-pane -c -d left -- $1"
                 else
-                    printf "%s\n" "zellij-action new-pane -d left"
+                    printf "%s\n" "zellij-action new-pane -c -d left"
                 fi
             }
     }
@@ -98,9 +98,9 @@ hook global ModuleLoaded zellij %{
             evaluate-commands %sh{
                 if [ -n "$1" ]
                 then
-                    printf "%s\n" "zellij-action new-pane -d down -- $1"
+                    printf "%s\n" "zellij-action new-pane -c -d down -- $1"
                 else
-                    printf "%s\n" "zellij-action new-pane -d down"
+                    printf "%s\n" "zellij-action new-pane -c -d down"
                 fi
             }
     }
@@ -109,9 +109,9 @@ hook global ModuleLoaded zellij %{
             evaluate-commands %sh{
                 if [ -n "$1" ]
                 then
-                    printf "%s\n" "zellij-action new-pane -d up -- $1"
+                    printf "%s\n" "zellij-action new-pane -c -d up -- $1"
                 else
-                    printf "%s\n" "zellij-action new-pane -d up"
+                    printf "%s\n" "zellij-action new-pane -c -d up"
                 fi
             }
     }
@@ -121,9 +121,9 @@ hook global ModuleLoaded zellij %{
            cwd=$(dirname "$kak_buffile" 2>/dev/null)
            if [ -n "$1" ]
            then
-                printf "%s\n" "zellij-action new-pane --floating --cwd "$cwd" -d $1 -- xplr $cwd"
+                printf "%s\n" "zellij-action new-pane -c --floating --cwd "$cwd" -d $1 -- xplr $cwd"
            else
-                printf "%s\n" "zellij-action new-pane --floating --cwd "$cwd" -- xplr $cwd"
+                printf "%s\n" "zellij-action new-pane -c --floating --cwd "$cwd" -- xplr $cwd"
            fi
        }
     }
