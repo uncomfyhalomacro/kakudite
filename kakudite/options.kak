@@ -160,13 +160,3 @@ set-face global BlackOnWhiteBg "%opt{background},%opt{foreground}"
 
 set-option global modelinefmt '%val{bufname} %val{cursor_line}:%val{cursor_char_column} {BlackOnWhiteBg}[%opt{filetype}]{StatusLine} {{context_info}} {{mode_info}} - %val{client}@[%val{session}]%opt{lsp_modeline_message_requests} %opt{lsp_modeline_progress} {BufferList}U+%sh{printf "%04x" "$kak_cursor_char_value"}{StatusLine} {BlackOnWhiteBg}%sh{printf "﬘->%s"  $(printf %s\\n $kak_buflist |wc -w) }{StatusLine} {DateTime}%sh{ date "+%Y-%m-%d %T"}'
 
-evaluate-commands %sh{
-  kak_tree_sitter="$kak_config/kak-tree-sitter"
-  [ ! -e "$kak_tree_sitter" ] && \
-    git clone -q https://github.com/phaazon/kak-tree-sitter "$kak_tree_sitter" && \
-    pushd "$kak_tree_sitter" && cargo build -q --release && popd && \
-    cp "$kak_tree_sitter/target/release/ktsctl" "$HOME/.local/bin" && \
-    cp "$kak_tree_sitter/target/release/kak-tree-sitter" "$HOME/.local/bin"
-
-    kak-tree-sitter -dks --session $kak_session
-}
