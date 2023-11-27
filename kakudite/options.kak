@@ -116,7 +116,7 @@ hook global ModuleLoaded zellij %{
             }
     }
 
-    define-command -docstring 'open-xplr: Open a file manager in a specific direction relative from the active pane' \
+    define-command -docstring 'open-xplr: Open a floating file manager' \
     open-xplr -params 0..1 %{
        nop %sh{
            cwd=$(dirname "$kak_buffile" 2>/dev/null)
