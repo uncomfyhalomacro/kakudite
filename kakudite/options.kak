@@ -73,48 +73,49 @@ hook global WinCreate .* %{
 
 hook global ModuleLoaded zellij %{
     define-command -docstring 'vsplit-right (zellij): Open a new vertical split on the right relative to the active pane' vsplit-right -params 0..1 %{
-            evaluate-commands %sh{
+            nop %sh{
                 if [ -n "$1" ]
                 then
-                    printf "zellij-action new-pane -c -d right -- $1"
+                    zellij action new-pane -c -d right -- $*
                 else
-                    printf "zellij-action new-pane -c -d right"
+                    zellij action new-pane -d right
                 fi
             }
     }
 
     define-command -docstring 'vsplit-left (zellij): Open a new vertical split on the left relative to the active pane' vsplit-left -params 0..1 %{
-            evaluate-commands %sh{
+            nop %sh{
                 if [ -n "$1" ]
                 then
-                    printf "zellij-action new-pane -c -d left -- $1"
+                    zellij action new-pane -c -d left -- $*
                 else
-                    printf "zellij-action new-pane -d left"
+                    zellij action new-pane -d left
                 fi
             }
     }
 
     define-command -docstring 'split-down (zellij): Open a new vertical split on the down relative to the active pane' split-down -params 0..1 %{
-            evaluate-commands %sh{
+            nop %sh{
                 if [ -n "$1" ]
                 then
-                    printf "zellij-action new-pane -c -d down -- $1"
+                    zellij action new-pane -c -d down -- $*
                 else
-                    printf "zellij-action new-pane -d down"
+                    zellij action new-pane -d down
                 fi
             }
     }
 
     define-command -docstring 'split-up (zellij): Open a new vertical split on the up relative to the active pane' split-up -params 0..1 %{
-            evaluate-commands %sh{
+            nop %sh{
                 if [ -n "$1" ]
                 then
-                    printf "zellij-action new-pane -c -d up -- $1"
+                    zellij-action new-pane -c -d up -- $*
                 else
-                    printf "zellij-action new-pane -d up"
+                    zellij action new-pane -d up
                 fi
             }
     }
+
     define-command -docstring 'open-xplr: Open a file manager in a specific direction relative from the active pane' \
     open-xplr -params 0..1 %{
        nop %sh{
@@ -137,7 +138,7 @@ hook global ModuleLoaded zellij %{
                 zellij action "$kak_text" --close-on-exit --cwd "$cwd" -- env KAK_CLIENT=$kak_client KAK_SESSION=$kak_session $SHELL
                 ;;
                 new-tab)
-                zellij action "$kak_text" --cwd "$cwd" -- env KAK_CLIENT=$kak_client KAK_SESSION=$kak_session $SHELL
+                zellij action "$kak_text" --cwd "$cwd" -l default
                 ;;
                 *)
                 zellij action "$kak_text"
@@ -146,7 +147,26 @@ hook global ModuleLoaded zellij %{
         }
       }
     }
+
+    define-command -hidden open_file_on_new_pane %{
+      prompt file: -menu -shell-script-candidates 'fd --type=file' %{
+        nop %sh{
+            zellij action new-pane --close-on-exit -- kak -c "$kak_session" "$kak_text"
+        }
+      }
+    }
+
+    define-command -hidden open_buffer_on_new_pane %{
+      prompt buffer: -menu -buffer-completion %{
+        nop %sh{
+            zellij action new-pane --close-on-exit -- kak -c "$kak_session" "$kak_text"
+        }
+      }
+    }
+
     map -docstring "zellij_actionables: action on zellij" global user  <z>   ': zellij_actionables<ret>'
+    map -docstring "open_file_on_new_pane" global user <F> ': open_file_on_new_pane<ret>'
+    map -docstring "open_buffer_on_new_pane" global user <B> ': open_buffer_on_new_pane<ret>'
 
 }
 
