@@ -16,11 +16,11 @@ hook global WinSetOption filetype=.* %{
     add-highlighter buffer/ wrap -indent -word -width 120 -marker '↝'
     add-highlighter -override buffer/ number-lines -relative -min-digits 6
     hook global ModeChange (push|pop):.*:insert %{
-        set-face buffer PrimarySelection white,green+F
+        set-face buffer   PrimarySelection white,green+F
         set-face buffer SecondarySelection black,green+F
-        set-face buffer PrimaryCursor black,bright-yellow+F
-        set-face buffer SecondaryCursor black,bright-green+F
-        set-face buffer PrimaryCursorEol black,bright-yellow
+        set-face buffer      PrimaryCursor black,bright-yellow+F
+        set-face buffer    SecondaryCursor black,bright-green+F
+        set-face buffer   PrimaryCursorEol black,bright-yellow
         set-face buffer SecondaryCursorEol black,bright-green
         add-highlighter -override buffer/ number-lines -min-digits 6
         remove-highlighter buffer/number-lines_-relative_-min-digits_6
@@ -74,11 +74,11 @@ hook global WinCreate .* %{
 }
 
 # Status line
-set-face global BufferList  "%opt{background},%opt{rosewater}"
-set-face global DateTime    "%opt{background},%opt{cyan}"
-set-face global StatusLine  "%opt{foreground},%opt{background}"
-set-face global GitBranch   "%opt{background},%opt{mauve}"
-set-face global GitModified "%opt{background},%opt{teal}"
+set-face global    BufferList  "%opt{background},%opt{rosewater}"
+set-face global    DateTime    "%opt{background},%opt{cyan}"
+set-face global    StatusLine  "%opt{foreground},%opt{background}"
+set-face global    GitBranch   "%opt{background},%opt{mauve}"
+set-face global    GitModified "%opt{background},%opt{teal}"
 set-face global BlackOnWhiteBg "%opt{background},%opt{foreground}"
 
 set-option global modelinefmt '%val{bufname} %val{cursor_line}:%val{cursor_char_column} {BlackOnWhiteBg}[%opt{filetype}]{StatusLine} {{context_info}} {{mode_info}} - %val{client}@[%val{session}]%opt{lsp_modeline_message_requests} %opt{lsp_modeline_progress} {BufferList}U+%sh{printf "%04x" "$kak_cursor_char_value"}{StatusLine} {BlackOnWhiteBg}%sh{printf "﬘->%s"  $(printf %s\\n $kak_buflist |wc -w) }{StatusLine} {DateTime}%sh{ date "+%Y-%m-%d %T"}'

@@ -1,6 +1,7 @@
 map global insert <c-[> <esc>
 map global normal <c-a> ': inc-dec-modify-numbers + %val{count}<ret>'
 map global normal <c-x> ': inc-dec-modify-numbers - %val{count}<ret>'
+
 map -docstring "open_file_picker: opens a file picker using fd" \
     global user   <f>   ': open_file_picker<ret>'
 map -docstring "open_buffer_picker: opens a buffer picker using completion" \
@@ -10,7 +11,7 @@ map -docstring "open-xplr: open a floating file explorer" \
 define-command -docstring "save and quit" x "write-all; quit"
 
 hook global InsertCompletionShow .* %{
-	map buffer insert <tab> <c-n>
+	map buffer insert   <tab> <c-n>
 	map buffer insert <s-tab> <c-p>
 }
 
