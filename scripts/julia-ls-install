@@ -1,3 +1,4 @@
+#!/usr/bin/julia
 
 import Pkg; Pkg.add("PackageCompiler"); 
 Pkg.add(url="https://github.com/julia-vscode/LanguageServer.jl", rev="master"); 
