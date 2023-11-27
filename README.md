@@ -24,6 +24,13 @@ Run the following
 julia --project=@kak-lsp scripts/julia-ls-install
 ```
 
+# Requires
 
-
-
+- xplr
+- notify-send
+- fd
+- sk
+- kak-tree-sitter
+- kak-lsp
+- rust
+- zellij
