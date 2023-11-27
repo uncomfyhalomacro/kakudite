@@ -1,7 +1,9 @@
 # Write your own plugins
 
-- [ ] Work with xplr, a file manager
+- [X] Work with xplr, a file manager
 - [ ] Work for REPL in zellij only.
 - [ ] Try to simulate SLIME with Zellij
-- [ ] Learn how to write status bars
-- [ ] Add git gutter
+- [X] Learn how to write status bars
+- [-] Add git gutter
+- [x] Open a selected buffer to another pane or tab
+- [ ] add completions for dictionary files
