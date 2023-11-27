@@ -76,9 +76,9 @@ hook global ModuleLoaded zellij %{
             evaluate-commands %sh{
                 if [ -n "$1" ]
                 then
-                    printf "%s\n" "zellij-action new-pane -c -d right -- $1"
+                    printf "zellij-action new-pane -c -d right -- $1"
                 else
-                    printf "%s\n" "zellij-action new-pane -c -d right"
+                    printf "zellij-action new-pane -c -d right"
                 fi
             }
     }
@@ -87,9 +87,9 @@ hook global ModuleLoaded zellij %{
             evaluate-commands %sh{
                 if [ -n "$1" ]
                 then
-                    printf "%s\n" "zellij-action new-pane -c -d left -- $1"
+                    printf "zellij-action new-pane -c -d left -- $1"
                 else
-                    printf "%s\n" "zellij-action new-pane -c -d left"
+                    printf "zellij-action new-pane -d left"
                 fi
             }
     }
@@ -98,9 +98,9 @@ hook global ModuleLoaded zellij %{
             evaluate-commands %sh{
                 if [ -n "$1" ]
                 then
-                    printf "%s\n" "zellij-action new-pane -c -d down -- $1"
+                    printf "zellij-action new-pane -c -d down -- $1"
                 else
-                    printf "%s\n" "zellij-action new-pane -c -d down"
+                    printf "zellij-action new-pane -d down"
                 fi
             }
     }
@@ -109,25 +109,57 @@ hook global ModuleLoaded zellij %{
             evaluate-commands %sh{
                 if [ -n "$1" ]
                 then
-                    printf "%s\n" "zellij-action new-pane -c -d up -- $1"
+                    printf "zellij-action new-pane -c -d up -- $1"
                 else
-                    printf "%s\n" "zellij-action new-pane -c -d up"
+                    printf "zellij-action new-pane -d up"
                 fi
             }
     }
     define-command -docstring 'open-xplr: Open a file manager in a specific direction relative from the active pane' \
     open-xplr -params 0..1 %{
-       evaluate-commands %sh{
+       nop %sh{
            cwd=$(dirname "$kak_buffile" 2>/dev/null)
            if [ -n "$1" ]
            then
-                printf "%s\n" "zellij-action new-pane -c --floating --cwd "$cwd" -d $1 -- xplr $cwd"
+                zellij action new-pane -c --floating --cwd $cwd -d $1 -- env KAK_CLIENT=$kak_client KAK_SESSION=$kak_session xplr "$cwd"
            else
-                printf "%s\n" "zellij-action new-pane -c --floating --cwd "$cwd" -- xplr $cwd"
+                zellij action new-pane -c --floating --cwd $cwd -- env KAK_CLIENT=$kak_client KAK_SESSION=$kak_session xplr "$cwd"
            fi
        }
     }
-    
+
+    define-command -hidden zellij_actionables %{
+      prompt actions: -menu -shell-script-candidates 'echo -e "new-pane\nfocus-next-pane\nfocus-previous-pane\nnew-tab"' %{
+        nop %sh{
+            cwd=$(dirname "$kak_buffile" 2>/dev/null)
+            case $kak_text in
+                new-pane)
+                zellij action "$kak_text" --close-on-exit --cwd "$cwd" -- env KAK_CLIENT=$kak_client KAK_SESSION=$kak_session $SHELL
+                ;;
+                new-tab)
+                zellij action "$kak_text" --cwd "$cwd" -- env KAK_CLIENT=$kak_client KAK_SESSION=$kak_session $SHELL
+                ;;
+                *)
+                zellij action "$kak_text"
+                ;;
+            esac
+        }
+      }
+    }
+    map -docstring "zellij_actionables: action on zellij" global user  <z>   ': zellij_actionables<ret>'
+
+}
+
+define-command -hidden open_file_picker %{
+  prompt file: -menu -shell-script-candidates 'fd --type=file' %{
+    edit -existing %val{text}
+  }
+}
+
+define-command -hidden open_buffer_picker %{
+  prompt buffer: -menu -buffer-completion %{
+    buffer %val{text}
+  }
 }
 
 evaluate-commands %sh{
@@ -145,8 +177,12 @@ set-option global ui_options terminal_assistant=cat terminal_status_on_top=false
 map global insert <c-[> <esc>
 map global normal <c-a> ': inc-dec-modify-numbers + %val{count}<ret>'
 map global normal <c-x> ': inc-dec-modify-numbers - %val{count}<ret>'
-map -docstring "open-xplr: Open a file manager in a new pane at the buffer's current working directory" \
-    global user   <f>   ': open-xplr<ret>'
+map -docstring "open_file_picker: opens a file picker using fd" \
+    global user   <f>   ': open_file_picker<ret>'
+map -docstring "open_buffer_picker: opens a buffer picker using completion" \
+    global user   <b>   ': open_buffer_picker<ret>'
+map -docstring "open-xplr: open a floating file explorer" \
+    global user   <e>   ': open-xplr<ret>'
 define-command -docstring "save and quit" x "write-all; quit"
 
 # Status line
