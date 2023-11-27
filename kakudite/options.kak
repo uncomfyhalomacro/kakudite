@@ -159,7 +159,7 @@ hook global ModuleLoaded zellij %{
     define-command -hidden open_buffer_on_new_pane %{
       prompt buffer: -menu -buffer-completion %{
         nop %sh{
-            zellij action new-pane --close-on-exit -- kak -c "$kak_session" "$kak_text"
+            zellij action new-pane --close-on-exit -- kak -c "${kak_session}" -e "buffer ${kak_text}"
         }
       }
     }
