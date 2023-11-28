@@ -1,4 +1,3 @@
-
 hook global ModuleLoaded zellij %{
     define-command -docstring 'vsplit-right (zellij): Open a new vertical split on the right relative to the active pane' vsplit-right -params 0..1 %{
             evaluate-commands %sh{
@@ -57,8 +56,28 @@ hook global ModuleLoaded zellij %{
        }
     }
 
+    define-command -params 0..1 \
+        -docstring %{
+        zellij-send-text [text]: Send text to another pane or tab relative to focused pane or tab.
+
+        If there is no text, the selection is used.
+    } \
+    zellij-send-text %{
+        nop %sh{
+            zellij action focus-next-pane
+            if [ $# -eq 0 ]; then
+                text="$kak_selection"
+            else
+                text="$1"
+            fi
+            zellij action write-chars "${text}"
+            zellij action write 10
+            zellij action focus-previous-pane
+        }
+    }
+
     define-command -hidden zellij_actionables %{
-      prompt actions: -menu -shell-script-candidates 'echo -e "new-pane\nfocus-next-pane\nfocus-previous-pane\nnew-tab\nfocus-client\n"' %{
+      prompt actions: -menu -shell-script-candidates 'echo -e "new-pane\nfocus-next-pane\nfocus-previous-pane\nnew-tab\nfocus-client\nsend-text\n"' %{
         evaluate-commands %sh{
             cwd=$(dirname "$kak_buffile" 2>/dev/null)
             case $kak_text in
@@ -69,7 +88,10 @@ hook global ModuleLoaded zellij %{
                 printf "zellij-action "$kak_text" --cwd "$cwd" -l default"
                 ;;
                 focus-client)
-                printf '%s%b' "execute-keys :zellij-focus" "\n"
+                printf '%s%b' "execute-keys :zellij-focus" " "
+                ;;
+                send-text)
+                printf "evaluate-commands -client ${kak_client} zellij-send-text"
                 ;;
                 *)
                 exit 1
