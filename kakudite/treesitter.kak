@@ -6,7 +6,7 @@ evaluate-commands %sh{
     cp "$kak_tree_sitter/target/release/ktsctl" "$HOME/.local/bin" && \
     cp "$kak_tree_sitter/target/release/kak-tree-sitter" "$HOME/.local/bin"
 
-  languages=("bash" "julia" "rust" "crystal" "git-commit" "markdown" "toml")
+  languages=("bash" "julia" "rust" "crystal" "git-commit" "markdown" "toml" "hare" "yaml")
 
   for language in "${languages[@]}"
   do
