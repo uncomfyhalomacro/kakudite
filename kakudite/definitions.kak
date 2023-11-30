@@ -94,7 +94,7 @@ hook global ModuleLoaded zellij %{
                 printf "evaluate-commands -client ${kak_client} zellij-send-text"
                 ;;
                 *)
-                exit 1
+                printf "zellij-action %s" "$kak_text"
                 ;;
             esac
         }
