@@ -75,8 +75,30 @@ hook global ModuleLoaded zellij %{
         }
     }
 
+    define-command -params 0..1 \
+        -docstring %{
+            zellij-send-text-with-eof [text]: Like zellij-send-text but also write EOF after the last character.
+
+            Good for aliasing on REPL interactions.
+
+            If there is no text, the selectio is used.
+    } \
+    zellij-send-text-with-eof %{
+        nop %sh{
+            zellij action focus-next-pane
+            if [ $# -eq 0 ]; then
+                text="$kak_selection"
+            else
+                text="$1"
+            fi
+            zellij action write-chars "${text}"
+            zellij action write 10
+            zellij action focus-previous-pane
+        }
+    }
+
     define-command -hidden zellij_actionables %{
-      prompt actions: -menu -shell-script-candidates 'echo -e "new-pane\nfocus-next-pane\nfocus-previous-pane\nnew-tab\nfocus-client\nsend-text\n"' %{
+      prompt actions: -menu -shell-script-candidates 'echo -e "new-pane\nfocus-next-pane\nfocus-previous-pane\nnew-tab\nfocus-client\nsend-text\nsend-text-with-eof\n"' %{
         evaluate-commands %sh{
             cwd=$(dirname "$kak_buffile" 2>/dev/null)
             case $kak_text in
@@ -91,6 +113,9 @@ hook global ModuleLoaded zellij %{
                 ;;
                 send-text)
                 printf "evaluate-commands -client ${kak_client} zellij-send-text"
+                ;;
+                send-text-with-eof)
+                printf "evaluate-commands -client ${kak_client} zellij-send-text-with-eof"
                 ;;
                 *)
                 printf "zellij-action %s" "$kak_text"
