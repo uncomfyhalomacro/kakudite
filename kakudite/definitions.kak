@@ -71,7 +71,6 @@ hook global ModuleLoaded zellij %{
                 text="$1"
             fi
             zellij action write-chars "${text}"
-            zellij action write 10
             zellij action focus-previous-pane
         }
     }
