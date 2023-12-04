@@ -60,7 +60,7 @@ hook global ModuleLoaded zellij %{
         -docstring %{
         zellij-send-text [text]: Send text to another pane or tab relative to focused pane or tab.
 
-        If there is no text, the selection is used.
+        If there is no text, the main selection is used.
     } \
     zellij-send-text %{
         nop %sh{
@@ -81,7 +81,7 @@ hook global ModuleLoaded zellij %{
 
             Good for aliasing on REPL interactions.
 
-            If there is no text, the selectio is used.
+            If there is no text, the main selection is used.
     } \
     zellij-send-text-with-eof %{
         nop %sh{
