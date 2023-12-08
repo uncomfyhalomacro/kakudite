@@ -8,7 +8,7 @@ map -docstring "open_buffer_picker: opens a buffer picker using completion" \
     global user   <b>   ': open_buffer_picker<ret>'
 map -docstring "open-xplr: open a floating file explorer" \
     global user   <e>   ': open-xplr<ret>'
-define-command -docstring "save and quit" x "write-all; quit"
+define-command -docstring "save and quit" x "write-all-quit"
 
 hook global InsertCompletionShow .* %{
 	map buffer insert   <tab> <c-n>
