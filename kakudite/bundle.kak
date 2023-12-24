@@ -28,8 +28,8 @@ bundle-noload kakoune-themes https://codeberg.org/anhsirk0/kakoune-themes %{
     ln -sf "${kak_opt_bundle_path}/kakoune-themes" "${kak_config}/colors/"
 }
 
-bundle-noload kakoune-discord https://github.com/ABuffSeagull/kakoune-discord %{
-    discord-presence-disable
+bundle kakoune-discord https://github.com/ABuffSeagull/kakoune-discord %{
+    discord-presence-enable
 }
 
 bundle-install-hook kakoune-discord %{
