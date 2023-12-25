@@ -30,6 +30,9 @@ bundle-noload kakoune-themes https://codeberg.org/anhsirk0/kakoune-themes %{
 
 bundle kakoune-discord https://github.com/ABuffSeagull/kakoune-discord %{
     discord-presence-enable
+    hook global KakEnd .* nop %{
+        pkill kakoune-discord
+    }
 }
 
 bundle-install-hook kakoune-discord %{
@@ -82,7 +85,7 @@ bundle-customload kakoune-inc-dec https://gitlab.com/Screwtapello/kakoune-inc-de
     source "%opt{bundle_path}/kakoune-inc-dec/inc-dec.kak"
 } %{}
 
-bundle-noload kak-tree-sitter https://github.com/phaazon/kak-tree-sitter %{
+bundle-customload kak-tree-sitter https://github.com/phaazon/kak-tree-sitter %{
     evaluate-commands %{
         kak-tree-sitter -dks --session $kak_session
     }
