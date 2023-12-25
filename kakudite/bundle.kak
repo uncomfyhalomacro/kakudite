@@ -33,8 +33,7 @@ bundle kakoune-discord https://github.com/ABuffSeagull/kakoune-discord %{
 }
 
 bundle-install-hook kakoune-discord %{
-    cargo build -q --release
-    cp target/release/kakoune-discord "$HOME/.local/bin" 
+    cargo install --root "${HOME}/.local"
 } 
 
 bundle kak-lsp 'git clone -b v15.0.0 https://github.com/kak-lsp/kak-lsp'  %{
