@@ -16,14 +16,6 @@ Then finally run
 kak -e 'bundle-install'
 ```
 
-## For Julia users
-
-Run the following 
-
-```bash
-julia --project=@kak-lsp scripts/julia-ls-install
-```
-
 # Requires
 
 - xplr
@@ -32,6 +24,7 @@ julia --project=@kak-lsp scripts/julia-ls-install
 - sk
 - rust
 - zellij
+- julia or juliaup
 
 ## Bootstrapped with kak-bundle
 - kak-tree-sitter

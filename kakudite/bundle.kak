@@ -61,6 +61,7 @@ bundle kak-lsp 'git clone -b v15.0.1 https://github.com/kak-lsp/kak-lsp'  %{
 
 bundle-install-hook kak-lsp %{
     cargo install --path . --root "${HOME}/.local"
+    julia --project=@kak-lsp "${kak_config}"/scripts/julia-ls-install
 }
 
 bundle-customload smarttab https://github.com/andreyorst/smarttab.kak %{
