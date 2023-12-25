@@ -30,7 +30,9 @@ julia --project=@kak-lsp scripts/julia-ls-install
 - notify-send
 - fd
 - sk
-- kak-tree-sitter
-- kak-lsp
 - rust
 - zellij
+
+## Bootstrapped with kak-bundle
+- kak-tree-sitter
+- kak-lsp
