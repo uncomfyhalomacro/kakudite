@@ -33,10 +33,10 @@ bundle kakoune-discord https://github.com/ABuffSeagull/kakoune-discord %{
 }
 
 bundle-install-hook kakoune-discord %{
-    cargo install --root "${HOME}/.local"
+    cargo install --path . --root "${HOME}/.local"
 } 
 
-bundle kak-lsp 'git clone -b v15.0.0 https://github.com/kak-lsp/kak-lsp'  %{
+bundle kak-lsp 'git clone -b v15.0.1 https://github.com/kak-lsp/kak-lsp'  %{
     set global lsp_cmd "kak-lsp -c %val{config}/kak-lsp.toml -s %val{session} -vvv --log /tmp/kak-lsp.log"
 
     hook global WinSetOption filetype=(rust|crystal|python|haskell|julia|sh|latex) %{
@@ -52,7 +52,13 @@ bundle kak-lsp 'git clone -b v15.0.0 https://github.com/kak-lsp/kak-lsp'  %{
         map global goto L '<esc>: lsp-logs <ret>' -docstring 'show lsp logs on another window'
     }
 
+    hook global KakEnd .* lsp-exit
+
 } %{}
+
+bundle-install-hook kak-lsp %{
+    cargo install --path . --root "${HOME}/.local"
+}
 
 bundle-customload smarttab https://github.com/andreyorst/smarttab.kak %{
     source "%opt{bundle_path}/smarttab.kak/rc/smarttab.kak"
@@ -76,3 +82,22 @@ bundle-customload kakoune-inc-dec https://gitlab.com/Screwtapello/kakoune-inc-de
     source "%opt{bundle_path}/kakoune-inc-dec/inc-dec.kak"
 } %{}
 
+bundle-noload kak-tree-sitter https://github.com/phaazon/kak-tree-sitter %{
+    evaluate-commands %{
+        kak-tree-sitter -dks --session $kak_session
+    }
+} %{}
+
+bundle-install-hook kak-tree-sitter %{
+    cargo install --path ktsctl --root "$HOME/.local"
+    cargo install --path kak-tree-sitter --root "$HOME/.local"
+    languages=( "bash" "julia" "rust" "crystal" "git-commit" "markdown" "toml" "hare" "yaml" )
+
+    for language in "${languages[@]}"
+    do
+      lang_grammar_path="${HOME}/.local/share/kak-tree-sitter/grammars/${language}.so"
+      lang_queries_path="${HOME}/.local/share/kak-tree-sitter/queries/${language}"
+      [[ ! -e "${lang_grammar_path}" || ! -d "${lang_queries_path}" ]] && \
+          ktsctl -fci "${language}" > /dev/null 2>&1
+    done
+}
