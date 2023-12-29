@@ -29,7 +29,7 @@ bundle-noload kakoune-themes https://codeberg.org/anhsirk0/kakoune-themes %{
 }
 
 bundle kakoune-discord https://github.com/ABuffSeagull/kakoune-discord %{
-    discord-presence-enable
+    discord-presence-disable
     hook global KakEnd .* nop %{
         pkill kakoune-discord
     }
