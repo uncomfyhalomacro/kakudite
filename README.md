@@ -20,8 +20,6 @@ kak -e 'bundle-install'
 
 - xplr
 - notify-send
-- fd
-- sk
 - rust
 - zellij
 - julia or juliaup
