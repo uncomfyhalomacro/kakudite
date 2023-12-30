@@ -11,6 +11,7 @@ hook global ModuleLoaded zellij %{
     }
 
     define-command -docstring 'vsplit-left (zellij): Open a new vertical split on the left relative to the active pane' vsplit-left -params 0..1 %{
+
             evaluate-commands %sh{
                 if [ -n "$1" ]
                 then
@@ -126,7 +127,7 @@ hook global ModuleLoaded zellij %{
     }
 
     define-command -hidden open_file_on_new_pane %{
-      prompt file: -menu -shell-script-candidates 'fd --type=file' %{
+      prompt file: -menu -shell-script-candidates "find .[^.]* * -type f -not -path '*/.*'" %{
         nop %sh{
             zellij action new-pane --close-on-exit -- kak -c "$kak_session" "$kak_text"
         }
@@ -148,7 +149,7 @@ hook global ModuleLoaded zellij %{
 }
 
 define-command -hidden open_file_picker %{
-  prompt file: -menu -shell-script-candidates 'fd --type=file' %{
+  prompt file: -menu -shell-script-candidates "find .[^.]* * -type f -not -path '*/.*'" %{
     edit -existing %val{text}
   }
 }
