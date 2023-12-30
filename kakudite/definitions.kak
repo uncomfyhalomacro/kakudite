@@ -127,7 +127,7 @@ hook global ModuleLoaded zellij %{
     }
 
     define-command -hidden open_file_on_new_pane %{
-      prompt file: -menu -shell-script-candidates "find .[^.]* * -type f -not -path '*/.*'" %{
+      prompt file: -menu -shell-script-candidates "find .[!.]* * -type f -not -path '*/.*'" %{
         nop %sh{
             zellij action new-pane --close-on-exit -- kak -c "$kak_session" "$kak_text"
         }
@@ -149,7 +149,7 @@ hook global ModuleLoaded zellij %{
 }
 
 define-command -hidden open_file_picker %{
-  prompt file: -menu -shell-script-candidates "find .[^.]* * -type f -not -path '*/.*'" %{
+  prompt file: -menu -shell-script-candidates "find .[!.]* * -type f -not -path '*/.*'" %{
     edit -existing %val{text}
   }
 }
