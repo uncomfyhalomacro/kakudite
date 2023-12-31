@@ -41,7 +41,7 @@ hook global BufWritePost .* %{
     }
 }
 
-hook global BufWritePre .* %{
+hook global InsertCompletionShow .* %{
     set-option window rg_completions \
         "%val{cursor_line}.%val{cursor_column}+%val{selection_length}@%val{timestamp}"
     evaluate-commands %sh{
