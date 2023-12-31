@@ -7,7 +7,7 @@ hook global BufNewFile .* %{
         "%val{cursor_line}.%val{cursor_column}+%val{selection_length}@%val{timestamp}"
     evaluate-commands %sh{
         cwd=$(dirname "$kak_buffile" 2>/dev/null)
-        words="$(rg --max-depth 2 -No --no-heading --no-filename -e '\w+' $cwd | cut -d':' -f2 | uniq | tr '\n' ' ' 2>/dev/null)"
+        words="$(rg --max-depth 1 -No --no-heading --no-filename -e '\w+' $cwd | cut -d':' -f2 | uniq | tr '\n' ' ' 2>/dev/null)"
         for word in $words
         do
             echo "set-option -add window rg_completions '$word||$word {MenuInfo}RipGrep'"
@@ -20,7 +20,7 @@ hook global BufCreate .* %{
         "%val{cursor_line}.%val{cursor_column}+%val{selection_length}@%val{timestamp}"
     evaluate-commands %sh{
         cwd=$(dirname "$kak_buffile" 2>/dev/null)
-        words="$(rg --max-depth 2 -No --no-heading --no-filename -e '\w+' $cwd | cut -d':' -f2 | uniq | tr '\n' ' ' 2>/dev/null)"
+        words="$(rg --max-depth 1 -No --no-heading --no-filename -e '\w+' $cwd | cut -d':' -f2 | uniq | tr '\n' ' ' 2>/dev/null)"
         for word in $words
         do
             echo "set-option -add window rg_completions '$word||$word {MenuInfo}RipGrep'"
@@ -33,7 +33,7 @@ hook global BufWritePost .* %{
         "%val{cursor_line}.%val{cursor_column}+%val{selection_length}@%val{timestamp}"
     evaluate-commands %sh{
         cwd=$(dirname "$kak_buffile" 2>/dev/null)
-        words="$(rg --max-depth 2 -No --no-heading --no-filename -e '\w+' $cwd | cut -d':' -f2 | uniq | tr '\n' ' ' 2>/dev/null)"
+        words="$(rg --max-depth 1 -No --no-heading --no-filename -e '\w+' $cwd | cut -d':' -f2 | uniq | tr '\n' ' ' 2>/dev/null)"
         for word in $words
         do
             echo "set-option -add window rg_completions '$word||$word {MenuInfo}RipGrep'"
@@ -46,7 +46,7 @@ hook global InsertCompletionShow .* %{
         "%val{cursor_line}.%val{cursor_column}+%val{selection_length}@%val{timestamp}"
     evaluate-commands %sh{
         cwd=$(dirname "$kak_buffile" 2>/dev/null)
-        words="$(rg --max-depth 2 -No --no-heading --no-filename -e '\w+' $cwd | cut -d':' -f2 | uniq | tr '\n' ' ' 2>/dev/null)"
+        words="$(rg --max-depth 1 -No --no-heading --no-filename -e '\w+' $cwd | cut -d':' -f2 | uniq | tr '\n' ' ' 2>/dev/null)"
         for word in $words
         do
             echo "set-option -add window rg_completions '$word||$word {MenuInfo}RipGrep'"
