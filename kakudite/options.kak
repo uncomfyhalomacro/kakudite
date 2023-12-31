@@ -4,7 +4,7 @@ evaluate-commands %sh{
     then
         printf "%s\n" "colorscheme catppuccin_latte"
     else
-        printf "%s\n" "colorscheme catppuccin_macchiato"
+        printf "%s\n" "colorscheme catppuccin_mocha"
     fi
 }
 
