@@ -76,9 +76,9 @@ bundle-customload kakoune-inc-dec https://gitlab.com/Screwtapello/kakoune-inc-de
 } %{}
 
 bundle-customload kak-tree-sitter https://github.com/phaazon/kak-tree-sitter %{
-    evaluate-commands %sh{
-        kak-tree-sitter -dks --session $kak_session
-    }
+    # evaluate-commands %sh{
+    #     kak-tree-sitter -dks --session $kak_session
+    # }
 } %{}
 
 bundle-install-hook kak-tree-sitter %{
