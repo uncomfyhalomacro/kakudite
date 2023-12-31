@@ -23,6 +23,7 @@ kak -e 'bundle-install'
 - rust
 - zellij
 - julia or juliaup
+- ripgrep
 
 ## Bootstrapped with kak-bundle
 - kak-tree-sitter
