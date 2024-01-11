@@ -8,7 +8,7 @@ evaluate-commands %sh{
     fi
 }
 
-set-option global ui_options terminal_assistant=cat terminal_status_on_top=false
+set-option global ui_options terminal_assistant=none terminal_status_on_top=false
 
 hook global WinSetOption filetype=.* %{
     add-highlighter buffer/ show-whitespaces
