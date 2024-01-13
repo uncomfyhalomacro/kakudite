@@ -24,6 +24,7 @@ kak -e 'bundle-install'
 - zellij
 - julia or juliaup
 - ripgrep
+- fd
 
 ## Bootstrapped with kak-bundle
 - kak-tree-sitter
