@@ -28,6 +28,17 @@ bundle-noload kakoune-themes https://codeberg.org/anhsirk0/kakoune-themes %{
     ln -sf "${kak_opt_bundle_path}/kakoune-themes" "${kak_config}/colors/"
 }
 
+bundle kakoune-discord https://github.com/ABuffSeagull/kakoune-discord %{
+    discord-presence-enable
+    hook global KakEnd .* nop %{
+        pkill kakoune-discord
+    }
+}
+
+bundle-install-hook kakoune-discord %{
+    cargo install --path . --root "${HOME}/.local"
+}
+
 bundle kak-lsp 'git clone -b v15.0.1 https://github.com/kak-lsp/kak-lsp'  %{
     set global lsp_cmd "kak-lsp -c %val{config}/kak-lsp.toml -s %val{session} -vvv --log /tmp/kak-lsp.log"
 
