@@ -14,7 +14,7 @@ map -docstring "open-xplr: open a floating file explorer" \
 define-command -docstring %{
     aliased to `write-all-quit -sync`
 } \
-x "write-all-quit -sync"
+x "write-all-quit -sync 0"
 
 hook global InsertCompletionShow .* %{
 	map buffer insert   <tab> <c-n>
