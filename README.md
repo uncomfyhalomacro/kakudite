@@ -25,6 +25,7 @@ kak -e 'bundle-install'
 - julia or juliaup
 - ripgrep
 - fd
+- GNU parallel
 
 ## Bootstrapped with kak-bundle
 - kak-tree-sitter
