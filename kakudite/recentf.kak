@@ -3,7 +3,7 @@ hook global BufOpenFile .* %{
         if [[ -f "$kak_buffile" ]];
         then
             echo "$kak_buffile" >> "$kak_config"/recentf
-            cat "$kak_config"/recentf | uniq > "$kak_config"/recentf.tmp
+            sort "$kak_config"/recentf | uniq > "$kak_config"/recentf.tmp
             mv "$kak_config"/recentf.tmp "$kak_config"/recentf
         fi 
     }
@@ -13,7 +13,7 @@ hook global BufCreate .* %{
         if [[ -f "$kak_buffile" ]];
         then
             echo "$kak_buffile" >> "$kak_config"/recentf
-            cat "$kak_config"/recentf | uniq > "$kak_config"/recentf.tmp
+            sort "$kak_config"/recentf | uniq > "$kak_config"/recentf.tmp
             mv "$kak_config"/recentf.tmp "$kak_config"/recentf
         fi
     }
@@ -24,7 +24,7 @@ hook global BufNewFile .* %{
         if [[ -f "$kak_buffile" ]];
         then
             echo "$kak_buffile" >> "$kak_config"/recentf
-            cat "$kak_config"/recentf | uniq > "$kak_config"/recentf.tmp
+            sort "$kak_config"/recentf | uniq > "$kak_config"/recentf.tmp
             mv "$kak_config"/recentf.tmp "$kak_config"/recentf
         fi
     }
@@ -35,7 +35,7 @@ hook global BufWritePost .* %{
         if [[ -f "$kak_buffile" ]];
         then
             echo "$kak_buffile" >> "$kak_config"/recentf
-            cat "$kak_config"/recentf | uniq > "$kak_config"/recentf.tmp
+            sort "$kak_config"/recentf | uniq > "$kak_config"/recentf.tmp
             mv "$kak_config"/recentf.tmp "$kak_config"/recentf
         fi
     }
