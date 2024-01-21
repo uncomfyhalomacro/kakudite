@@ -1,42 +1,23 @@
-hook global BufOpenFile .* %{
+define-command -docstring "update-to-recentf" update-to-recentf %{ 
     nop %sh{
-        if [ -f "$kak_buffile" ] && [ "$kak_buffile" != "$kak_config/recentf" ] && [ "$kak_buffile" != "$kak_config/recentf.tmp" ];
+        if [ -f "$kak_buffile" ] && [ "$kak_buffile" != "$kak_config/recentf" ];
         then
-            echo "$kak_buffile" >> "$kak_config"/recentf
-            cat "$kak_config"/recentf | parallel -j$(nproc) 'if [ -f "{}" ]; then echo "{}"; fi' | sort | uniq > "$kak_config"/recentf.tmp
-            mv "$kak_config"/recentf.tmp "$kak_config"/recentf
+            output=$(mktemp -d "${TMPDIR:-/tmp}"/kak-recentf.XXXXXXXX)/tmp
+            mktemp "${output}"
+            cat "${kak_config}"/recentf | sort | uniq | tee "${output}"
+            echo "$kak_buffile" | tee -a "${output}"
+            cat "${output}" | parallel -j$(nproc) 'if [ -f "{}" ]; then echo "{}"; fi' | sort | uniq | tee "${kak_config}"/recentf
         fi 
     }
 }
-hook global BufCreate .* %{
-    nop %sh{
-        if [ -f "$kak_buffile" ] && [ "$kak_buffile" != "$kak_config/recentf" ] && [ "$kak_buffile" != "$kak_config/recentf.tmp" ];
-        then
-            echo "$kak_buffile" >> "$kak_config"/recentf
-            cat "$kak_config"/recentf | parallel -j$(nproc) 'if [ -f "{}" ]; then echo "{}"; fi' | sort | uniq > "$kak_config"/recentf.tmp
-            mv "$kak_config"/recentf.tmp "$kak_config"/recentf
-        fi
-    }
+hook global BufOpenFile .* %{
+    evaluate-commands update-to-recentf
 }
 
 hook global BufNewFile .* %{
-    nop %sh{
-        if [ -f "$kak_buffile" ] && [ "$kak_buffile" != "$kak_config/recentf" ] && [ "$kak_buffile" != "$kak_config/recentf.tmp" ];
-        then
-            echo "$kak_buffile" >> "$kak_config"/recentf
-            cat "$kak_config"/recentf | parallel -j$(nproc) 'if [ -f "{}" ]; then echo "{}"; fi' | sort | uniq > "$kak_config"/recentf.tmp
-            mv "$kak_config"/recentf.tmp "$kak_config"/recentf
-        fi
-    }
+    evaluate-commands update-to-recentf
 }
 
-hook global BufWritePre .* %{
-    nop %sh{
-        if [ -f "$kak_buffile" ] && [ "$kak_buffile" != "$kak_config/recentf" ] && [ "$kak_buffile" != "$kak_config/recentf.tmp" ];
-        then
-            echo "$kak_buffile" >> "$kak_config"/recentf
-            cat "$kak_config"/recentf | parallel -j$(nproc) 'if [ -f "{}" ]; then echo "{}"; fi' | sort | uniq > "$kak_config"/recentf.tmp
-            mv "$kak_config"/recentf.tmp "$kak_config"/recentf
-        fi
-    }
+hook global BufWritePost .* %{
+    evaluate-commands update-to-recentf
 }
