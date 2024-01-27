@@ -28,5 +28,6 @@ kak -e 'bundle-install'
 - GNU parallel
 
 ## Bootstrapped with kak-bundle
+
 - kak-tree-sitter
 - kak-lsp
