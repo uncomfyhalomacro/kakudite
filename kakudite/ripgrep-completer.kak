@@ -2,7 +2,7 @@ declare-option -hidden completions ripgrep_completer
 set-option global completers option=ripgrep_completer %opt{completers}
 
 # Credits to https://zork.net/~st/jottings/Intro_to_Kakoune_completions.html
-hook global InsertIdle .* %{
+hook global InsertCompletionShow .* %{
     try %{
     evaluate-commands -draft %{
         execute-keys h <a-i>w <a-semicolon>
