@@ -7,12 +7,12 @@ hook global InsertCompletionShow .* %{
     evaluate-commands -draft %{
         execute-keys h <a-i>w <a-semicolon>
 
-    set-option window ripgrep_completer \
-        "%val{cursor_line}.%val{cursor_column}+%val{selection_length}@%val{timestamp}"
+        set-option window ripgrep_completer \
+            "%val{cursor_line}.%val{cursor_column}+%val{selection_length}@%val{timestamp}"
     }
     evaluate-commands %sh{
         cwd=$(dirname "$kak_buffile" 2>/dev/null)
-        words=$(rg "[\\w_-]+" "$cwd" --line-buffered --no-line-number --only-matching --no-filename | sort | uniq | tr '\n' ' ')
+        words=$(rg "[\\w_-]+" "$cwd" -m 100 --line-buffered --no-line-number --only-matching --no-filename | sort | uniq | tr '\n' ' ')
         longest_length=-1
         for word in $words
         do
