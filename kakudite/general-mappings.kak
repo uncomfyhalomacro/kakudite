@@ -16,6 +16,8 @@ define-command -docstring %{
 } \
 x "write-all-quit -sync 0"
 
+map global normal <c-v> ":comment-line<ret>"
+
 hook global InsertCompletionShow .* %{
 	map buffer insert   <tab> <c-n>
 	map buffer insert <s-tab> <c-p>
