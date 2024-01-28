@@ -4,9 +4,9 @@ set-option global completers option=ripgrep_completer %opt{completers}
 # Credits to https://zork.net/~st/jottings/Intro_to_Kakoune_completions.html
 hook global InsertCompletionShow .* %{
     try %{
+    execute-keys -draft h s \A[\w-_]\z<ret>
     evaluate-commands -draft %{
         execute-keys h <a-i>w <a-semicolon>
-
         set-option window ripgrep_completer \
             "%val{cursor_line}.%val{cursor_column}+%val{selection_length}@%val{timestamp}"
     }
