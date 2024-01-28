@@ -136,6 +136,9 @@ hook global ModuleLoaded zellij %{
 
     define-command -hidden open_buffer_on_new_pane %{
       prompt buffer: -menu -buffer-completion %{
+        change-directory %sh{
+            dirname "$kak_text"
+        }
         nop %sh{
             zellij action new-pane --close-on-exit -- kak -c "${kak_session}" -e "buffer ${kak_text}"
         }
@@ -156,6 +159,9 @@ define-command -hidden open_file_picker %{
 
 define-command -hidden open_recent_file_picker %{
   prompt file: -menu -shell-script-candidates "cat $kak_config/recentf" %{
+    change-directory %sh{
+        dirname "$kak_text"
+    }
     edit -existing %val{text}
   }
 }
