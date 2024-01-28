@@ -30,8 +30,9 @@ bundle-noload kakoune-themes https://codeberg.org/anhsirk0/kakoune-themes %{
 
 bundle kakoune-discord https://github.com/ABuffSeagull/kakoune-discord %{
     discord-presence-enable
-    hook global KakEnd .* nop %{
+    hook global KakEnd .* nop %sh{
         pkill kakoune-discord
+        rm -f "${TMPDIR:-/tmp}"/kakoune-discord
     }
 }
 
