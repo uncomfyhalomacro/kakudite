@@ -28,12 +28,9 @@ bundle-noload kakoune-themes https://codeberg.org/anhsirk0/kakoune-themes %{
     ln -sf "${kak_opt_bundle_path}/kakoune-themes" "${kak_config}/colors/"
 }
 
-bundle kakoune-discord https://github.com/ABuffSeagull/kakoune-discord %{
-    discord-presence-enable
-    hook global KakEnd .* nop %sh{
-        pkill kakoune-discord
-        rm -f "${TMPDIR:-/tmp}"/kakoune-discord
-    }
+bundle-customload kakoune-discord https://github.com/ABuffSeagull/kakoune-discord %{
+    source "%opt{bundle_path}/kakoune-discord/rc/discord.kak"
+    hook global KakBegin .* discord-presence-enable
 }
 
 bundle-install-hook kakoune-discord %{
