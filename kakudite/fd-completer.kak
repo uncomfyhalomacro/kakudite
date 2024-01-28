@@ -11,7 +11,7 @@ hook global InsertCompletionShow .* %{
     }
     evaluate-commands %sh{
         cwd=$(dirname "$kak_buffile" 2>/dev/null)
-        words=$(fd | tr '[:space:]' ' ' 2>/dev/null)
+        words=$(fd . "$cwd" --max-depth 1 | tr '[:space:]' ' ' 2>/dev/null)
         longest_length=-1
         for word in $words
         do
