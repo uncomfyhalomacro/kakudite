@@ -11,7 +11,7 @@ evaluate-commands %sh{
 set-option global ui_options terminal_assistant=none terminal_status_on_top=false
 
 hook global WinSetOption filetype=.* %{
-    add-highlighter buffer/ show-whitespaces
+    add-highlighter buffer/ show-whitespaces -tab "⋅" -lf "↵"
     add-highlighter buffer/ show-matching
     add-highlighter buffer/ wrap -indent -word -width 120 -marker '↝'
     add-highlighter -override buffer/ number-lines -relative -min-digits 6
@@ -74,12 +74,19 @@ hook global WinCreate .* %{
 }
 
 # Status line
-set-face global    BufferList  "%opt{background},%opt{rosewater}"
-set-face global    DateTime    "%opt{background},%opt{cyan}"
-set-face global    StatusLine  "%opt{foreground},%opt{background}"
-set-face global    GitBranch   "%opt{background},%opt{mauve}"
-set-face global    GitModified "%opt{background},%opt{teal}"
+set-face global BufferList     "%opt{background},%opt{rosewater}"
+set-face global DateTime       "%opt{background},%opt{cyan}"
+set-face global StatusLine     "%opt{foreground},%opt{background}"
+set-face global GitBranch      "%opt{background},%opt{mauve}"
+set-face global GitModified    "%opt{background},%opt{teal}"
 set-face global BlackOnWhiteBg "%opt{background},%opt{foreground}"
 
-set-option global modelinefmt '%val{client}@[%val{session}]%opt{lsp_modeline_message_requests} LSP: %opt{lsp_modeline_progress} E: %opt{lsp_diagnostic_error_count} W: %opt{lsp_diagnostic_warning_count} {BufferList}U+%sh{printf "%04x" "$kak_cursor_char_value"}{StatusLine} {BlackOnWhiteBg}%sh{printf "󱫉->%s"  $(printf %s\\n $kak_buflist |wc -w) }{StatusLine} {{context_info}} {{mode_info}} %val{bufname} %val{cursor_line}:%val{cursor_char_column} {BlackOnWhiteBg}[%opt{filetype}]'
+set-option global modelinefmt \
+'%val{client}@[%val{session}]%opt{lsp_modeline_message_requests}
+LSP: %opt{lsp_modeline_progress} E: %opt{lsp_diagnostic_error_count}
+W: %opt{lsp_diagnostic_warning_count} {BufferList}U+%sh{printf "%04x"
+"$kak_cursor_char_value"}{StatusLine} {BlackOnWhiteBg}%sh{printf "󱫉->%s"
+$(printf %s\\n $kak_buflist |wc -w) }{StatusLine} {{context_info}}
+{{mode_info}} %val{bufname} %val{cursor_line}:%val{cursor_char_column}
+{BlackOnWhiteBg}[%opt{filetype}]'
 
