@@ -43,10 +43,6 @@ bundle kak-lsp 'git clone -b v15.0.1 https://github.com/kak-lsp/kak-lsp'  %{
     hook global WinSetOption filetype=(rust|crystal|python|haskell|julia|sh|latex) %{
         set global lsp_hover_anchor false
         set global lsp_auto_show_code_actions true
-        add-highlighter buffer/ regex 'TODO|FIXME' 0:rgb:000000,rgb:ffd700
-        add-highlighter buffer/ regex 'BUG|DEBUG' 0:rgb:000000,rgb:F5C2E7
-        add-highlighter buffer/ regex 'NOTE|EXPLAINER' 0:rgb:000000,rgb:ABE9B3
-
         lsp-enable-window
         map global user l %{: enter-user-mode lsp<ret>} -docstring "lsp mode commands"
         map global goto w '<esc>: lsp-hover-buffer lsp-info-window <ret>' -docstring 'lsp-info-window'

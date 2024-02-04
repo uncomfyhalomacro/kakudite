@@ -10,6 +10,24 @@ evaluate-commands %sh{
 
 set-option global ui_options terminal_assistant=none terminal_status_on_top=false
 
+hook global WinSetOption filetype=rust %{
+        add-highlighter window/ regex '//\h*(TODO:|FIXME:)[^\n]*'     0:yellow       1:black,yellow
+        add-highlighter window/ regex '//\h*(BUG:|DEBUG:)[^\n]*'      0:red          1:black,red
+        add-highlighter window/ regex '//\h*(NOTE:|EXPLAINER:)[^\n]*' 0:rgb:ABE9B3   1:rgb:000000,rgb:ABE9B3
+}
+
+hook global WinSetOption filetype=(crystal|julia|python|sh|bash) %{
+        add-highlighter window/ regex '#\h*(TODO:|FIXME:)[^\n]*'     0:yellow       1:black,yellow
+        add-highlighter window/ regex '#\h*(BUG:|DEBUG:)[^\n]*'      0:red          1:black,red
+        add-highlighter window/ regex '#\h*(NOTE:|EXPLAINER:)[^\n]*' 0:rgb:ABE9B3   1:rgb:000000,rgb:ABE9B3
+}
+
+hook global WinSetOption filetype=(c|cpp) %{
+        add-highlighter window/ regex '//\h*(TODO:|FIXME:)[^\n]*'     0:yellow       1:black,yellow
+        add-highlighter window/ regex '//\h*(BUG:|DEBUG:)[^\n]*'      0:red          1:black,red
+        add-highlighter window/ regex '//\h*(NOTE:|EXPLAINER:)[^\n]*' 0:rgb:ABE9B3   1:rgb:000000,rgb:ABE9B3
+}
+
 hook global WinSetOption filetype=.* %{
     add-highlighter buffer/ show-whitespaces -tab "⋅" -lf "↵"
     add-highlighter buffer/ show-matching
