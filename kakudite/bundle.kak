@@ -37,10 +37,10 @@ bundle-install-hook kakoune-discord %{
     cargo install --path . --root "${HOME}/.local"
 }
 
-bundle kak-lsp 'git clone -b v15.0.1 https://github.com/kak-lsp/kak-lsp'  %{
+bundle kak-lsp 'git clone -b v16.0.0 https://github.com/kak-lsp/kak-lsp'  %{
     set global lsp_cmd "kak-lsp -c %val{config}/kak-lsp.toml -s %val{session} -vvv --log /tmp/kak-lsp.log"
 
-    hook global WinSetOption filetype=(rust|crystal|python|haskell|julia|sh|latex) %{
+    hook global WinSetOption filetype=(rust|crystal|python|haskell|julia|sh|latex|c|cpp) %{
         set global lsp_hover_anchor false
         set global lsp_auto_show_code_actions true
         lsp-enable-window
