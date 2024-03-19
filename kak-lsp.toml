@@ -17,11 +17,23 @@ typescript = "typescriptreact"
 protobuf = "proto"
 sh = "shellscript"
 
+[language_server.nomicfoundation-solidity-language-server]
+filetypes = ["solidity"]
+roots = ["hardhat.config.js"]
+command = "nomicfoundation-solidity-language-server"
+args = ["--stdio"]
+
+[language_server.biome-ls]
+filetypes = ["javascript", "typescript"]
+roots = ["biome.json", "package.json"]
+command = "biome"
+args = ["lsp-proxy"]
+
 [language_server.bash-language-server]
 filetypes = ["sh"]
 roots = [".git", ".hg"]
-command = "bash-language-server"
-args = ["start"]
+command = "npx"
+args = ["bash-language-server", "start"]
 
 [language_server.clangd]
 filetypes = ["c", "cpp"]
@@ -48,10 +60,10 @@ roots = ["shard.yml"]
 command = "crystalline"
 
 [language_server.css-language-server]
-filetypes = ["css"]
+filetypes = ["css", "less", "scss"]
 roots = ["package.json", ".git", ".hg"]
-command = "vscode-css-languageserver"
-args = ["--stdio"]
+command = "npx"
+args = [ "vscode-css-languageserver", "--stdio"]
 
 # [language_server.deno-lsp]
 # filetypes = ["javascript", "typescript"]
@@ -62,13 +74,6 @@ args = ["--stdio"]
 # [language_server.deno-lsp.settings.deno]
 # enable = true
 # lint = true
-
-[language_server.less-language-server]
-filetypes = ["less"]
-roots = ["package.json", ".git", ".hg"]
-command = "vscode-css-languageserver"
-args = ["--stdio"]
-
 
 # See https://scalameta.org/metals/docs/integrations/new-editor
 [language_server.metals]
@@ -88,11 +93,11 @@ filetypes = ["nix"]
 command = "nil"
 roots = ["flake.nix", "shell.nix", ".git", ".hg"]
 
-[language_server.scss-language-server]
-filetypes = ["scss"]
-roots = ["package.json", ".git", ".hg"]
-command = "vscode-css-languageserver"
-args = ["--stdio"]
+# [language_server.scss-language-server]
+# filetypes = ["scss"]
+# roots = ["package.json", ".git", ".hg"]
+# command = "vscode-css-languageserver"
+# args = ["--stdio"]
 
 [language_server.dls]
 filetypes = ["d", "di"]
@@ -291,20 +296,26 @@ command = "ocamllsp"
 # # features = []
 
 
+# [language_server.rust-analyzer]
+# filetypes = ["rust"]
+# roots = ["Cargo.toml"]
+# command = "sh"
+# args = [
+#     "-c",
+#     """
+#         if path=$(rustup which rust-analyzer 2>/dev/null); then
+#             exec "$path"
+#         else
+#             exec rust-analyzer
+#         fi
+#     """,
+# ]
+
 [language_server.rust-analyzer]
 filetypes = ["rust"]
 roots = ["Cargo.toml"]
-command = "sh"
-args = [
-    "-c",
-    """
-        if path=$(rustup which rust-analyzer 2>/dev/null); then
-            exec "$path"
-        else
-            exec rust-analyzer
-        fi
-    """,
-]
+command = "rust-analyzer"
+
 [language_server.rust-analyzer.settings.rust-analyzer]
 # See https://rust-analyzer.github.io/manual.html#configuration
 # cargo.features = []
