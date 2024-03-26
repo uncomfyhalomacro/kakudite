@@ -17,11 +17,11 @@ typescript = "typescriptreact"
 protobuf = "proto"
 sh = "shellscript"
 
-# [language_server.nomicfoundation-solidity-language-server]
-# filetypes = ["solidity"]
-# roots = ["hardhat.config.js"]
-# command = "npx"
-# args = ["@nomicfoundation/solidity-language-server", "--stdio"]
+[language_server.nomicfoundation-solidity-language-server]
+filetypes = ["solidity"]
+roots = ["hardhat.config.js"]
+command = "npx"
+args = ["@nomicfoundation/solidity-language-server", "--stdio"]
 
 [language_server.biome-ls]
 filetypes = ["javascript", "typescript"]
