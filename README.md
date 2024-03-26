@@ -23,8 +23,6 @@ kak -e 'bundle-install'
 - rust
 - zellij
 - julia or juliaup
-- ripgrep
-- fd
 - GNU parallel
 
 ## Bootstrapped with kak-bundle
