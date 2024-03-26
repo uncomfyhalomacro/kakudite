@@ -9,8 +9,6 @@ map -docstring \
     global user   <r>   ': open_recent_file_picker<ret>'
 map -docstring "open_buffer_picker: opens a buffer picker using completion" \
     global user   <b>   ': open_buffer_picker<ret>'
-map -docstring "open-xplr: open a floating file explorer" \
-    global user   <e>   ': open-xplr<ret>'
 define-command -docstring %{
     aliased to `write-all-quit -sync`
 } \
