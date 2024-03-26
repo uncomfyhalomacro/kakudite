@@ -17,11 +17,11 @@ typescript = "typescriptreact"
 protobuf = "proto"
 sh = "shellscript"
 
-[language_server.nomicfoundation-solidity-language-server]
-filetypes = ["solidity"]
-roots = ["hardhat.config.js"]
-command = "nomicfoundation-solidity-language-server"
-args = ["--stdio"]
+# [language_server.nomicfoundation-solidity-language-server]
+# filetypes = ["solidity"]
+# roots = ["hardhat.config.js"]
+# command = "npx"
+# args = ["@nomicfoundation/solidity-language-server", "--stdio"]
 
 [language_server.biome-ls]
 filetypes = ["javascript", "typescript"]
@@ -296,25 +296,25 @@ command = "ocamllsp"
 # # features = []
 
 
-# [language_server.rust-analyzer]
-# filetypes = ["rust"]
-# roots = ["Cargo.toml"]
-# command = "sh"
-# args = [
-#     "-c",
-#     """
-#         if path=$(rustup which rust-analyzer 2>/dev/null); then
-#             exec "$path"
-#         else
-#             exec rust-analyzer
-#         fi
-#     """,
-# ]
-
 [language_server.rust-analyzer]
 filetypes = ["rust"]
 roots = ["Cargo.toml"]
-command = "rust-analyzer"
+command = "sh"
+args = [
+    "-c",
+    """
+        if path=$(rustup which rust-analyzer 2>/dev/null); then
+            exec "$path"
+        else
+            exec rust-analyzer
+        fi
+    """,
+]
+
+# [language_server.rust-analyzer]
+# filetypes = ["rust"]
+# roots = ["Cargo.toml"]
+# command = "rust-analyzer"
 
 [language_server.rust-analyzer.settings.rust-analyzer]
 # See https://rust-analyzer.github.io/manual.html#configuration
