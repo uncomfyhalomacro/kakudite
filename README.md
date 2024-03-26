@@ -7,7 +7,7 @@ A kakoune config for the curious.
 To install, run:
 
 ```bash
-git clone https://git.sr.ht/~uncomfy/kakudite ~/.config/kak
+git clone https://github.com/uncomfyhalomacro/kakudite ~/.config/kak
 ```
 
 Then finally run
