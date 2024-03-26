@@ -8,7 +8,10 @@ evaluate-commands %sh{
     fi
 }
 
-set-option global ui_options terminal_assistant=none terminal_status_on_top=false
+set-option global ui_options terminal_assistant=cat \
+    terminal_status_on_top=false terminal_set_title=false \
+    terminal_padding_fill=true terminal_info_max_width=0 \
+    terminal_enable_mouse=false terminal_synchronized=false
 
 hook global WinSetOption filetype=rust %{
         add-highlighter window/ regex '//\h*(TODO:?|FIXME:?)[^\n]*'     0:yellow       1:rgb:000000,yellow
@@ -38,7 +41,7 @@ hook global WinSetOption filetype=(markdown|html) %{
 }
 
 hook global WinSetOption filetype=.* %{
-    add-highlighter buffer/ show-whitespaces -tab "⋅" -lf "↵"
+    add-highlighter buffer/ show-whitespaces -tab "⋅" -lf " "
     add-highlighter buffer/ show-matching
     add-highlighter buffer/ wrap -indent -word -width 120 -marker '↝'
     add-highlighter -override buffer/ number-lines -relative -min-digits 6
