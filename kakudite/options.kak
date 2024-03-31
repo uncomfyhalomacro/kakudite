@@ -14,30 +14,30 @@ set-option global ui_options terminal_assistant=cat \
     terminal_enable_mouse=false terminal_synchronized=false
 
 hook global WinSetOption filetype=rust %{
-        add-highlighter window/ regex '//\h*(TODO:?|FIXME:?)[^\n]*'     0:yellow       1:rgb:000000,yellow
-        add-highlighter window/ regex '//\h*(BUG:?|DEBUG:?)[^\n]*'      0:red          1:rgb:000000,red
-        add-highlighter window/ regex '//\h*(NOTE:?|EXPLAINER:?)[^\n]*' 0:green   1:rgb:000000,green
+        add-highlighter window/ regex '//\h*(TODO:?|FIXME:?)[^\n]*'                0:yellow       1:rgb:000000,yellow
+        add-highlighter window/ regex '//\h*(BUG:?|DEBUG:?)[^\n]*'                 0:red          1:rgb:000000,red
+        add-highlighter window/ regex '//\h*(NOTE:?|EXPLAINER:?)[^\n]*'            0:green        1:rgb:000000,green
         add-highlighter window/ regex '/\*\s*(TODO:?|FIXME:?)([^\n]*|\s+)*\*/'     0:yellow       1:rgb:000000,yellow
         add-highlighter window/ regex '/\*\s*(BUG:?|DEBUG:?)([^\n]*|\s+)*\*/'      0:red          1:rgb:000000,red
-        add-highlighter window/ regex '/\*\s*(NOTE:?|EXPLAINER:?)([^\n]*|\s+)*\*/' 0:green   1:rgb:000000,green
+        add-highlighter window/ regex '/\*\s*(NOTE:?|EXPLAINER:?)([^\n]*|\s+)*\*/' 0:green        1:rgb:000000,green
 }
 
 hook global WinSetOption filetype=(crystal|julia|python|sh|bash) %{
-        add-highlighter window/ regex '#\h*(TODO:?|FIXME:?)[^\n]*'     0:yellow       1:rgb:000000,yellow
-        add-highlighter window/ regex '#\h*(BUG:?|DEBUG:?)[^\n]*'      0:red          1:rgb:000000,red
-        add-highlighter window/ regex '#\h*(NOTE:?|EXPLAINER:?)[^\n]*' 0:green   1:rgb:000000,green
+        add-highlighter window/ regex '#\h*(TODO:?|FIXME:?)[^\n]*'                 0:yellow       1:rgb:000000,yellow
+        add-highlighter window/ regex '#\h*(BUG:?|DEBUG:?)[^\n]*'                  0:red          1:rgb:000000,red
+        add-highlighter window/ regex '#\h*(NOTE:?|EXPLAINER:?)[^\n]*'             0:green        1:rgb:000000,green
 }
 
 hook global WinSetOption filetype=(c|cpp) %{
-        add-highlighter window/ regex '//\h*(TODO:?|FIXME:?)[^\n]*'     0:yellow       1:rgb:000000,yellow
-        add-highlighter window/ regex '//\h*(BUG:?|DEBUG:?)[^\n]*'      0:red          1:rgb:000000,red
-        add-highlighter window/ regex '//\h*(NOTE:?|EXPLAINER:?)[^\n]*' 0:green   1:rgb:000000,green
+        add-highlighter window/ regex '//\h*(TODO:?|FIXME:?)[^\n]*'                0:yellow       1:rgb:000000,yellow
+        add-highlighter window/ regex '//\h*(BUG:?|DEBUG:?)[^\n]*'                 0:red          1:rgb:000000,red
+        add-highlighter window/ regex '//\h*(NOTE:?|EXPLAINER:?)[^\n]*'            0:green        1:rgb:000000,green
 }
 
 hook global WinSetOption filetype=(markdown|html) %{
-        add-highlighter window/ regex '<!--\h*(TODO:?|FIXME:?)[^\n]*'     0:yellow       1:rgb:000000,yellow
-        add-highlighter window/ regex '<!--\h*(BUG:?|DEBUG:?)[^\n]*'      0:red          1:rgb:000000,red
-        add-highlighter window/ regex '<!--\h*(NOTE:?|EXPLAINER:?)[^\n]*' 0:green   1:rgb:000000,green
+        add-highlighter window/ regex '<!--\h*(TODO:?|FIXME:?)[^\n]*'              0:yellow       1:rgb:000000,yellow
+        add-highlighter window/ regex '<!--\h*(BUG:?|DEBUG:?)[^\n]*'               0:red          1:rgb:000000,red
+        add-highlighter window/ regex '<!--\h*(NOTE:?|EXPLAINER:?)[^\n]*'          0:green        1:rgb:000000,green
 }
 
 hook global WinSetOption filetype=.* %{
@@ -46,11 +46,11 @@ hook global WinSetOption filetype=.* %{
     add-highlighter buffer/ wrap -indent -word -width 120 -marker '↝'
     add-highlighter -override buffer/ number-lines -relative -min-digits 6
     hook global ModeChange (push|pop):.*:insert %{
-        set-face buffer   PrimarySelection default,default,green+F
-        set-face buffer SecondarySelection default,bright-yellow,green+F
-        set-face buffer      PrimaryCursor default,default,rgb:d65d0e+u
-        set-face buffer    SecondaryCursor black,bright-yellow,bright-green+F
-        set-face buffer   PrimaryCursorEol default,default,bright-yellow+u
+        set-face buffer   PrimarySelection rgb:ebdbb2,rgb:d65d0e+biF
+        set-face buffer SecondarySelection black,bright-yellow,green+biF
+        set-face buffer      PrimaryCursor rgb:ebdbb2,rgb:d65d0e,yellow+iuF
+        set-face buffer    SecondaryCursor black,bright-yellow,green+F
+        set-face buffer   PrimaryCursorEol rgb:ebdbb2,default,bright-yellow+uF
         set-face buffer SecondaryCursorEol black,bright-yellow,bright-green+F
         add-highlighter -override buffer/ number-lines -min-digits 6
         remove-highlighter buffer/number-lines_-relative_-min-digits_6
@@ -101,7 +101,6 @@ hook global WinCreate .* %{
         fi
     }
 }
-
 declare-option str gray     "rgb:928374"
 declare-option str red      "rgb:fb4934"
 declare-option str green    "rgb:b8bb26"
