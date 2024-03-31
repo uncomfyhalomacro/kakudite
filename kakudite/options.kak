@@ -46,16 +46,15 @@ hook global WinSetOption filetype=.* %{
     add-highlighter buffer/ wrap -indent -word -width 120 -marker '↝'
     add-highlighter -override buffer/ number-lines -relative -min-digits 6
     hook global ModeChange (push|pop):.*:insert %{
-        set-face buffer   PrimarySelection white,green+F
-        set-face buffer SecondarySelection black,green+F
-        set-face buffer      PrimaryCursor black,bright-yellow+F
-        set-face buffer    SecondaryCursor black,bright-green+F
-        set-face buffer   PrimaryCursorEol black,bright-yellow
-        set-face buffer SecondaryCursorEol black,bright-green
+        set-face buffer   PrimarySelection default,default,green+F
+        set-face buffer SecondarySelection default,bright-yellow,green+F
+        set-face buffer      PrimaryCursor default,default,rgb:d65d0e+u
+        set-face buffer    SecondaryCursor black,bright-yellow,bright-green+F
+        set-face buffer   PrimaryCursorEol default,default,bright-yellow+u
+        set-face buffer SecondaryCursorEol black,bright-yellow,bright-green+F
         add-highlighter -override buffer/ number-lines -min-digits 6
         remove-highlighter buffer/number-lines_-relative_-min-digits_6
     }
-
 
     # Undo colour changes when we leave insert mode.
     hook global ModeChange (push|pop):insert:.* %{
