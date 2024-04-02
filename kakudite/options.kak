@@ -48,7 +48,7 @@ hook global WinSetOption filetype=.* %{
     hook global ModeChange (push|pop):.*:insert %{
         set-face buffer   PrimarySelection rgb:ebdbb2,rgb:d65d0e+biF
         set-face buffer SecondarySelection black,bright-yellow,green+biF
-        set-face buffer      PrimaryCursor rgb:ebdbb2,rgb:d65d0e,yellow+iuF
+        set-face buffer      PrimaryCursor rgb:ebdbb2,rgb:d65d0e,default+iF
         set-face buffer    SecondaryCursor black,bright-yellow,green+F
         set-face buffer   PrimaryCursorEol rgb:ebdbb2,default,bright-yellow+uF
         set-face buffer SecondaryCursorEol black,bright-yellow,bright-green+F
