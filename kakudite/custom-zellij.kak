@@ -56,7 +56,8 @@ hook global ModuleLoaded zellij %{
            fi
        }
     }
-
+    map -docstring "open-xplr: opens xplr file explorer" \
+        global user   <e>   ': open-xplr<ret>'
     define-command -params 0..1 \
         -docstring %{
         zellij-send-text [text]: Send text to another pane or tab relative to focused pane or tab.
