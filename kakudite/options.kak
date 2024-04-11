@@ -4,7 +4,7 @@ evaluate-commands %sh{
     then
         printf "%s\n" "colorscheme gruvbox-light"
     else
-        printf "%s\n" "colorscheme gruvbox-dark"
+        printf "%s\n" "colorscheme gruvbox-light"
     fi
 }
 
@@ -46,11 +46,11 @@ hook global WinSetOption filetype=.* %{
     add-highlighter buffer/ wrap -indent -word -width 120 -marker '↝'
     add-highlighter -override buffer/ number-lines -relative -min-digits 6
     hook global ModeChange (push|pop):.*:insert %{
-        set-face buffer   PrimarySelection rgb:ebdbb2,rgb:d65d0e+biF
+        set-face buffer   PrimarySelection default,rgb:fbf1c7,rgb:b57614+Bbiu
         set-face buffer SecondarySelection black,bright-yellow,green+biF
-        set-face buffer      PrimaryCursor rgb:ebdbb2,rgb:d65d0e,default+iF
+        set-face buffer      PrimaryCursor default,rgb:fbf1c7,rgb:b57614+Bbiu
         set-face buffer    SecondaryCursor black,bright-yellow,green+F
-        set-face buffer   PrimaryCursorEol rgb:ebdbb2,default,bright-yellow+uF
+        set-face buffer    PrimaryCursorEol default,rgb:fbf1c7,rgb:b57614+Bbiu
         set-face buffer SecondaryCursorEol black,bright-yellow,bright-green+F
         add-highlighter -override buffer/ number-lines -min-digits 6
         remove-highlighter buffer/number-lines_-relative_-min-digits_6
@@ -101,26 +101,27 @@ hook global WinCreate .* %{
         fi
     }
 }
-declare-option str gray     "rgb:928374"
-declare-option str red      "rgb:fb4934"
-declare-option str green    "rgb:b8bb26"
-declare-option str yellow   "rgb:fabd2f"
-declare-option str blue     "rgb:83a598"
-declare-option str purple   "rgb:d3869b"
-declare-option str aqua     "rgb:8ec07c"
-declare-option str orange   "rgb:fe8019"
-declare-option str bg       "rgb:282828"
-declare-option str bg_alpha "rgba:282828a0"
-declare-option str bg1      "rgb:3c3836"
-declare-option str bg2      "rgb:504945"
-declare-option str bg3      "rgb:665c54"
-declare-option str bg4      "rgb:7c6f64"
-declare-option str fg       "rgb:fbf1c7"
-declare-option str fg_alpha "rgba:fbf1c7a0"
-declare-option str fg0      "rgb:fbf1c7"
-declare-option str fg2      "rgb:d5c4a1"
-declare-option str fg3      "rgb:bdae93"
-declare-option str fg4      "rgb:a89984"
+
+declare-option str gray         "rgb:928374"
+declare-option str red          "rgb:9d0006"
+declare-option str green        "rgb:79740e"
+declare-option str yellow       "rgb:b57614"
+declare-option str blue         "rgb:876678"
+declare-option str purple       "rgb:8f3f71"
+declare-option str aqua         "rgb:427b58"
+declare-option str orange       "rgb:af3a03"
+declare-option str bg           "rgb:fbf1c7"
+declare-option str bg_alpha     "rgba:fbf1c7a0"
+declare-option str bg1          "rgb:ebdbb2"
+declare-option str bg2          "rgb:d5c4a1"
+declare-option str bg3          "rgb:bdae93"
+declare-option str bg4          "rgb:a89984"
+declare-option str fg           "rgb:3c3836"
+declare-option str fg_alpha     "rgba:3c3836a0"
+declare-option str fg0          "rgb:282828"
+declare-option str fg2          "rgb:504945"
+declare-option str fg3          "rgb:665c54"
+declare-option str fg4          "rgb:7c6f64"
 
 # Status line
 set-face global BufferList     "%opt{bg},%opt{green}"
@@ -131,5 +132,5 @@ set-face global GitModified    "%opt{bg},%opt{green}"
 set-face global BlackOnWhiteBg "%opt{bg},%opt{fg}"
 
 set-option global modelinefmt \
-'%val{client}@[%val{session}]%opt{lsp_modeline_message_requests} LSP: %opt{lsp_modeline_progress} E: %opt{lsp_diagnostic_error_count} W: %opt{lsp_diagnostic_warning_count} {BufferList}U+%sh{printf "%04x" "$kak_cursor_char_value"}{StatusLine} {BlackOnWhiteBg}%sh{printf "󱫉->%s" $(printf %s\\n $kak_buflist |wc -w) }{StatusLine} {{context_info}} {{mode_info}} %val{bufname} %val{cursor_line}:%val{cursor_char_column} {BlackOnWhiteBg}[%opt{filetype}]'
+'%val{client}@[%val{session}]%opt{lsp_modeline_message_requests} LSP: %opt{lsp_modeline_progress} E: %opt{lsp_diagnostic_error_count} W: %opt{lsp_diagnostic_warning_count} {BufferList}U+%sh{printf "%04x" "$kak_cursor_char_value"}{StatusLine} %sh{printf "󱫉->%s" $(printf %s\\n $kak_buflist |wc -w) }{StatusLine} {{context_info}} {{mode_info}} %val{bufname} %val{cursor_line}:%val{cursor_char_column} {BlackOnWhiteBg}[%opt{filetype}]'
 
