@@ -46,11 +46,11 @@ hook global WinSetOption filetype=.* %{
     add-highlighter buffer/ wrap -indent -word -width 120 -marker '↝'
     add-highlighter -override buffer/ number-lines -relative -min-digits 6
     hook global ModeChange (push|pop):.*:insert %{
-        set-face buffer   PrimarySelection default,rgb:fbf1c7,rgb:b57614+Bbiu
+        set-face buffer   PrimarySelection default,rgb:ebdbb2,rgb:fbf1c7+Bu
         set-face buffer SecondarySelection black,bright-yellow,green+biF
-        set-face buffer      PrimaryCursor default,rgb:fbf1c7,rgb:b57614+Bbiu
+        set-face buffer      PrimaryCursor default,rgb:bdae93,rgb:b57614+Bu
         set-face buffer    SecondaryCursor black,bright-yellow,green+F
-        set-face buffer    PrimaryCursorEol default,rgb:fbf1c7,rgb:b57614+Bbiu
+        set-face buffer    PrimaryCursorEol default,rgb:bdae93,rgb:b57614+Bu
         set-face buffer SecondaryCursorEol black,bright-yellow,bright-green+F
         add-highlighter -override buffer/ number-lines -min-digits 6
         remove-highlighter buffer/number-lines_-relative_-min-digits_6
