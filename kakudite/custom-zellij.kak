@@ -99,7 +99,7 @@ hook global ModuleLoaded zellij %{
         }
     }
 
-    define-command -hidden zellij_actionables %{
+    define-command -hidden zellij-actionables %{
       prompt actions: -menu -shell-script-candidates 'echo -e "new-pane\nfocus-next-pane\nfocus-previous-pane\nnew-tab\nfocus-client\nsend-text\nsend-text-with-eof\n"' %{
         evaluate-commands %sh{
             cwd=$(dirname "$kak_buffile" 2>/dev/null)
@@ -127,7 +127,7 @@ hook global ModuleLoaded zellij %{
       }
     }
 
-    define-command -hidden open_file_on_new_pane %{
+    define-command -hidden open-file-on-new-pane %{
       prompt file: -menu -shell-script-candidates "fd --type=file" %{
         nop %sh{
             zellij action new-pane --close-on-exit -- kak -c "$kak_session" "$kak_text"
@@ -135,7 +135,7 @@ hook global ModuleLoaded zellij %{
       }
     }
 
-    define-command -hidden open_buffer_on_new_pane %{
+    define-command -hidden open-buffer-on-new-pane %{
       prompt buffer: -menu -buffer-completion %{
         change-directory %sh{
             dirname "$kak_text"
@@ -146,8 +146,8 @@ hook global ModuleLoaded zellij %{
       }
     }
 
-    map -docstring "zellij_actionables: action on zellij" global user  <z>   ': zellij_actionables<ret>'
-    map -docstring "open_file_on_new_pane" global user <F> ': open_file_on_new_pane<ret>'
-    map -docstring "open_buffer_on_new_pane" global user <B> ': open_buffer_on_new_pane<ret>'
+    map -docstring "zellij-actionables: action on zellij" global user  <z>   ': zellij-actionables<ret>'
+    map -docstring "open-file-on-new-pane" global user <F> ': open-file-on-new-pane<ret>'
+    map -docstring "open-buffer-on-new-pane" global user <B> ': open-buffer-on-new-pane<ret>'
 
 }

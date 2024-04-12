@@ -1,10 +1,10 @@
-define-command -hidden open_file_picker %{
+define-command -hidden open-file-picker %{
   prompt file: -menu -shell-script-candidates "fd --type=file" %{
     edit -existing %val{text}
   }
 }
 
-define-command -hidden open_recent_file_picker %{
+define-command -hidden open-recent-file-picker %{
   prompt file: -menu -shell-script-candidates "cat $kak_config/recentf" %{
     change-directory %sh{
         dirname "$kak_text"
@@ -13,7 +13,7 @@ define-command -hidden open_recent_file_picker %{
   }
 }
 
-define-command -hidden open_buffer_picker %{
+define-command -hidden open-buffer-picker %{
   prompt buffer: -menu -buffer-completion %{
     buffer %val{text}
   }
