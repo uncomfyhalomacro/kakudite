@@ -9,9 +9,9 @@ evaluate-commands %sh{
 }
 
 set-option global ui_options terminal_assistant=cat \
-    terminal_status_on_top=false terminal_set_title=false \
+    terminal_status_on_top=true terminal_set_title=false \
     terminal_padding_fill=true terminal_info_max_width=0 \
-    terminal_enable_mouse=false terminal_synchronized=false
+    terminal_enable_mouse=true terminal_synchronized=false
 
 hook global WinSetOption filetype=rust %{
         add-highlighter window/ regex '//\h*(TODO:?|FIXME:?)[^\n]*'                0:yellow       1:rgb:000000,yellow
