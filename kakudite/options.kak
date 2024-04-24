@@ -39,11 +39,9 @@ hook global WinSetOption filetype=(markdown|html) %{
         add-highlighter window/ regex '<!--\h*(BUG:?|DEBUG:?)[^\n]*'               0:red          1:rgb:000000,red
         add-highlighter window/ regex '<!--\h*(NOTE:?|EXPLAINER:?)[^\n]*'          0:green        1:rgb:000000,green
 }
-
 hook global WinSetOption filetype=.* %{
     add-highlighter buffer/ show-whitespaces -tab "⋅" -lf " "
     add-highlighter buffer/ show-matching
-    add-highlighter buffer/ wrap -indent -word -width 120 -marker '↝'
     add-highlighter -override buffer/ number-lines -relative -min-digits 6
     hook global ModeChange (push|pop):.*:insert %{
         set-face buffer   PrimarySelection default,rgb:ebdbb2,rgb:fbf1c7+Bu
@@ -52,8 +50,9 @@ hook global WinSetOption filetype=.* %{
         set-face buffer    SecondaryCursor black,bright-yellow,green+F
         set-face buffer    PrimaryCursorEol default,rgb:bdae93,rgb:b57614+Bu
         set-face buffer SecondaryCursorEol black,bright-yellow,bright-green+F
-        add-highlighter -override buffer/ number-lines -min-digits 6
         remove-highlighter buffer/number-lines_-relative_-min-digits_6
+        add-highlighter -override buffer/ number-lines -min-digits 6
+        remove-highlighter buffer/wrap_-indent_-word_-width_120_-marker_↝
     }
 
     # Undo colour changes when we leave insert mode.
@@ -66,6 +65,7 @@ hook global WinSetOption filetype=.* %{
         unset-face buffer SecondaryCursorEol
         add-highlighter -override buffer/ number-lines -relative -min-digits 6
         remove-highlighter buffer/number-lines_-min-digits_6
+        add-highlighter -override buffer/ wrap -indent -word -width 120 -marker '↝'
     }
 }
 
