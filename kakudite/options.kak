@@ -52,7 +52,6 @@ hook global WinSetOption filetype=.* %{
         set-face buffer SecondaryCursorEol black,bright-yellow,bright-green+F
         remove-highlighter buffer/number-lines_-relative_-min-digits_6
         add-highlighter -override buffer/ number-lines -min-digits 6
-        remove-highlighter buffer/wrap_-indent_-word_-width_120_-marker_↝
     }
 
     # Undo colour changes when we leave insert mode.
@@ -65,7 +64,6 @@ hook global WinSetOption filetype=.* %{
         unset-face buffer SecondaryCursorEol
         add-highlighter -override buffer/ number-lines -relative -min-digits 6
         remove-highlighter buffer/number-lines_-min-digits_6
-        add-highlighter -override buffer/ wrap -indent -word -width 120 -marker '↝'
     }
 }
 
