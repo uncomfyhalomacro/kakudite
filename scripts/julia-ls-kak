@@ -8,7 +8,13 @@ import Pkg
 Gets `buffer-file-name` value which gives
 the full path to the file associated with the buffer.
 """
-buffer_file_path = ENV["kak_buffile"]
+buffer_file_path = if haskey(ENV, "kak_buffile")
+    ENV["kak_buffile"]
+elseif haskey(ENV, "KAK_LSP_PROJECT_ROOT_JULIA")
+    ENV["kak_buffile"] = ENV["KAK_LSP_PROJECT_ROOT_JULIA"]
+else
+    ENV["kak_buffile"] = Pkg.Types.Context().env.project_file
+end
 
 """
   `project_path`
