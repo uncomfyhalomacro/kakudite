@@ -28,23 +28,28 @@ bundle-noload kakoune-themes https://codeberg.org/anhsirk0/kakoune-themes %{
     ln -sf "${kak_opt_bundle_path}/kakoune-themes" "${kak_config}/colors/"
 }
 
-bundle kakoune-lsp 'git clone -b v16.0.0 https://github.com/kakoune-lsp/kakoune-lsp'  %{
-    set global lsp_cmd "kak-lsp -c %val{config}/kak-lsp.toml -s %val{session} -vvv --log /tmp/kak-lsp.log"
+bundle kakoune-lsp 'git clone -b v17.0.1 https://github.com/kakoune-lsp/kakoune-lsp'  %{
+    set global lsp_cmd "kak-lsp -c %val{config}/kak-lsp.toml -s %val{session}"
     lsp-enable
 
-    hook global WinSetOption filetype=(html|css|gleam|solidity|typescript|javascript|rust|crystal|python|haskell|julia|sh|latex|c|cpp) %{
+    hook global WinSetOption filetype=(html|css|gleam|solidity|typescript|javascript|rust|crystal|python|haskell|julia|sh|latex|c|cpp|markdown) %{
         set global lsp_hover_anchor false
         set global lsp_auto_show_code_actions true
         lsp-enable-window
         map global user l %{: enter-user-mode lsp<ret>} -docstring "lsp mode commands"
         map global goto w '<esc>: lsp-hover-buffer lsp-info-window <ret>' -docstring 'lsp-info-window'
-        define-command -docstring 'lsp-logs: shows lsp logs on tmux window' lsp-logs -params 0 %{
-            terminal sh -c 'less +F /tmp/kak-lsp.log'
-        }
-        map global goto L '<esc>: lsp-logs <ret>' -docstring 'show lsp logs on another window'
+        # define-command -docstring 'lsp-logs: shows lsp logs on tmux window' lsp-logs -params 0 %{
+            # terminal sh -c 'less +F /tmp/kak-lsp.log'
+        # }
+        # map global goto L '<esc>: lsp-logs <ret>' -docstring 'show lsp logs on another window'
     }
 
-    hook global KakEnd .* lsp-exit
+    hook global KakEnd .* %{
+        lsp-exit
+        nop %sh{
+            rm -v /tmp/kak-lsp.log
+        }
+    }
 
 } %{}
 

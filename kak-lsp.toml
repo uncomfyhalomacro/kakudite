@@ -214,9 +214,9 @@ settings_section = "Lua"
 
 [language_server.markdown]
 filetypes = ["markdown"]
-roots = [".marksman.toml"]
-command = "marksman"
-args = ["server"]
+roots = [".zk", ".obsidian"]
+command = "zk"
+args = ["lsp"]
 
 [language_server.nimlsp]
 filetypes = ["nim"]
