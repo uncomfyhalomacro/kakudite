@@ -430,11 +430,14 @@ args = ["-c",
 [language_server.julia.settings]
 # See https://github.com/julia-vscode/LanguageServer.jl/blob/master/src/requests/workspace.jl
 # Format options. See https://github.com/julia-vscode/DocumentFormat.jl/blob/master/src/DocumentFormat.jl
-# "julia.format.indent" = 4
+julia.format.indent = 4
 # Lint options. See https://github.com/julia-vscode/StaticLint.jl/blob/master/src/linting/checks.jl
-# "julia.lint.call" = true
+julia.lint.call = true
 # Other options, see https://github.com/julia-vscode/LanguageServer.jl/blob/master/src/requests/workspace.jl
-# "julia.lint.run" = "true"
+julia.lint.run = true
+julia.missingrefs = "all"
+julia.lint.iter = true
+julia.modname = true
 
 
 # Semantic tokens support
