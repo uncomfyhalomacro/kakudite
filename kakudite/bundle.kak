@@ -29,10 +29,8 @@ bundle-noload kakoune-themes https://codeberg.org/anhsirk0/kakoune-themes %{
 }
 
 bundle kakoune-lsp 'git clone -b v17.0.1 https://github.com/kakoune-lsp/kakoune-lsp'  %{
-    set global lsp_cmd "kak-lsp -c %val{config}/kak-lsp.toml -s %val{session}"
-    lsp-enable
 
-    hook global WinSetOption filetype=(html|css|gleam|solidity|typescript|javascript|rust|crystal|python|haskell|julia|sh|latex|c|cpp|markdown) %{
+    hook global WinSetOption filetype=(html|css|gleam|solidity|typescript|javascript|rust|crystal|python|haskell|julia|sh|latex|c|cpp) %{
         set global lsp_hover_anchor false
         set global lsp_auto_show_code_actions true
         lsp-enable-window
@@ -56,6 +54,8 @@ bundle kakoune-lsp 'git clone -b v17.0.1 https://github.com/kakoune-lsp/kakoune-
 bundle-install-hook kakoune-lsp %{
     cargo install --path . --root "${HOME}/.local"
     julia --project=@kak-lsp "${kak_config}"/scripts/julia-ls-install
+    mkdir -p "${HOME}/.config/kak-lsp"
+    cp -n "${kak_config}/kak-lsp.toml" "${HOME}/.config/kak-lsp.toml"
 }
 
 bundle-customload smarttab https://github.com/andreyorst/smarttab.kak %{
