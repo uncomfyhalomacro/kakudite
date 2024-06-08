@@ -23,9 +23,8 @@ bundle-noload kakoune-themes https://codeberg.org/anhsirk0/kakoune-themes %{
 }
 
 bundle kakoune-lsp 'git clone --depth 1 -b v17.0.1 https://github.com/kakoune-lsp/kakoune-lsp'  %{
-
     hook global WinSetOption filetype=(html|css|gleam|solidity|typescript|javascript|rust|crystal|python|haskell|julia|sh|latex|c|cpp) %{
-        set global lsp_hover_anchor false
+        set global lsp_hover_anchor true
         set global lsp_auto_show_code_actions true
         lsp-enable-window
         map global user l %{: enter-user-mode lsp<ret>} -docstring "lsp mode commands"
@@ -49,9 +48,8 @@ bundle-install-hook kakoune-lsp %{
     cargo install --path . --root "${HOME}/.local"
     julia --project=@kak-lsp "${kak_config}"/scripts/julia-ls-install
     mkdir -p "${HOME}/.config/kak-lsp"
-    cp -n "${kak_config}/kak-lsp.toml" "${HOME}/.config/kak-lsp.toml"
+    cp -n "${kak_config}/kak-lsp.toml" "${HOME}/.config/kak-lsp/kak-lsp.toml"
 }
-
 
 bundle-customload kakoune-inc-dec https://gitlab.com/Screwtapello/kakoune-inc-dec %{
     source "%opt{bundle_path}/kakoune-inc-dec/inc-dec.kak"
