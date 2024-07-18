@@ -22,7 +22,7 @@ bundle-noload kakoune-themes https://codeberg.org/anhsirk0/kakoune-themes %{
     ln -sf "${kak_opt_bundle_path}/kakoune-themes" "${kak_config}/colors/"
 }
 
-bundle kakoune-lsp 'git clone --depth 1 -b v17.0.1 https://github.com/kakoune-lsp/kakoune-lsp'  %{
+bundle kakoune-lsp 'git clone --depth 1 -b v17.1.1 https://github.com/kakoune-lsp/kakoune-lsp'  %{
     hook global WinSetOption filetype=(lua|html|css|gleam|solidity|typescript|javascript|rust|crystal|python|haskell|julia|sh|latex|c|cpp) %{
         lsp-enable-window
         set global lsp_hover_anchor true
