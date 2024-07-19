@@ -23,7 +23,7 @@ bundle-noload kakoune-themes https://codeberg.org/anhsirk0/kakoune-themes %{
 }
 
 bundle kakoune-lsp 'git clone --depth 1 -b v17.1.1 https://github.com/kakoune-lsp/kakoune-lsp'  %{
-    hook global WinSetOption filetype=(lua|html|css|gleam|solidity|typescript|javascript|rust|crystal|python|haskell|julia|sh|latex|c|cpp) %{
+    hook global WinSetOption filetype=(markdown|lua|html|css|gleam|solidity|typescript|javascript|rust|crystal|python|haskell|julia|sh|latex|c|cpp) %{
         lsp-enable-window
         set global lsp_hover_anchor true
         set global lsp_auto_show_code_actions true
