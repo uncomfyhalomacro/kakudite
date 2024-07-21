@@ -19,7 +19,7 @@ sh = "shellscript"
 
 [language_server.nomicfoundation-solidity-language-server]
 filetypes = ["solidity"]
-roots = ["hardhat.config.js"]
+roots = ["hardhat.config.js", "foundry.toml"]
 command = "npx"
 args = ["@nomicfoundation/solidity-language-server", "--stdio"]
 
