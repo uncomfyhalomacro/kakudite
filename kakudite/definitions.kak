@@ -19,3 +19,13 @@ define-command -hidden open-buffer-picker %{
   }
 }
 
+define-command -hidden -docstring 'open-xplr-in-new-terminal: Open xplr' \
+open-xplr-in-new-terminal -params 0..1 %{
+    nop %sh{
+        cwd=$(dirname "$kak_buffile" 2>/dev/null)
+        foot -e xplr --vroot "$cwd" > /dev/null 2>&1 & disown
+    }
+}
+
+map -docstring "open-xplr-in-new-terminal: opens xplr file explorer" \
+    global user   <x>   ': open-xplr-in-new-terminal<ret>'
