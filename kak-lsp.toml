@@ -23,6 +23,12 @@ roots = ["hardhat.config.js", "foundry.toml"]
 command = "npx"
 args = ["@nomicfoundation/solidity-language-server", "--stdio"]
 
+[language_server.taplo-lsp]
+filetypes = ["toml"]
+roots = ["Cargo.toml", ".git"]
+command = "taplo"
+args = ["lsp", "stdio"]
+
 [language_server.gleam-lsp]
 filetypes = ["gleam"]
 roots = ["gleam.toml", "manifest.toml"]
