@@ -69,7 +69,7 @@ command = "crystalline"
 filetypes = ["css", "less", "scss"]
 roots = ["package.json", ".git", ".hg"]
 command = "npx"
-args = [ "vscode-css-languageserver", "--stdio"]
+args = ["vscode-css-languageserver", "--stdio"]
 
 # [language_server.deno-lsp]
 # filetypes = ["javascript", "typescript"]
@@ -115,7 +115,10 @@ command = "dls"
 filetypes = ["dart"]
 roots = ["pubspec.yaml", ".git", ".hg"]
 command = "sh"
-args = ["-c", "dart $(dirname $(command -v dart))/snapshots/analysis_server.dart.snapshot --lsp"]
+args = [
+        "-c",
+        "dart $(dirname $(command -v dart))/snapshots/analysis_server.dart.snapshot --lsp",
+]
 
 [language_server.jdtls]
 filetypes = ["java"]
@@ -226,13 +229,23 @@ command = "nimlsp"
 [language_server.ocamllsp]
 filetypes = ["ocaml"]
 # Often useful to simply do a `touch dune-workspace` in your project root folder if you have problems with root detection
-roots = ["dune-workspace", "dune-project", "Makefile", "opam", "*.opam", "esy.json", ".git", ".hg", "dune"]
+roots = [
+        "dune-workspace",
+        "dune-project",
+        "Makefile",
+        "opam",
+        "*.opam",
+        "esy.json",
+        ".git",
+        ".hg",
+        "dune",
+]
 command = "ocamllsp"
 
 [language_server.pls]
 filetypes = ["protobuf"]
 roots = [".git", ".hg"]
-command = "pls" # https://github.com/lasorda/protobuf-language-server
+command = "pls"          # https://github.com/lasorda/protobuf-language-server
 
 [language_server.purescript-language-server]
 filetypes = ["purescript"]
@@ -354,11 +367,11 @@ command = "texlab"
 # For other PDF viewers see https://github.com/latex-lsp/texlab/wiki/Previewing
 forwardSearch.executable = "zathura"
 forwardSearch.args = [
-    "%p",
-    "--synctex-forward", # Support texlab-forward-search
-    "%l:1:%f",
-    "--synctex-editor-command", # Inverse search: use Control+Left-Mouse-Button to jump to source.
-    """
+        "%p",
+        "--synctex-forward", # Support texlab-forward-search
+        "%l:1:%f",
+        "--synctex-editor-command", # Inverse search: use Control+Left-Mouse-Button to jump to source.
+        """
         sh -c '
             echo "
                 evaluate-commands -client %%opt{texlab_client} %%{
@@ -421,8 +434,9 @@ command = "zls"
 filetypes = ["julia"]
 roots = ["Project.toml", ".git", ".hg", "Manifest.toml"]
 command = "sh"
-args = ["-c",
-   """
+args = [
+        "-c",
+        """
    julia --startup-file=no --history-file=no --project=@kak-lsp ~/.config/kak/scripts/julia-ls-kak
    """,
 ]
@@ -450,15 +464,21 @@ julia.modname = true
 # - Rust Analyzer: https://github.com/rust-analyzer/rust-analyzer/blob/master/crates/ide/src/syntax_highlighting.rs
 [semantic_tokens]
 faces = [
-    {face="documentation", token="comment", modifiers=["documentation"]},
-    {face="comment", token="comment"},
-    {face="function", token="function"},
-    {face="keyword", token="keyword"},
-    {face="module", token="namespace"},
-    {face="operator", token="operator"},
-    {face="string", token="string"},
-    {face="type", token="type"},
-    {face="default+d", token="variable", modifiers=["readonly"]},
-    {face="default+d", token="variable", modifiers=["constant"]},
-    {face="variable", token="variable"},
+        { face = "documentation", token = "comment", modifiers = [
+                "documentation",
+        ] },
+        { face = "comment", token = "comment" },
+        { face = "function", token = "function" },
+        { face = "keyword", token = "keyword" },
+        { face = "module", token = "namespace" },
+        { face = "operator", token = "operator" },
+        { face = "string", token = "string" },
+        { face = "type", token = "type" },
+        { face = "default+d", token = "variable", modifiers = [
+                "readonly",
+        ] },
+        { face = "default+d", token = "variable", modifiers = [
+                "constant",
+        ] },
+        { face = "variable", token = "variable" },
 ]
