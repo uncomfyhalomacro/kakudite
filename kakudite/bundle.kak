@@ -25,8 +25,8 @@ bundle-noload kakoune-themes https://codeberg.org/anhsirk0/kakoune-themes %{
 bundle kakoune-lsp 'git clone --depth 1 -b v17.1.1 https://github.com/kakoune-lsp/kakoune-lsp'  %{
     hook global WinSetOption filetype=(toml|lua|html|css|gleam|solidity|typescript|javascript|rust|crystal|python|haskell|julia|sh|latex|c|cpp) %{
         lsp-enable-window
-        set global lsp_hover_anchor true
-        set global lsp_auto_show_code_actions true
+        set-option global lsp_hover_anchor true
+        set-option global lsp_auto_show_code_actions true
         map global user l %{: enter-user-mode lsp<ret>} -docstring "lsp mode commands"
         map global goto w '<esc>: lsp-hover-buffer lsp-info-window <ret>' -docstring 'lsp-info-window'
         # define-command -docstring 'lsp-logs: shows lsp logs on tmux window' lsp-logs -params 0 %{
