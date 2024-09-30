@@ -29,3 +29,4 @@ kak -e 'bundle-install'
 
 - kak-tree-sitter
 - kak-lsp
+

@@ -6,3 +6,4 @@
 - [X] Learn how to write status bars
 - [X] Add git gutter
 - [X] Open a selected buffer to another pane or tab
+- [X] Add dictionary picker

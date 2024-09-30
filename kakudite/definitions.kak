@@ -4,6 +4,17 @@ define-command -hidden open-file-picker %{
   }
 }
 
+define-command -hidden open-word-picker %{
+  prompt file: -menu -shell-script-candidates "cat /usr/share/dict/* | uniq" %{
+    execute-keys %sh{
+        printf "i%s" "$kak_text"
+    }
+  }
+}
+
+map -docstring "open-word-picker: opens dictionary words file" \
+    global user   <w>   ': open-word-picker<ret>'
+
 define-command -hidden open-recent-file-picker %{
   prompt file: -menu -shell-script-candidates "cat $kak_config/recentf" %{
     change-directory %sh{
