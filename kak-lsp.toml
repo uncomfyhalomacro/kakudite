@@ -71,15 +71,16 @@ roots = ["package.json", ".git", ".hg"]
 command = "npx"
 args = ["vscode-css-languageserver", "--stdio"]
 
-# [language_server.deno-lsp]
-# filetypes = ["javascript", "typescript"]
-# roots = ["package.json", "tsconfig.json", ".git", ".hg"]
-# command = "deno"
-# args = ["lsp"]
-# settings_section = "deno"
-# [language_server.deno-lsp.settings.deno]
-# enable = true
-# lint = true
+[language_server.deno-lsp]
+filetypes = ["javascript", "typescript"]
+roots = ["deno.json", ".git", ".hg"]
+command = "/home/uncomfy/distrobox-exported/deno"
+args = ["lsp"]
+settings_section = "deno"
+
+[language_server.deno-lsp.settings.deno]
+enable = true
+lint = true
 
 # See https://scalameta.org/metals/docs/integrations/new-editor
 [language_server.metals]
@@ -258,7 +259,7 @@ filetypes = ["python"]
 roots = ["requirements.txt", "setup.py", ".git", ".hg"]
 command = "pylsp"
 settings_section = "_"
- 
+
 [language_server.pylsp.settings._]
 # See https://github.com/python-lsp/python-lsp-server#configuration
 # pylsp.configurationSources = ["flake8"]
@@ -385,34 +386,6 @@ forwardSearch.args = [
         '
     """,
 ]
-
-[language_server.typescript-language-server]
-filetypes = ["javascript", "typescript"]
-roots = ["package.json", "tsconfig.json", "jsconfig.json", ".git", ".hg"]
-command = "typescript-language-server"
-args = ["--stdio"]
-settings_section = "_"
-[language_server.typescript-language-server.settings._]
-# quotePreference = "double"
-# typescript.format.semicolons = "insert"
-
-# [language_server.eslint]
-# filetypes = ["javascript", "typescript"]
-# roots = [".eslintrc", ".eslintrc.json"]
-# command = "eslint-language-server"
-# args = ["--stdio"]
-# workaround_eslint = true
-# [language_server.eslint.settings]
-# codeActionsOnSave = { mode = "all", "source.fixAll.eslint" = true }
-# format = { enable = true }
-# quiet = false
-# rulesCustomizations = []
-# run = "onType"
-# validate = "on"
-# experimental = {}
-# problems = { shortenToSingleLine = false }
-# codeAction.disableRuleComment = { enable = true, location = "separateLine" }
-# codeAction.showDocumentation = { enable = false }
 
 [language_server.yaml-language-server]
 filetypes = ["yaml"]
