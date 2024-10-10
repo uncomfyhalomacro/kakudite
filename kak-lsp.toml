@@ -73,7 +73,7 @@ args = ["vscode-css-languageserver", "--stdio"]
 
 [language_server.deno-lsp]
 filetypes = ["javascript", "typescript"]
-roots = ["deno.json", ".git", ".hg"]
+roots = ["deno.json", "package.json", ".git", ".hg"]
 command = "/home/uncomfy/distrobox-exported/deno"
 args = ["lsp"]
 settings_section = "deno"
