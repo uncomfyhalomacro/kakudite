@@ -29,11 +29,11 @@ roots = ["gleam.toml", "manifest.toml"]
 command = "gleam"
 args = ["lsp"]
 
-[language_server.biome-ls]
-filetypes = ["javascript", "typescript"]
-roots = ["biome.json", "package.json"]
-command = "biome"
-args = ["lsp-proxy"]
+# [language_server.biome-ls]
+# filetypes = ["javascript", "typescript"]
+# roots = ["biome.json", "package.json"]
+# command = "biome"
+# args = ["lsp-proxy"]
 
 [language_server.bash-language-server]
 filetypes = ["sh"]
@@ -75,7 +75,7 @@ args = ["vscode-css-languageserver", "--stdio"]
 filetypes = ["javascript", "typescript"]
 roots = ["deno.json", "package.json", ".git", ".hg"]
 command = "/home/uncomfy/distrobox-exported/deno"
-args = ["lsp"]
+args = ["lsp", "-q"]
 settings_section = "deno"
 
 [language_server.deno-lsp.settings.deno]

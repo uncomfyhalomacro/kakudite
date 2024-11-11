@@ -22,8 +22,38 @@ bundle-noload kakoune-themes https://codeberg.org/anhsirk0/kakoune-themes %{
     ln -sf "${kak_opt_bundle_path}/kakoune-themes" "${kak_config}/colors/"
 }
 
-bundle kakoune-lsp 'git clone --depth 1 -b v17.1.1 https://github.com/kakoune-lsp/kakoune-lsp'  %{
-#    set global lsp_cmd "kak-lsp -s %val{session} -vvvv --log /tmp/kak-lsp.log"
+bundle kakoune-lsp 'git clone --depth 1 -b v18.0.3 https://github.com/kakoune-lsp/kakoune-lsp'  %{
+    # set global lsp_cmd "kak-lsp -s %val{session} -vvvv --log /tmp/kak-lsp.log"
+    # evaluate-commands %sh{kak-lsp}
+    remove-hooks global lsp-filetype-.*
+    hook -group lsp-filetype-javascript global BufSetOption filetype=(?:javascript|typescript) %{
+         set-option buffer lsp_servers %{
+            [deno]
+            root_globs = ["deno.json", "package.json", ".git", ".hg"]
+            command = "/home/uncomfy/distrobox-exported/deno"
+            args = ["lsp", "-q"]
+            settings_section = "deno"
+            [deno.settings.deno]
+            enable = true
+            lint = true
+         }
+    }
+    hook -group lsp-filetype-toml global BufSetOption filetype=toml %{
+         set-option buffer lsp_servers %{
+           [taplo]
+           root_globs = [".git", ".hg"]
+           args = ["lsp", "stdio"]
+         }
+    }
+    hook -group lsp-filetype-rust global BufSetOption filetype=rust %{
+         set-option buffer lsp_servers %{
+             [rust-analyzer]
+             filetypes = ["rust"]
+             root_globs = ["Cargo.toml", "Cargo.lock"]
+             command = "rust-analyzer"
+             args = []
+         }
+    }
     hook global WinSetOption filetype=(toml|lua|html|css|gleam|solidity|typescript|javascript|rust|crystal|python|haskell|julia|sh|latex|c|cpp) %{
         lsp-enable-window
         set-option global lsp_hover_anchor true
@@ -45,12 +75,12 @@ bundle kakoune-lsp 'git clone --depth 1 -b v17.1.1 https://github.com/kakoune-ls
 
 } %{}
 
-bundle-install-hook kakoune-lsp %{
-    cargo install --path . --root "${HOME}/.local"
-    julia --project=@kak-lsp "${kak_config}"/scripts/julia-ls-install
-    mkdir -p "${HOME}/.config/kak-lsp"
-    cp -n "${kak_config}/kak-lsp.toml" "${HOME}/.config/kak-lsp/kak-lsp.toml"
-}
+# bundle-install-hook kakoune-lsp %{
+#     # cargo install --path . --root "${HOME}/.local"
+#     julia --project=@kak-lsp "${kak_config}"/scripts/julia-ls-install
+#     mkdir -p "${HOME}/.config/kak-lsp"
+#     cp -n "${kak_config}/kak-lsp.toml" "${HOME}/.config/kak-lsp/kak-lsp.toml"
+# }
 
 bundle-customload kakoune-inc-dec https://gitlab.com/Screwtapello/kakoune-inc-dec %{
     source "%opt{bundle_path}/kakoune-inc-dec/inc-dec.kak"

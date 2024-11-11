@@ -102,7 +102,8 @@ hook global WinCreate .* %{
     }
 }
 
-# TODO fix this shit
+# Gruvbox light
+# TODO: make this programmable with three themes
 declare-option str gray         "rgb:928374"
 declare-option str red          "rgb:9d0006"
 declare-option str green        "rgb:79740e"
