@@ -22,7 +22,7 @@ bundle-noload kakoune-themes https://codeberg.org/anhsirk0/kakoune-themes %{
     ln -sf "${kak_opt_bundle_path}/kakoune-themes" "${kak_config}/colors/"
 }
 
-bundle kakoune-lsp 'git clone --depth 1 -b v18.0.3 https://github.com/kakoune-lsp/kakoune-lsp'  %{
+bundle kakoune-lsp 'git clone --depth 1 -b v18.1.0 https://github.com/kakoune-lsp/kakoune-lsp'  %{
     # set global lsp_cmd "kak-lsp -s %val{session} -vvvv --log /tmp/kak-lsp.log"
     # evaluate-commands %sh{kak-lsp}
     remove-hooks global lsp-filetype-.*
@@ -31,11 +31,14 @@ bundle kakoune-lsp 'git clone --depth 1 -b v18.0.3 https://github.com/kakoune-ls
             [deno]
             root_globs = ["deno.json", "package.json", ".git", ".hg"]
             command = "/home/uncomfy/distrobox-exported/deno"
-            args = ["lsp", "-q"]
+            args = ["lsp"]
             settings_section = "deno"
             [deno.settings.deno]
             enable = true
             lint = true
+            codelens.references = true
+            codelens.implementations = true
+            codelens.referencesAllFunctions = true
          }
     }
     hook -group lsp-filetype-toml global BufSetOption filetype=toml %{
