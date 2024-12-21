@@ -22,7 +22,7 @@ bundle-noload kakoune-themes https://codeberg.org/anhsirk0/kakoune-themes %{
     ln -sf "${kak_opt_bundle_path}/kakoune-themes" "${kak_config}/colors/"
 }
 
-bundle kakoune-lsp 'git clone --depth 1 -b v18.1.0 https://github.com/kakoune-lsp/kakoune-lsp'  %{
+bundle kakoune-lsp 'git clone --depth 1 -b v18.1.1 https://github.com/kakoune-lsp/kakoune-lsp'  %{
     # set global lsp_cmd "kak-lsp -s %val{session} -vvvv --log /tmp/kak-lsp.log"
     # evaluate-commands %sh{kak-lsp}
     remove-hooks global lsp-filetype-.*
