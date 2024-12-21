@@ -30,7 +30,7 @@ bundle kakoune-lsp 'git clone --depth 1 -b v18.1.1 https://github.com/kakoune-ls
          set-option buffer lsp_servers %{
             [deno]
             root_globs = ["deno.json", "package.json", ".git", ".hg"]
-            command = "/home/uncomfy/distrobox-exported/deno"
+            command = "deno"
             args = ["lsp"]
             settings_section = "deno"
             [deno.settings.deno]
