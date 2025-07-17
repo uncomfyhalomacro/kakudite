@@ -57,6 +57,15 @@ bundle kakoune-lsp 'git clone --depth 1 -b v18.1.1 https://github.com/kakoune-ls
              args = []
          }
     }
+    hook -group lsp-filetype-python global BufSetOption filetype=python %{
+         set-option buffer lsp_servers %{
+             [ruff]
+             filetypes = ["python"]
+             root_globs = ["pyproject.toml", "uv.lock"]
+             command = "ruff"
+             args = ["server"]
+         }
+    }
     hook global WinSetOption filetype=(toml|lua|html|css|gleam|solidity|typescript|javascript|rust|crystal|python|haskell|julia|sh|latex|c|cpp) %{
         lsp-enable-window
         set-option global lsp_hover_anchor true
