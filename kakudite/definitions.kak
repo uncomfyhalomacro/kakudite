@@ -1,10 +1,6 @@
 define-command -hidden open-file-picker %{
   prompt file: -menu -shell-script-candidates "fd --type=file" %{
     edit -existing %val{text}
-    change-directory %sh{
-        rel=$(realpath "$kak_text")
-        dirname "$rel"
-    }
   }
 }
 
@@ -21,11 +17,10 @@ map -docstring "open-word-picker: opens dictionary words file" \
 
 define-command -hidden open-recent-file-picker %{
   prompt file: -menu -shell-script-candidates "cat $kak_config/recentf" %{
-    edit -existing %val{text}
     change-directory %sh{
-        rel=$(realpath "$kak_text")
-        dirname "$rel"
+        dirname "$kak_text"
     }
+    edit -existing %val{text}
   }
 }
 
