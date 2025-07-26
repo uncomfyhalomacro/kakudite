@@ -17,9 +17,6 @@ map -docstring "open-word-picker: opens dictionary words file" \
 
 define-command -hidden open-recent-file-picker %{
   prompt file: -menu -shell-script-candidates "cat $kak_config/recentf" %{
-    change-directory %sh{
-        dirname "$kak_text"
-    }
     edit -existing %val{text}
   }
 }
