@@ -30,7 +30,7 @@ hook global WinSetOption filetype=(crystal|julia|python|sh|bash) %{
         add-highlighter window/ regex '#\h*(NOTE:?|EXPLAINER:?)[^\n]*'             0:green        1:rgb:000000,green
 }
 
-hook global WinSetOption filetype=(c|cpp) %{
+hook global WinSetOption filetype=(c|cpp|hare) %{
         add-highlighter window/ regex '//\h*(TODO:?|FIXME:?)[^\n]*'                0:yellow       1:rgb:000000,yellow
         add-highlighter window/ regex '//\h*(BUG:?|DEBUG:?)[^\n]*'                 0:red          1:rgb:000000,red
         add-highlighter window/ regex '//\h*(NOTE:?|EXPLAINER:?)[^\n]*'            0:green        1:rgb:000000,green
@@ -45,7 +45,7 @@ hook global WinSetOption filetype=.* %{
     add-highlighter buffer/ show-whitespaces -tab "⋅" -lf " "
     add-highlighter buffer/ show-matching
     add-highlighter -override buffer/ number-lines -relative -min-digits 6
-    hook global ModeChange (push|pop):.*:insert %{
+    hook buffer ModeChange (push|pop):.*:insert %{
         set-face buffer   PrimarySelection default,rgb:ebdbb2,rgb:fbf1c7+Bu
         set-face buffer SecondarySelection black,bright-yellow,green+biF
         set-face buffer      PrimaryCursor default,rgb:bdae93,rgb:b57614+Bu
@@ -57,7 +57,7 @@ hook global WinSetOption filetype=.* %{
     }
 
     # Undo colour changes when we leave insert mode.
-    hook global ModeChange (push|pop):insert:.* %{
+    hook buffer ModeChange (push|pop):insert:.* %{
         unset-face buffer PrimarySelection
         unset-face buffer SecondarySelection
         unset-face buffer PrimaryCursor
