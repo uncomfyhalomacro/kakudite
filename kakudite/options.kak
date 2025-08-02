@@ -30,7 +30,7 @@ hook global WinSetOption filetype=(crystal|julia|python|sh|bash) %{
         add-highlighter window/ regex '#\h*(NOTE:?|EXPLAINER:?)[^\n]*'             0:green        1:rgb:000000,green
 }
 
-hook global WinSetOption filetype=(c|cpp|hare) %{
+hook global WinSetOption filetype=(c|cpp|hare|go) %{
         add-highlighter window/ regex '//\h*(TODO:?|FIXME:?)[^\n]*'                0:yellow       1:rgb:000000,yellow
         add-highlighter window/ regex '//\h*(BUG:?|DEBUG:?)[^\n]*'                 0:red          1:rgb:000000,red
         add-highlighter window/ regex '//\h*(NOTE:?|EXPLAINER:?)[^\n]*'            0:green        1:rgb:000000,green
