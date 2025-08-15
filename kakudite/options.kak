@@ -14,6 +14,8 @@ set-option global ui_options terminal_assistant=cat \
     terminal_enable_mouse=true terminal_synchronized=no
 
 set-option global startup_info_version 20250603
+set-option global indentwidth 0
+
 
 hook global WinSetOption filetype=rust %{
         add-highlighter window/ regex '//\h*(TODO:?|FIXME:?)[^\n]*'                0:yellow       1:rgb:000000,yellow
