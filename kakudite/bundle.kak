@@ -29,7 +29,7 @@ bundle kakoune-lsp 'git clone --depth 1 -b v18.2.0 https://github.com/kakoune-ls
     hook -group lsp-filetype-javascript global BufSetOption filetype=(?:javascript|typescript) %{
          set-option buffer lsp_servers %{
             [deno]
-            root_globs = ["deno.json", "package.json", ".git", ".hg"]
+            root_globs = ["deno.json", ".git", ".hg"]
             command = "deno"
             args = ["lsp"]
             settings_section = "deno"
@@ -66,7 +66,15 @@ bundle kakoune-lsp 'git clone --depth 1 -b v18.2.0 https://github.com/kakoune-ls
              args = ["server"]
          }
     }
-    hook global WinSetOption filetype=(toml|lua|html|css|gleam|solidity|typescript|javascript|rust|crystal|python|haskell|julia|sh|latex|c|cpp) %{
+    hook -group lsp-filetype-go global BufSetOption filetype=go %{
+         set-option buffer lsp_servers %{
+             [gopls]
+             filetypes = ["go"]
+             root_globs = ["go.mod", "go.sum", "go.work", "go.templ"]
+             command = "gopls"
+         }
+    }
+    hook global WinSetOption filetype=(go|toml|lua|html|css|gleam|solidity|typescript|javascript|rust|crystal|python|haskell|julia|sh|latex|c|cpp) %{
         lsp-enable-window
         set-option global lsp_hover_anchor true
         set-option global lsp_auto_show_code_actions true
