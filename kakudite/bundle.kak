@@ -29,7 +29,7 @@ bundle kakoune-lsp 'git clone --depth 1 -b v18.2.0 https://github.com/kakoune-ls
     hook -group lsp-filetype-javascript global BufSetOption filetype=(?:javascript|typescript) %{
          set-option buffer lsp_servers %{
             [deno]
-            root_globs = ["deno.json", ".git", ".hg"]
+            root_globs = ["deno.json"]
             command = "deno"
             args = ["lsp"]
             settings_section = "deno"
@@ -39,6 +39,10 @@ bundle kakoune-lsp 'git clone --depth 1 -b v18.2.0 https://github.com/kakoune-ls
             codelens.references = true
             codelens.implementations = true
             codelens.referencesAllFunctions = true
+            [biome]
+            root_globs = ["biome.json"]
+            command = "biome"
+            args = ["lsp-proxy"]
          }
     }
     hook -group lsp-filetype-toml global BufSetOption filetype=toml %{
