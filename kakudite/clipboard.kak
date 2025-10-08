@@ -6,20 +6,28 @@ define-command -docstring %{
 clipboard-yank \
 %{
     nop %sh{
-        if [ -n "${WAYLAND_DISPLAY}" ];
+        UNAME_OUT="$(uname)"
+        if [[ $UNAME_OUT == "Linux" && -n "${WAYLAND_DISPLAY}" ]]
         then
             wl-copy --trim-newline "$kak_selection"
+            exit 0
         else
-            if [ -x "$(command -v xsel)" ];
+            if [[ -x "$(command -v xsel)" ]]
             then
                 printf '%s' "$kak_selection" | xsel -b
+                exit 0
             elif [ -x "$(command -v xclip)" ];
             then
                 printf '%s' "$kak_selection" | xclip -sel clip
-            else
-                exit 1
+                exit 0
             fi
 
         fi
+        if [[ $UNAME_OUT == "Darwin" ]]
+        then
+        	printf '%s' "$kak_selection" | pbcopy
+        	exit 0
+        fi
+	exit 1
     }
 }
