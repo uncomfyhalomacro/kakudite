@@ -72,8 +72,8 @@ bundle kakoune-lsp 'git clone --depth 1 -b v18.2.0 https://github.com/kakoune-ls
              [ty]
              filetypes = ["python"]
              root_globs = ["pyproject.toml", "uv.lock", "requirements.txt"]
-             command = "uvx"
-             args = ["ty", "server"]
+             command = "ty"
+             args = ["server"]
          }
     }
     hook -group lsp-filetype-go global BufSetOption filetype=go %{
