@@ -52,4 +52,4 @@ define-command -hidden open-unicode-picker %{
 }
 
 map -docstring "open-unicode-picker: opens a list of unicode symbols" \
-    global user   <e>   ': open-unicode-picker<ret>'
+    global user   <E>   ': open-unicode-picker<ret>'
