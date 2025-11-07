@@ -86,7 +86,7 @@ hook global WinCreate .* %{
                 if [ -f "${kak_buffile}" ];
                 then
                     ismodified=$(cd "$(dirname "${kak_buffile}")" && git status "$kak_buffile" --porcelain 2>/dev/null)
-                    isstaged=$(cd "$(dirname "${kak_buffile}")" && git diff --staged "$kak_buffile" 2>/dev/null)
+                    isstaged=$(cd "$(dirname "${kak_buffile}")" && git diff --staged "$kak_buffile")
                     if [ -n "${isstaged}" -a -n "${ismodified}" ]; then
                         printf 'set-option window modeline_git_modified %%{%s}\n' "[M+]"
                         printf 'git show-diff'
