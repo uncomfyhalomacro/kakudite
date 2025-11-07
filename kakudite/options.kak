@@ -83,13 +83,23 @@ hook global WinCreate .* %{
             branch=$(cd "$(dirname "${kak_buffile}")" && git rev-parse --abbrev-ref HEAD 2>/dev/null)
             if [ -n "${branch}" ]; then
                 printf 'set-option window modeline_git_branch %%{%s}\n' "${branch}"
-                ismodified=$(cd "$(dirname "${kak_buffile}")" && git status "$kak_buffile" --porcelain 2>/dev/null)
-                if [ -n "${ismodified}" ]; then
-                    printf 'set-option window modeline_git_modified %%{%s}\n' "[M]"
-                    printf 'git show-diff'
-                else
-                    printf 'unset-option window modeline_git_modified\n'
-                    printf 'git hide-diff'
+                if [ -f "${kak_buffile}" ];
+                then
+                    ismodified=$(cd "$(dirname "${kak_buffile}")" && git status "$kak_buffile" --porcelain 2>/dev/null)
+                    isstaged=$(cd "$(dirname "${kak_buffile}")" && git diff --staged "$kak_buffile" 2>/dev/null)
+                    if [ -n "${isstaged}" -a -n "${ismodified}" ]; then
+                        printf 'set-option window modeline_git_modified %%{%s}\n' "[M+]"
+                        printf 'git show-diff'
+                    elif [ -n "${isstaged}"]; then
+                        printf 'set-option window modeline_git_modified %%{%s}\n' "[M]"
+                        printf 'git show-diff'
+                    elif [ -n "${ismodified}" ]; then
+                        printf 'set-option window modeline_git_modified %%{%s}\n' "[+]"
+                        printf 'git show-diff'
+                    else
+                        printf 'unset-option window modeline_git_modified\n'
+                        printf 'git hide-diff'
+                    fi
                 fi
             else
                 printf 'unset-option window modeline_git_modified\n'
