@@ -50,9 +50,9 @@ hook global WinSetOption filetype=.* %{
     hook buffer ModeChange (push|pop):.*:insert %{
         set-face buffer   PrimarySelection default,rgb:ebdbb2,rgb:fbf1c7+Bu
         set-face buffer SecondarySelection black,bright-yellow,green+biF
-        set-face buffer      PrimaryCursor default,rgb:bdae93,rgb:b57614+Bu
+        set-face buffer      PrimaryCursor default,rgb:bdae93,rgb:3c3836+Bu
         set-face buffer    SecondaryCursor black,bright-yellow,green+F
-        set-face buffer    PrimaryCursorEol default,rgb:bdae93,rgb:b57614+Bu
+        set-face buffer    PrimaryCursorEol default,rgb:bdae93,rgb:3c3836+Bu
         set-face buffer SecondaryCursorEol black,bright-yellow,bright-green+F
         remove-highlighter buffer/number-lines_-relative_-min-digits_6
         add-highlighter -override buffer/ number-lines -min-digits 6
