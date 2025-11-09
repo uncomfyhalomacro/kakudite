@@ -3,9 +3,9 @@ hook global ModuleLoaded zellij %{
             evaluate-commands %sh{
                 if [ -n "$1" ]
                 then
-                    printf "zellij- action new-pane -c -d right -- $*"
+                    printf "zellij-action new-pane -c -d right -- $*"
                 else
-                    printf "zellij- action new-pane -d right"
+                    printf "zellij-action new-pane -d right"
                 fi
             }
     }
@@ -15,9 +15,9 @@ hook global ModuleLoaded zellij %{
             evaluate-commands %sh{
                 if [ -n "$1" ]
                 then
-                    printf "zellij- action new-pane -c -d left -- $*"
+                    printf "zellij-action new-pane -c -d left -- $*"
                 else
-                    printf "zellij- action new-pane -d left"
+                    printf "zellij-action new-pane -d left"
                 fi
             }
     }
@@ -130,7 +130,7 @@ hook global ModuleLoaded zellij %{
     define-command -hidden open-file-on-new-pane %{
       prompt file: -menu -shell-script-candidates "fd --type=file" %{
         nop %sh{
-            zellij action new-pane --close-on-exit -- kak -c "$kak_session" "$kak_text"
+            zellij action new-pane --stacked --close-on-exit -- kak -c "$kak_session" "$kak_text"
         }
       }
     }
@@ -141,7 +141,7 @@ hook global ModuleLoaded zellij %{
             dirname "$kak_text"
         }
         nop %sh{
-            zellij action new-pane --close-on-exit -- kak -c "${kak_session}" -e "buffer ${kak_text}"
+            zellij action new-pane --stacked --close-on-exit -- kak -c "${kak_session}" -e "buffer ${kak_text}"
         }
       }
     }
