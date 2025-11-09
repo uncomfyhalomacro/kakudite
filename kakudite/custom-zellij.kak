@@ -100,7 +100,7 @@ hook global ModuleLoaded zellij %{
     }
 
     define-command -hidden zellij-actionables %{
-      prompt actions: -menu -shell-script-candidates 'echo -e "new-pane\nfocus-next-pane\nfocus-previous-pane\nnew-tab\nfocus-client\nsend-text\nsend-text-with-eof\n"' %{
+      prompt actions: -menu -shell-script-candidates 'printf "new-pane\nfocus-next-pane\nfocus-previous-pane\nnew-tab\nfocus-client\nsend-text\nsend-text-with-eof\n"' %{
         evaluate-commands %sh{
             cwd=$(dirname "$kak_buffile" 2>/dev/null)
             case $kak_text in
