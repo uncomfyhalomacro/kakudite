@@ -9,9 +9,9 @@ evaluate-commands %sh{
 }
 
 set-option global ui_options terminal_assistant=cat \
-    terminal_status_on_top=false terminal_set_title=false \
-    terminal_padding_fill=false terminal_info_max_width=0 \
-    terminal_enable_mouse=true terminal_synchronized=no
+    terminal_status_on_top=false terminal_set_title=true \
+    terminal_padding_fill=true terminal_info_max_width=0 \
+    terminal_enable_mouse=true terminal_synchronized=yes
 
 set-option global startup_info_version 20250603
 set-option global indentwidth 0
@@ -146,5 +146,5 @@ set-face global GitModified    "%opt{bg},%opt{green}"
 set-face global BlackOnWhiteBg "%opt{bg},%opt{fg}"
 
 set-option global modelinefmt \
-'%val{client}@[%val{session}]%opt{lsp_modeline_message_requests} LSP: %opt{lsp_modeline_progress} E: %opt{lsp_diagnostic_error_count} W: %opt{lsp_diagnostic_warning_count} {BufferList}U+%sh{printf "%04x" "$kak_cursor_char_value"}{StatusLine} %sh{printf "󱫉->%s" $(printf %s\\n $kak_buflist |wc -w) }{StatusLine} {{context_info}} {{mode_info}} %val{bufname} %val{cursor_line}:%val{cursor_char_column} {BlackOnWhiteBg}[%opt{filetype}]'
+'%val{client}@[%val{session}]%opt{lsp_modeline_message_requests} LSP: %opt{lsp_modeline_progress} E: %opt{lsp_diagnostic_error_count} W: %opt{lsp_diagnostic_warning_count} {BufferList}U+%sh{printf "%04x" "$kak_cursor_char_value"}{StatusLine} %sh{printf "📝︎%s" $(printf %s\\n $kak_buflist |wc -w) }{StatusLine} {{context_info}} {{mode_info}} %val{bufname} %val{cursor_line}:%val{cursor_char_column} {BlackOnWhiteBg}[%opt{filetype}]'
 
