@@ -109,7 +109,7 @@ hook global WinCreate .* %{
     evaluate-commands %sh{
         is_work_tree=$(cd "$(dirname "${kak_buffile}")" && git rev-parse --is-inside-work-tree 2>/dev/null)
         if [ "${is_work_tree}" = 'true' ]; then
-            printf 'set-option window modelinefmt %%{%s}' "{GitBranch}%opt{modeline_git_branch}{StatusLine} {GitModified}%opt{modeline_git_modified}{StatusLine} ${kak_opt_modelinefmt}"
+            printf 'set-option window modelinefmt %%{%s}' "{GitBranch}⎇ %opt{modeline_git_branch}{StatusLine} {GitModified}%opt{modeline_git_modified}{StatusLine} ${kak_opt_modelinefmt}"
         fi
     }
 }
