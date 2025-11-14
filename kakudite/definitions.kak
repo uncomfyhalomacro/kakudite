@@ -31,7 +31,7 @@ define-command -hidden -docstring 'open-xplr-in-new-terminal: Open xplr' \
 open-xplr-in-new-terminal -params 0..1 %{
     nop %sh{
         cwd=$(dirname "$kak_buffile" 2>/dev/null)
-        $TERM -e xplr "$cwd" > /dev/null 2>&1 & disown
+        $TERM -e xplr "$PWD" > /dev/null 2>&1 & disown
     }
 }
 

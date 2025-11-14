@@ -47,7 +47,7 @@ hook global ModuleLoaded tmux %{
     open-xplr %{
        nop %sh{
            cwd=$(dirname "$kak_buffile" 2>/dev/null)
-           tmux popup -d $cwd -E -- env KAK_CLIENT=$kak_client KAK_SESSION=$kak_session xplr "$cwd"
+           tmux popup -d $PWD -E -- env KAK_CLIENT=$kak_client KAK_SESSION=$kak_session xplr "$PWD"
        }
     }
     map -docstring "open-xplr: opens xplr file explorer" \

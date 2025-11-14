@@ -50,9 +50,9 @@ hook global ModuleLoaded zellij %{
            cwd=$(dirname "$kak_buffile" 2>/dev/null)
            if [ -n "$1" ]
            then
-             printf "zellij-action new-pane -c --floating --cwd $cwd -d $1 -- env KAK_CLIENT=$kak_client KAK_SESSION=$kak_session xplr "$cwd""
+             printf "zellij-action new-pane -c --floating --cwd $PWD -d $1 -- env KAK_CLIENT=$kak_client KAK_SESSION=$kak_session xplr "$PWD""
            else
-             printf "zellij-action new-pane -c --floating --cwd $cwd -- env KAK_CLIENT=$kak_client KAK_SESSION=$kak_session xplr "$cwd""
+             printf "zellij-action new-pane -c --floating --cwd $PWD -- env KAK_CLIENT=$kak_client KAK_SESSION=$kak_session xplr "$PWD""
            fi
        }
     }
@@ -105,10 +105,10 @@ hook global ModuleLoaded zellij %{
             cwd=$(dirname "$kak_buffile" 2>/dev/null)
             case $kak_text in
                 new-pane)
-                printf "zellij-action "$kak_text" --close-on-exit --cwd "$cwd" -- env KAK_CLIENT=$kak_client KAK_SESSION=$kak_session $SHELL"
+                printf "zellij-action "$kak_text" --close-on-exit --cwd "$PWD" -- env KAK_CLIENT=$kak_client KAK_SESSION=$kak_session $SHELL"
                 ;;
                 new-tab)
-                printf "zellij-action "$kak_text" --cwd "$cwd" -l default"
+                printf "zellij-action "$kak_text" --cwd "$PWD" -l default"
                 ;;
                 focus-client)
                 printf '%s%b' "execute-keys :zellij-focus" " "
@@ -137,9 +137,6 @@ hook global ModuleLoaded zellij %{
 
     define-command -hidden open-buffer-on-new-pane %{
       prompt buffer: -menu -buffer-completion %{
-        change-directory %sh{
-            dirname "$kak_text"
-        }
         nop %sh{
             zellij action new-pane --stacked --close-on-exit -- kak -c "${kak_session}" -e "buffer ${kak_text}"
         }
