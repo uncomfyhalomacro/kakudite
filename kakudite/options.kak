@@ -15,6 +15,7 @@ set-option global ui_options terminal_assistant=cat \
 
 set-option global startup_info_version 20250603
 set-option global indentwidth 0
+set-option global tabstop 1
 
 
 hook global WinSetOption filetype=rust %{
