@@ -83,25 +83,27 @@ hook global WinSetOption filetype=.* %{
     set-face buffer PrimaryCursorEol   "default,%opt{fg}"
     set-face buffer PrimarySelection   "default,%opt{bg2}"
     set-face buffer SecondaryCursor    "%opt{bg},%opt{aqua}"
+    set-face buffer SecondaryCursorEol "%opt{bg},%opt{aqua}"
     set-face buffer SecondarySelection "default,%opt{bg3}"
     hook buffer ModeChange (push|pop):.*:insert %{
         set-face buffer PrimarySelection   "default,%opt{bg1}"
-        set-face buffer SecondarySelection "default,%opt{bg4}+b"
+        set-face buffer SecondarySelection "default,%opt{bg2}+b"
         set-face buffer PrimaryCursor      "default,%opt{bg1},%opt{fg}+Bu"
         set-face buffer PrimaryCursorEol   "default,%opt{bg2}"
         set-face buffer LineNumberCursor   "%opt{orange},%opt{bg1}+F"
         set-face buffer SecondaryCursor    black,bright-yellow,green+F
+        set-face buffer SecondaryCursorEol    black,bright-yellow,green+F
     }
 
-    # Undo colour changes when we leave insert mode.
+    # Set again the original colours when we leave insert mode.
     hook buffer ModeChange (push|pop):insert:.* %{
         set-face buffer LineNumberCursor   "%opt{aqua},%opt{bg1}"
         set-face buffer PrimaryCursor      "%opt{fg},%opt{bg2}"
         set-face buffer PrimaryCursorEol   "default,%opt{fg}"
         set-face buffer PrimarySelection   "default,%opt{bg2}"
         set-face buffer SecondaryCursor    "%opt{bg},%opt{aqua}"
+        set-face buffer SecondaryCursorEol "%opt{bg},%opt{aqua}"
         set-face buffer SecondarySelection "default,%opt{bg3}"
-        set-face buffer SecondarySelection "default,%opt{bg4}"
     }
 }
 
