@@ -78,26 +78,30 @@ hook global WinSetOption filetype=.* %{
     add-highlighter buffer/ show-matching
     add-highlighter buffer/ number-lines -relative -min-digits 6 -hlcursor
     add-highlighter buffer/ number-lines -min-digits 6 -separator '' -hlcursor
-    set-face        buffer  LineNumberCursor "%opt{aqua},%opt{bg1}+F"
+    set-face buffer LineNumberCursor   "%opt{aqua},%opt{bg1}"
+    set-face buffer PrimaryCursor      "%opt{fg},%opt{bg2}"
+    set-face buffer PrimaryCursorEol   "default,%opt{fg}"
+    set-face buffer PrimarySelection   "default,%opt{bg2}"
+    set-face buffer SecondaryCursor    "%opt{bg},%opt{aqua}"
+    set-face buffer SecondarySelection "default,%opt{bg3}"
     hook buffer ModeChange (push|pop):.*:insert %{
-        set-face buffer   PrimarySelection default,rgb:ebdbb2,rgb:fbf1c7+Bu
-        set-face buffer SecondarySelection black,bright-yellow,green+biF
-        set-face buffer      PrimaryCursor default,rgb:bdae93,rgb:3c3836+Bu
-        set-face buffer LineNumberCursor "%opt{orange},%opt{bg1}+F"
-        set-face buffer    SecondaryCursor black,bright-yellow,green+F
-        set-face buffer    PrimaryCursorEol default,rgb:bdae93,rgb:3c3836+Bu
-        set-face buffer SecondaryCursorEol black,bright-yellow,bright-green+F
+        set-face buffer PrimarySelection   "default,%opt{bg1}"
+        set-face buffer SecondarySelection "default,%opt{bg4}+b"
+        set-face buffer PrimaryCursor      "default,%opt{bg1},%opt{fg}+Bu"
+        set-face buffer PrimaryCursorEol   "default,%opt{bg2}"
+        set-face buffer LineNumberCursor   "%opt{orange},%opt{bg1}+F"
+        set-face buffer SecondaryCursor    black,bright-yellow,green+F
     }
 
     # Undo colour changes when we leave insert mode.
     hook buffer ModeChange (push|pop):insert:.* %{
-        unset-face buffer PrimarySelection
-        unset-face buffer SecondarySelection
-        unset-face buffer PrimaryCursor
-        set-face   buffer  LineNumberCursor "%opt{aqua},%opt{bg1}+F"
-        unset-face buffer SecondaryCursor
-        unset-face buffer PrimaryCursorEol
-        unset-face buffer SecondaryCursorEol
+        set-face buffer LineNumberCursor   "%opt{aqua},%opt{bg1}"
+        set-face buffer PrimaryCursor      "%opt{fg},%opt{bg2}"
+        set-face buffer PrimaryCursorEol   "default,%opt{fg}"
+        set-face buffer PrimarySelection   "default,%opt{bg2}"
+        set-face buffer SecondaryCursor    "%opt{bg},%opt{aqua}"
+        set-face buffer SecondarySelection "default,%opt{bg3}"
+        set-face buffer SecondarySelection "default,%opt{bg4}"
     }
 }
 
