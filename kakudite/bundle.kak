@@ -59,6 +59,9 @@ bundle kakoune-lsp 'git clone --depth 1 -b v18.2.0 https://github.com/kakoune-ls
              root_globs = ["Cargo.toml", "Cargo.lock"]
              command = "rust-analyzer"
              args = []
+             settings_section = "rust-analyzer"
+             [rust-analyzer.settings.rust-analyzer]
+             check.command = "clippy"
          }
     }
     hook -group lsp-filetype-python global BufSetOption filetype=python %{
