@@ -22,7 +22,7 @@ bundle-install-hook kakoune-themes %{
     ln -sf "${kak_opt_bundle_path}/kakoune-themes" "${kak_config}/colors/"
 }
 
-bundle kakoune-lsp "git clone --depth 1 -b v18.2.0 https://github.com/kakoune-lsp/kakoune-lsp"  %{
+bundle kakoune-lsp https://github.com/kakoune-lsp/kakoune-lsp  %{
     # set global lsp_cmd "kak-lsp -s %val{session} -vvvv --log /tmp/kak-lsp.log"
     # evaluate-commands %sh{kak-lsp}
     remove-hooks global lsp-filetype-.*
@@ -117,8 +117,8 @@ bundle-updater kakoune-lsp %{
 bundle-install-hook kakoune-lsp %{
     cargo install --path . --root "${HOME}/.local"
     julia --project=@kak-lsp "${kak_config}"/scripts/julia-ls-install
-    mkdir -p "${HOME}/.config/kak-lsp"
-    cp -n "${kak_config}/kak-lsp.toml" "${HOME}/.config/kak-lsp/kak-lsp.toml"
+    # mkdir -p "${HOME}/.config/kak-lsp"
+    # cp -n "${kak_config}/kak-lsp.toml" "${HOME}/.config/kak-lsp/kak-lsp.toml"
 }
 
 bundle-customload kakoune-inc-dec https://gitlab.com/Screwtapello/kakoune-inc-dec %{
