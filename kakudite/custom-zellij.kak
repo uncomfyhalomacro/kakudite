@@ -130,7 +130,7 @@ hook global ModuleLoaded zellij %{
     define-command -hidden open-file-on-new-pane %{
       prompt file: -menu -shell-script-candidates "fd --type=file" %{
         nop %sh{
-            zellij action new-pane --stacked --close-on-exit -- kak -c "$kak_session" "$kak_text"
+            zellij action new-pane --close-on-exit -- kak -c "$kak_session" "$kak_text"
         }
       }
     }
@@ -138,7 +138,7 @@ hook global ModuleLoaded zellij %{
     define-command -hidden open-buffer-on-new-pane %{
       prompt buffer: -menu -buffer-completion %{
         nop %sh{
-            zellij action new-pane --stacked --close-on-exit -- kak -c "${kak_session}" -e "buffer ${kak_text}"
+            zellij action new-pane --close-on-exit -- kak -c "${kak_session}" -e "buffer ${kak_text}"
         }
       }
     }

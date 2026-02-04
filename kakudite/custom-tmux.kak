@@ -64,9 +64,6 @@ hook global ModuleLoaded tmux %{
 
     define-command -hidden open-buffer-on-new-pane %{
       prompt buffer: -menu -buffer-completion %{
-        change-directory %sh{
-            dirname "$kak_text"
-        }
         nop %sh{
             tmux splitw -h -- kak -c "${kak_session}" -e "buffer ${kak_text}"
         }
