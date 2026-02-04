@@ -3,7 +3,7 @@ evaluate-commands %sh{
   plugins="$kak_config/bundle"
   mkdir -p "$plugins"
   [ ! -e "$plugins/kak-bundle" ] && \
-    git clone -q https://github.com/jdugan6240/kak-bundle "$plugins/kak-bundle"
+    git clone -q https://codeberg.org/jdugan6240/kak-bundle "$plugins/kak-bundle"
   printf "%s\n" "source '$plugins/kak-bundle/rc/kak-bundle.kak'"
 }
 
@@ -16,13 +16,13 @@ hook global User bundle-after-install %{
   quit!
 }
 
-bundle-noload kakoune-themes https://codeberg.org/anhsirk0/kakoune-themes %{
-} %{
+bundle-noload kakoune-themes https://codeberg.org/anhsirk0/kakoune-themes
+bundle-install-hook kakoune-themes %{
     mkdir -p ${kak_config}/colors
     ln -sf "${kak_opt_bundle_path}/kakoune-themes" "${kak_config}/colors/"
 }
 
-bundle kakoune-lsp 'git clone --depth 1 -b v18.2.0 https://github.com/kakoune-lsp/kakoune-lsp'  %{
+bundle kakoune-lsp "git clone --depth 1 -b v18.2.0 https://github.com/kakoune-lsp/kakoune-lsp"  %{
     # set global lsp_cmd "kak-lsp -s %val{session} -vvvv --log /tmp/kak-lsp.log"
     # evaluate-commands %sh{kak-lsp}
     remove-hooks global lsp-filetype-.*
@@ -106,17 +106,25 @@ bundle kakoune-lsp 'git clone --depth 1 -b v18.2.0 https://github.com/kakoune-ls
         }
     }
 
-} %{}
+}
 
-# bundle-install-hook kakoune-lsp %{
-#     # cargo install --path . --root "${HOME}/.local"
-#     julia --project=@kak-lsp "${kak_config}"/scripts/julia-ls-install
-#     mkdir -p "${HOME}/.config/kak-lsp"
-#     cp -n "${kak_config}/kak-lsp.toml" "${HOME}/.config/kak-lsp/kak-lsp.toml"
-# }
+bundle-updater kakoune-lsp %{
+    cd ../
+    rm -rf kakoune-lsp
+    git clone --depth 1 https://github.com/kakoune-lsp/kakoune-lsp
+}
+
+bundle-install-hook kakoune-lsp %{
+    cargo install --path . --root "${HOME}/.local"
+    julia --project=@kak-lsp "${kak_config}"/scripts/julia-ls-install
+    mkdir -p "${HOME}/.config/kak-lsp"
+    cp -n "${kak_config}/kak-lsp.toml" "${HOME}/.config/kak-lsp/kak-lsp.toml"
+}
 
 bundle-customload kakoune-inc-dec https://gitlab.com/Screwtapello/kakoune-inc-dec %{
     source "%opt{bundle_path}/kakoune-inc-dec/inc-dec.kak"
-} %{}
+}
+
+bundle-update
 
 
