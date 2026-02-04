@@ -125,6 +125,3 @@ bundle-customload kakoune-inc-dec https://gitlab.com/Screwtapello/kakoune-inc-de
     source "%opt{bundle_path}/kakoune-inc-dec/inc-dec.kak"
 }
 
-bundle-update
-
-
