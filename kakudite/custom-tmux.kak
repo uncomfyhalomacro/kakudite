@@ -43,6 +43,16 @@ hook global ModuleLoaded tmux %{
             }
     }
 
+    # Replaces filepicker
+    define-command -docstring 'open-fzf-select-file: Open a floating fzf window to select a file'\
+    open-fzf-select-file %{
+        evaluate-commands %sh{
+            local selected_file
+            selected_file=$(fd -t f | fzf --tmux="center,95%" --preview="bat --color=always {}")
+            printf "edit %s\n" "$selected_file"
+        }
+    }
+
     define-command -docstring 'open-xplr: Open a floating file manager' \
     open-xplr %{
        nop %sh{
@@ -50,6 +60,10 @@ hook global ModuleLoaded tmux %{
            tmux popup -d $PWD -E -- env KAK_CLIENT=$kak_client KAK_SESSION=$kak_session xplr "$PWD"
        }
     }
+
+    map -docstring "open-file-picker: opens a new file using fd and/or fzf" \
+        global user <f> ': open-fzf-select-file<ret>'
+
     map -docstring "open-xplr: opens xplr file explorer" \
         global user   <e>   ': open-xplr<ret>'
 
