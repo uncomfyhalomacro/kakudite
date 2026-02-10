@@ -49,7 +49,16 @@ hook global ModuleLoaded tmux %{
         evaluate-commands %sh{
             local selected_file
             selected_file=$(fd -t f | fzf --tmux="center,95%" --preview="bat --color=always {}")
-            printf "edit %s\n" "$selected_file"
+            [[ -n $selected_file ]] && printf "edit %s\n" "$selected_file"
+        }
+    }
+
+    define-command -docstring 'open-fzf-select-buffer: Open a floating fzf window to select a buffer'\
+    open-fzf-select-buffer %{
+        evaluate-commands %sh{
+            local selected_buffer
+            selected_buffer=$(echo "$kak_buflist" | tr ' ' '\n' | fzf --tmux="center,95%" --preview="[[ -f {} ]] && bat --color=always {}")
+            [[ -n $selected_buffer ]] && printf "edit %s\n" "$selected_buffer"
         }
     }
 
@@ -63,6 +72,9 @@ hook global ModuleLoaded tmux %{
 
     map -docstring "open-file-picker: opens a new file using fd and/or fzf" \
         global user <f> ': open-fzf-select-file<ret>'
+
+    map -docstring "open-buffer-picker: opens a new buffer using fd and/or fzf" \
+        global user <b> ': open-fzf-select-buffer<ret>'
 
     map -docstring "open-xplr: opens xplr file explorer" \
         global user   <e>   ': open-xplr<ret>'
