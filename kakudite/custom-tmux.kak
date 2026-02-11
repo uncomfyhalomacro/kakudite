@@ -48,7 +48,7 @@ hook global ModuleLoaded tmux %{
     open-fzf-select-file %{
         evaluate-commands %sh{
             local selected_file
-            selected_file=$(fd -t f | fzf --prompt="select file> " --tmux="center,95%" --preview="bat -n --color=always {}")
+            selected_file=$(fd --no-ignore-vcs -t f | fzf --prompt="select file> " --tmux="center,95%" --preview="bat -n --color=always {}")
             [[ -n $selected_file ]] && printf "edit %s\n" "$selected_file"
         }
     }
@@ -81,19 +81,19 @@ hook global ModuleLoaded tmux %{
 
 
     define-command -hidden open-file-on-new-pane %{
-      prompt file: -menu -shell-script-candidates "fd --type=file" %{
         nop %sh{
-            tmux splitw -h -- kak -c "$kak_session" "$kak_text"
+            local selected_file
+            selected_file=$(fd --no-ignore-vcs -t f | fzf --prompt="select file> " --tmux="center,95%" --preview="bat -n --color=always {}")
+            [[ -n $selected_file ]] && tmux splitw -h -- kak -c "$kak_session" "${selected_file}"
         }
-      }
     }
 
     define-command -hidden open-buffer-on-new-pane %{
-      prompt buffer: -menu -buffer-completion %{
         nop %sh{
-            tmux splitw -h -- kak -c "${kak_session}" -e "buffer ${kak_text}"
+            local selected_buffer
+            selected_buffer=$(echo "$kak_buflist" | tr ' ' '\n' | fzf --prompt="select buffer> " --tmux="center,95%" --preview="[[ -f {} ]] && bat -n --color=always {}")
+            [[ -n $selected_buffer ]] && tmux splitw -h -- kak -c "${kak_session}" -e "buffer ${selected_buffer}"
         }
-      }
     }
 
     map -docstring "open-file-on-new-pane" global user <F> ':open-file-on-new-pane<ret>'
