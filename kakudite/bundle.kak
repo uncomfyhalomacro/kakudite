@@ -35,7 +35,8 @@ bundle kakoune-lsp https://github.com/kakoune-lsp/kakoune-lsp  %{
             settings_section = "deno"
             [deno.settings.deno]
             enable = true
-            lint = true
+            lint = false
+            format = false
             codelens.references = true
             codelens.implementations = true
             codelens.referencesAllFunctions = true
