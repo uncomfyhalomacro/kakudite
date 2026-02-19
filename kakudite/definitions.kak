@@ -1,3 +1,14 @@
+define-command insert-date %{
+    execute-keys %sh{
+    	local mydate
+    	mydate="$(date -u '+%Y-%m-%dT%H:%M:%SZ')"
+        printf "i%s" "$mydate"
+    }
+}
+
+map -docstring "insert-date: insert date in UTC and ISO 8601 format" \
+    global user <d> ": insert-date<ret>"
+
 define-command -hidden open-file-picker %{
   prompt file: -menu -shell-script-candidates "fd --type=file" %{
     edit -existing %val{text}
