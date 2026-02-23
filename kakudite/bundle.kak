@@ -41,7 +41,7 @@ bundle kakoune-lsp https://github.com/kakoune-lsp/kakoune-lsp  %{
             codelens.implementations = true
             codelens.referencesAllFunctions = true
             [biome]
-            root_globs = ["biome.json"]
+            root_globs = ["biome.json", "package.json"]
             command = "biome"
             args = ["lsp-proxy"]
          }
