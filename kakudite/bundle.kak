@@ -28,8 +28,12 @@ bundle kakoune-lsp https://github.com/kakoune-lsp/kakoune-lsp  %{
     remove-hooks global lsp-filetype-.*
     hook -group lsp-filetype-javascript global BufSetOption filetype=(?:javascript|typescript) %{
          set-option buffer lsp_servers %{
+            [biome]
+            root_globs = ["biome.json", "package.json", "tsconfig.json"]
+            command = "biome"
+            args = ["lsp-proxy"]
             [deno]
-            root_globs = ["deno.json"]
+            root_globs = ["deno.json", "package.json"]
             command = "deno"
             args = ["lsp"]
             settings_section = "deno"
@@ -40,12 +44,9 @@ bundle kakoune-lsp https://github.com/kakoune-lsp/kakoune-lsp  %{
             codelens.references = true
             codelens.implementations = true
             codelens.referencesAllFunctions = true
-            [biome]
-            root_globs = ["biome.json", "package.json"]
-            command = "biome"
-            args = ["lsp-proxy"]
          }
     }
+
     hook -group lsp-filetype-toml global BufSetOption filetype=toml %{
          set-option buffer lsp_servers %{
            [taplo]
@@ -53,6 +54,7 @@ bundle kakoune-lsp https://github.com/kakoune-lsp/kakoune-lsp  %{
            args = ["lsp", "stdio"]
          }
     }
+
     hook -group lsp-filetype-rust global BufSetOption filetype=rust %{
          set-option buffer lsp_servers %{
              [rust-analyzer]
@@ -65,6 +67,7 @@ bundle kakoune-lsp https://github.com/kakoune-lsp/kakoune-lsp  %{
              check.command = "clippy"
          }
     }
+
     hook -group lsp-filetype-python global BufSetOption filetype=python %{
          set-option buffer lsp_servers %{
              [ruff]
@@ -80,6 +83,7 @@ bundle kakoune-lsp https://github.com/kakoune-lsp/kakoune-lsp  %{
              args = ["server"]
          }
     }
+
     hook -group lsp-filetype-go global BufSetOption filetype=go %{
          set-option buffer lsp_servers %{
              [gopls]
@@ -88,7 +92,29 @@ bundle kakoune-lsp https://github.com/kakoune-lsp/kakoune-lsp  %{
              command = "gopls"
          }
     }
-    hook global WinSetOption filetype=(go|toml|lua|html|css|gleam|solidity|typescript|javascript|rust|crystal|python|haskell|julia|sh|latex|c|cpp) %{
+
+    hook -group lsp-filetype-markdown-typst global BufSetOption filetype=(markdown|typst) %{
+        set-option buffer lsp_servers %{
+            [harper-ls]
+            filetypes = ["markdown", "typst"]
+            command = "harper-ls"
+            args = ["--stdio"]
+            root_globs = ["*.typ", "*.md"]
+        }
+    }
+
+    hook -group lsp-filetype-typst global BufSetOption filetype=typst %{
+        set-option buffer lsp_servers %{
+            [tinymist]
+            filetypes = ["typst"]
+            command = "tinymist"
+            root_globs = ["main.typ"]
+            [tinymist.settings.tinymist.config]
+            typstExtraArgs = "main.typ"
+        }
+    }
+
+    hook global WinSetOption filetype=(go|toml|lua|html|css|gleam|solidity|typescript|javascript|rust|crystal|python|haskell|julia|sh|latex|c|cpp|typst|markdown) %{
         lsp-enable-window
         set-option global lsp_hover_anchor true
         set-option global lsp_auto_show_code_actions true
