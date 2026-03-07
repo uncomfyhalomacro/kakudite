@@ -1,0 +1,33 @@
+#!/usr/bin/env bash
+
+kak_buflist="$@"
+main() {
+if [[ -n "$kak_buflist" ]];
+then
+filename=$(echo "$kak_buflist" | tr ' ' '\n' | fzf --prompt="select buffer> " --preview="[[ -f {} ]] && bat -n --color=always {}")
+fi
+
+if [[ -z "$kak_buflist" ]];then
+filename=$(fd --no-ignore-vcs -t f | fzf --prompt="select file> " --preview="[[ -f {} ]] && bat -n --color=always {}")
+fi
+
+if [[ -n $kak_client ]];
+then
+
+if [[ -n $kak_session ]];
+then
+
+if [[ -n "$on_new_pane" ]];
+then
+	zellij action new-pane -c -- kak -c "${kak_session}" -e "edit ${filename}"
+else
+	echo "eval -client ${kak_client} 'edit ${filename}'" | kak -p $kak_session
+fi
+
+fi
+
+fi
+
+}
+
+main

@@ -77,6 +77,26 @@ hook global ModuleLoaded zellij %{
         }
     }
 
+    define-command -docstring 'open-fzf-select-file: Open a floating fzf window to select a buffer'\
+    open-fzf-select-file %{
+        evaluate-commands %sh{
+            echo "zellij-action new-pane --cwd $PWD -x 10 -y 5 --height 80% --width 90% -c --floating -- env kak_client=$kak_client kak_session=$kak_session bash $kak_config/scripts/fzf-to-kak-client"
+        }
+    }
+
+    map -docstring "open-file-picker: opens a new file using fd and/or fzf" \
+        global user <f> ': open-fzf-select-file<ret>'
+
+    define-command -docstring 'open-fzf-select-buffer: Open a floating fzf window to select a buffer'\
+    open-fzf-select-buffer %{
+        evaluate-commands %sh{
+            echo "zellij-action new-pane --cwd $PWD -x 10 -y 5 --height 80% --width 90% -c --floating -- env kak_client=$kak_client kak_session=$kak_session bash $kak_config/scripts/fzf-to-kak-client '$kak_buflist'"
+        }
+    }
+
+    map -docstring "open-buffer-picker: opens a new buffer using fd and/or fzf" \
+        global user <b> ': open-fzf-select-buffer<ret>'
+
     define-command -params 0..1 \
         -docstring %{
             zellij-send-text-with-eof [text]: Like zellij-send-text but also write EOF after the last character.
@@ -128,19 +148,15 @@ hook global ModuleLoaded zellij %{
     }
 
     define-command -hidden open-file-on-new-pane %{
-      prompt file: -menu -shell-script-candidates "fd --type=file" %{
-        nop %sh{
-            zellij action new-pane --close-on-exit -- kak -c "$kak_session" "$kak_text"
+        evaluate-commands %sh{
+            echo "zellij-action new-pane --cwd $PWD -x 10 -y 5 --height 80% --width 90% -c --floating -- env on_new_pane=true kak_client=$kak_client kak_session=$kak_session bash $kak_config/scripts/fzf-to-kak-client"
         }
-      }
     }
 
     define-command -hidden open-buffer-on-new-pane %{
-      prompt buffer: -menu -buffer-completion %{
-        nop %sh{
-            zellij action new-pane --close-on-exit -- kak -c "${kak_session}" -e "buffer ${kak_text}"
+        evaluate-commands %sh{
+            echo "zellij-action new-pane --cwd $PWD -x 10 -y 5 --height 80% --width 90% -c --floating -- env on_new_pane=true kak_client=$kak_client kak_session=$kak_session bash $kak_config/scripts/fzf-to-kak-client '$kak_buflist'"
         }
-      }
     }
 
     map -docstring "zellij-actionables: action on zellij" global user  <z>   ': zellij-actionables<ret>'
