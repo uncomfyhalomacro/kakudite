@@ -15,9 +15,11 @@ hook global ModuleLoaded zellij %{
             evaluate-commands %sh{
                 if [ -n "$1" ]
                 then
-                    printf "zellij-action new-pane -c -d left -- $*"
+                    printf "zellij-action new-pane -c -d right -- $*\n"
+                    printf "zellij-action move-pane left\n"
                 else
-                    printf "zellij-action new-pane -d left"
+                    printf "zellij-action new-pane -d right\n"
+                    printf "zellij-action move-pane left\n"
                 fi
             }
     }
@@ -37,9 +39,11 @@ hook global ModuleLoaded zellij %{
             evaluate-commands %sh{
                 if [ -n "$1" ]
                 then
-                    printf "zellij-action new-pane -c -d up -- $*"
+                    printf "zellij-action new-pane -c -d down -- $*\n"
+                    printf "zellij-action move-pane up\n"
                 else
-                    printf "zellij-action new-pane -d up"
+                    printf "zellij-action new-pane -d down\n"
+                    printf "zellij-action move-pane up\n"
                 fi
             }
     }
@@ -56,6 +60,7 @@ hook global ModuleLoaded zellij %{
            fi
        }
     }
+
     map -docstring "open-xplr: opens xplr file explorer" \
         global user   <e>   ': open-xplr<ret>'
     define-command -params 0..1 \
@@ -120,15 +125,27 @@ hook global ModuleLoaded zellij %{
     }
 
     define-command -hidden zellij-actionables %{
-      prompt actions: -menu -shell-script-candidates 'printf "new-pane\nfocus-next-pane\nfocus-previous-pane\nnew-tab\nfocus-client\nsend-text\nsend-text-with-eof\n"' %{
+      prompt actions: -menu -shell-script-candidates 'printf "split-down\nsplit-up\nvsplit-left\nvsplit-right\nnew-pane\nfocus-next-pane\nfocus-previous-pane\nnew-tab\nfocus-client\nsend-text\nsend-text-with-eof\n"' %{
         evaluate-commands %sh{
             cwd=$(dirname "$kak_buffile" 2>/dev/null)
             case $kak_text in
+            	vsplit-left)
+            	printf "$kak_text 'kak -c $kak_session -e \"edit ${kak_bufname}\"'"
+            	;;
+            	vsplit-right)
+            	printf "$kak_text 'kak -c $kak_session -e \"edit ${kak_bufname}\"'"
+            	;;
+            	split-down)
+            	printf "$kak_text 'kak -c $kak_session -e \"edit ${kak_bufname}\"'"
+            	;;
+            	split-up)
+            	printf "$kak_text 'kak -c $kak_session -e \"edit ${kak_bufname}\"'"
+            	;;
                 new-pane)
                 printf "zellij-action "$kak_text" --close-on-exit --cwd "$PWD" -- env KAK_CLIENT=$kak_client KAK_SESSION=$kak_session $SHELL"
                 ;;
                 new-tab)
-                printf "zellij-action "$kak_text" --cwd "$PWD" -l default"
+                printf "zellij-action "$kak_text" --cwd "$PWD"\n"
                 ;;
                 focus-client)
                 printf '%s%b' "execute-keys :zellij-focus" " "

@@ -11,6 +11,8 @@ if [[ -z "$kak_buflist" ]];then
 filename=$(fd --no-ignore-vcs -t f | fzf --prompt="select file> " --preview="[[ -f {} ]] && bat -n --color=always {}")
 fi
 
+[[ -z "$filename" ]] && exit 1
+
 if [[ -n $kak_client ]];
 then
 
