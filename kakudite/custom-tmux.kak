@@ -43,6 +43,29 @@ hook global ModuleLoaded tmux %{
             }
     }
 
+    declare-option str makedirparam
+    define-command -override -docstring 'mkdir: passes a directory to makedir so user can modify it for later' mkdir %{
+        evaluate-commands %sh{
+            selected_dir=$(fd -t d | fzf --tmux='center,95%' --preview='if [[ -f "{}" ]]
+then
+bat -n --color=always {}
+else
+eza -l --color=always {}
+fi')
+            printf "set-option buffer makedirparam '%s'" "${selected_dir}"
+        }
+
+        execute-keys %sh{
+            [[ -z "$kak_opt_makedirparam" ]] && exit 0
+            printf ":makedir $kak_opt_makedirparam"
+        }
+
+        unset-option buffer makedirparam
+    }
+
+    map -docstring "mkdir: passes a directory to makedir so user can modify it for later" \
+        global user <m> ': mkdir<ret>'
+
     # Replaces filepicker
     define-command -docstring 'open-fzf-select-file: Open a floating fzf window to select a file'\
     open-fzf-select-file %{

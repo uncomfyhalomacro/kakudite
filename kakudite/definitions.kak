@@ -16,18 +16,35 @@ define-command -hidden open-file-picker %{
 }
 
 define-command -hidden open-word-picker %{
-  prompt file: -menu -shell-script-candidates "cat /usr/share/dict/* | uniq" %{
+  prompt word: -shell-script-candidates "cat /usr/share/dict/* | uniq" %{
     execute-keys %sh{
         printf "i%s" "$kak_text"
     }
   }
 }
 
+define-command -hidden -docstring 'makedir: create-new-directory' makedir -params 1 %{
+    nop %sh{
+        mkdir -p "$PWD/$1"
+    }
+}
+
+define-command -docstring 'mkdir: passes a directory to makedir so user can modify it for later' mkdir %{
+    prompt menu: -shell-script-candidates "fd -t d | sort" %{
+        execute-keys %sh{
+            printf ":makedir %s" "$kak_text"
+        }
+    }
+}
+
+map -docstring "mkdir: passes a directory to makedir so user can modify it for later" \
+    global user <m> ': mkdir<ret>'
+
 map -docstring "open-word-picker: opens dictionary words file" \
     global user   <w>   ': open-word-picker<ret>'
 
 define-command -hidden open-recent-file-picker %{
-  prompt file: -menu -shell-script-candidates "cat $kak_config/recentf" %{
+  prompt menu: -shell-script-candidates "cat $kak_config/recentf" %{
     edit -existing %val{text}
   }
 }
@@ -48,3 +65,4 @@ open-xplr-in-new-terminal -params 0..1 %{
 
 map -docstring "open-xplr-in-new-terminal: opens xplr file explorer" \
     global user   <x>   ': open-xplr-in-new-terminal<ret>'
+
