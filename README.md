@@ -24,6 +24,7 @@ kak -e 'bundle-install'
 - zellij
 - julia or juliaup
 - GNU parallel
+- eza
 
 ## Bootstrapped with kak-bundle
 
