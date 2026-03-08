@@ -29,10 +29,12 @@ bundle kakoune-lsp https://github.com/kakoune-lsp/kakoune-lsp  %{
     hook -group lsp-filetype-javascript global BufSetOption filetype=(?:javascript|typescript) %{
          set-option buffer lsp_servers %{
             [biome]
+            filetypes = ["javascript", "typescript", "html", "css"]
             root_globs = ["biome.json", "package.json", "tsconfig.json"]
             command = "biome"
             args = ["lsp-proxy"]
             [deno]
+            filetypes = ["javascript", "typescript", "html", "css"]
             root_globs = ["deno.json", "package.json"]
             command = "deno"
             args = ["lsp"]
@@ -50,8 +52,28 @@ bundle kakoune-lsp https://github.com/kakoune-lsp/kakoune-lsp  %{
     hook -group lsp-filetype-toml global BufSetOption filetype=toml %{
          set-option buffer lsp_servers %{
            [taplo]
+           filetypes = ["toml"]
+           command = "taplo"
            root_globs = [".git", ".hg"]
            args = ["lsp", "stdio"]
+         }
+    }
+
+    hook -group lsp-filetype-dart global BufSetOption filetype=dart %{
+         set-option buffer lsp_servers %{
+           [dartls]
+           root_globs = ["pubspec.yaml"]
+           command = "dart"
+           filetypes = ["dart"]
+           args = ["language-server", "--protocol=lsp"]
+           [dartls.settings.dart]
+           completeFunctionCalls = true
+           showTodos = true
+           closingLabels = true
+           flutterOutline = true
+           onlyAnalyzeProjectsWithOpenFiles = true
+           outline = true
+           suggestFromUnimportedLibraries = true
          }
     }
 
@@ -114,7 +136,7 @@ bundle kakoune-lsp https://github.com/kakoune-lsp/kakoune-lsp  %{
         }
     }
 
-    hook global WinSetOption filetype=(go|toml|lua|html|css|gleam|solidity|typescript|javascript|rust|crystal|python|haskell|julia|sh|latex|c|cpp|typst|markdown) %{
+    hook global WinSetOption filetype=(go|toml|lua|html|css|gleam|solidity|typescript|javascript|rust|crystal|python|haskell|julia|sh|latex|c|cpp|typst|markdown|dart) %{
         lsp-enable-window
         set-option global lsp_hover_anchor true
         set-option global lsp_auto_show_code_actions true
