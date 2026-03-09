@@ -107,7 +107,7 @@ fi')
         nop %sh{
             local selected_file
             selected_file=$(fd --no-ignore-vcs -t f | fzf --prompt="select file> " --tmux="center,95%" --preview="bat -n --color=always {}")
-            [[ -n $selected_file ]] && tmux splitw -h -- kak -c "$kak_session" "${selected_file}"
+            [[ -n $selected_file ]] && tmux splitw -h -- kak -c "$kak_session" -e "edit ${selected_file}"
         }
     }
 
@@ -115,7 +115,7 @@ fi')
         nop %sh{
             local selected_buffer
             selected_buffer=$(echo "$kak_buflist" | tr ' ' '\n' | fzf --prompt="select buffer> " --tmux="center,95%" --preview="[[ -f {} ]] && bat -n --color=always {}")
-            [[ -n $selected_buffer ]] && tmux splitw -h -- kak -c "${kak_session}" -e "buffer ${selected_buffer}"
+            [[ -n $selected_buffer ]] && tmux splitw -h -- kak -c "${kak_session}" -e "edit ${selected_buffer}"
         }
     }
 
