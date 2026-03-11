@@ -52,7 +52,7 @@ bat -n --color=always {}
 else
 eza -l --color=always {}
 fi')
-            printf "set-option buffer makedirparam '%s'" "${selected_dir}"
+            printf "set-option buffer makedirparam '%s'" "${selected_dir}\n"
         }
 
         execute-keys %sh{
@@ -104,18 +104,16 @@ fi')
 
 
     define-command -hidden open-file-on-new-pane %{
-        nop %sh{
-            local selected_file
+        evaluate-commands %sh{
             selected_file=$(fd --no-ignore-vcs -t f | fzf --prompt="select file> " --tmux="center,95%" --preview="bat -n --color=always {}")
-            [[ -n $selected_file ]] && tmux splitw -h -- kak -c "$kak_session" -e "edit ${selected_file}"
+            [[ -n $selected_file ]] && printf "tmux-terminal-vertical %s\n" "kak -c '$kak_session' -e 'edit ${selected_file}'"
         }
     }
 
     define-command -hidden open-buffer-on-new-pane %{
-        nop %sh{
-            local selected_buffer
+        evaluate-commands %sh{
             selected_buffer=$(echo "$kak_buflist" | tr ' ' '\n' | fzf --prompt="select buffer> " --tmux="center,95%" --preview="[[ -f {} ]] && bat -n --color=always {}")
-            [[ -n $selected_buffer ]] && tmux splitw -h -- kak -c "${kak_session}" -e "edit ${selected_buffer}"
+            [[ -n $selected_file ]] && printf "tmux-terminal-vertical %s\n" "kak -c '$kak_session' -e 'edit ${selected_buffer}'"
         }
     }
 
