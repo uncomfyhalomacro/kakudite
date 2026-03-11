@@ -1,4 +1,28 @@
+
 hook global ModuleLoaded tmux %{
+
+
+    hook global WinDisplay .* %{
+        nop %sh{
+                target="${kak_session}:${kak_bufname}"
+                tmux select-pane -T "${target}"
+        }
+    }
+
+    hook global KakEnd .* %{
+        nop %sh{
+                win="$(openssl rand -hex 3)"
+                tmux select-pane -T "$win"
+        }
+    }
+
+    hook global WinClose .* %{
+        nop %sh{
+                win="$(openssl rand -hex 3)"
+                tmux select-pane -T "$win"
+        }
+    }
+
     define-command -docstring 'vsplit-right (tmux): Open a new vertical split on the right relative to the active pane' vsplit-right -params 0..1 %{
             nop %sh{
                 if [ -n "$1" ]
@@ -46,7 +70,7 @@ hook global ModuleLoaded tmux %{
     declare-option str makedirparam
     define-command -override -docstring 'mkdir: passes a directory to makedir so user can modify it for later' mkdir %{
         evaluate-commands %sh{
-            selected_dir=$(fd -t d | fzf --tmux='center,95%' --preview='if [[ -f "{}" ]]
+            selected_dir=$(fd --relative-path -t d | fzf --tmux='center,95%' --preview='if [[ -f "{}" ]]
 then
 bat -n --color=always {}
 else
@@ -70,8 +94,7 @@ fi')
     define-command -docstring 'open-fzf-select-file: Open a floating fzf window to select a file'\
     open-fzf-select-file %{
         evaluate-commands %sh{
-            local selected_file
-            selected_file=$(fd --no-ignore-vcs -t f | fzf --prompt="select file> " --tmux="center,95%" --preview="bat -n --color=always {}")
+            selected_file=$(fd --relative-path --no-ignore-vcs -t f | fzf --prompt="select file> " --tmux="center,95%" --preview="bat -n --color=always {}")
             [[ -n $selected_file ]] && printf "edit %s\n" "$selected_file"
         }
     }
@@ -79,7 +102,6 @@ fi')
     define-command -docstring 'open-fzf-select-buffer: Open a floating fzf window to select a buffer'\
     open-fzf-select-buffer %{
         evaluate-commands %sh{
-            local selected_buffer
             selected_buffer=$(echo "$kak_buflist" | tr ' ' '\n' | fzf --prompt="select buffer> " --tmux="center,95%" --preview="[[ -f {} ]] && bat -n --color=always {}")
             [[ -n $selected_buffer ]] && printf "edit %s\n" "$selected_buffer"
         }
@@ -93,10 +115,10 @@ fi')
        }
     }
 
-    map -docstring "open-file-picker: opens a new file using fd and/or fzf" \
+    map -docstring "open-file-picker: opens a new file using fd --relative-path and/or fzf" \
         global user <f> ': open-fzf-select-file<ret>'
 
-    map -docstring "open-buffer-picker: opens a new buffer using fd and/or fzf" \
+    map -docstring "open-buffer-picker: opens a new buffer using fd --relative-path and/or fzf" \
         global user <b> ': open-fzf-select-buffer<ret>'
 
     map -docstring "open-xplr: opens xplr file explorer" \
@@ -104,19 +126,123 @@ fi')
 
 
     define-command -hidden open-file-on-new-pane %{
-        evaluate-commands %sh{
-            selected_file=$(fd --no-ignore-vcs -t f | fzf --prompt="select file> " --tmux="center,95%" --preview="bat -n --color=always {}")
-            [[ -n $selected_file ]] && printf "tmux-terminal-vertical %s\n" "kak -c '$kak_session' -e 'edit ${selected_file}'"
+        nop %sh{
+            selected_file=$(fd --relative-path --no-ignore-vcs -t f | \
+                fzf --prompt="select file> " \
+                    --tmux="center,95%" \
+                    --preview="bat -n --color=always {}")
+
+            [[ -z "$selected_file" ]] && exit 1
+
+            target="${kak_session}:${selected_file}"
+
+            pane_and_window=$(tmux list-panes -a -F '#{pane_id} #{pane_title} #{window_id}' | \
+                   while read -r id title window_id; do
+                       [[ "$title" == "$target" ]] && echo "$id $window_id" && break
+                   done)
+
+            pane=$(echo $pane_and_window | cut -d' ' -f1)
+            win=$(echo $pane_and_window | cut -d' ' -f2)
+
+            if [[ -n "$pane" ]]; then
+                win=$(tmux display-message -p -t "$pane" '#{window_id}')
+                tmux select-window -t "$win"
+                tmux select-pane -t "$pane"
+            else
+                tmux split-window -h \
+                    "tmux select-pane -T \"$target\"; kak -c \"$kak_session\" -e \"edit $selected_file\""
+            fi
         }
     }
 
     define-command -hidden open-buffer-on-new-pane %{
-        evaluate-commands %sh{
+        nop %sh{
             selected_buffer=$(echo "$kak_buflist" | tr ' ' '\n' | fzf --prompt="select buffer> " --tmux="center,95%" --preview="[[ -f {} ]] && bat -n --color=always {}")
-            [[ -n $selected_buffer ]] && printf "tmux-terminal-vertical %s\n" "kak -c '$kak_session' -e 'edit ${selected_buffer}'"
+            [[ -z "$selected_buffer" ]] && exit 1
+
+            target="${kak_session}:${selected_buffer}"
+            pane_and_window=$(tmux list-panes -a -F '#{pane_id} #{pane_title} #{window_id}' | \
+                   while read -r id title window_id; do
+                       [[ "$title" == "$target" ]] && echo "$id $window_id" && break
+                   done)
+
+            pane=$(echo $pane_and_window | cut -d' ' -f1)
+            win=$(echo $pane_and_window | cut -d' ' -f2)
+
+            if [[ -n "$pane" ]]; then
+                win=$(tmux display-message -p -t "$pane" '#{window_id}')
+                tmux select-window -t "$win"
+                tmux select-pane -t "$pane"
+            else
+                tmux split-window -h \
+                    "tmux select-pane -T \"$target\"; kak -c \"$kak_session\" -e \"buffer $selected_buffer\""
+            fi
         }
     }
 
-    map -docstring "open-file-on-new-pane" global user <F> ':open-file-on-new-pane<ret>'
-    map -docstring "open-buffer-on-new-pane" global user <B> ':open-buffer-on-new-pane<ret>'
+
+    define-command -hidden open-file-on-new-window %{
+        nop %sh{
+            selected_file=$(fd --relative-path --no-ignore-vcs -t f | \
+                fzf --prompt="select file> " \
+                    --tmux="center,95%" \
+                    --preview="bat -n --color=always {}")
+
+            [[ -z "$selected_file" ]] && exit 1
+
+            target="${kak_session}:${selected_file}"
+
+            pane_and_window=$(tmux list-panes -a -F '#{pane_id} #{pane_title} #{window_id}' | \
+                   while read -r id title window_id; do
+                       [[ "$title" == "$target" ]] && echo "$id $window_id" && break
+                   done)
+
+            pane=$(echo $pane_and_window | cut -d' ' -f1)
+            win=$(echo $pane_and_window | cut -d' ' -f2)
+
+            if [[ -n "$pane" ]]; then
+                tmux select-window -t "$win"
+                tmux select-pane -t "$pane"
+                tmux break-pane
+            else
+                win="kak-$(openssl rand -hex 3)"
+                tmux new-window -n "$win" \
+                    "tmux select-pane -T \"$target\"; kak -c \"$kak_session\" -e \"edit $selected_file\""
+            fi
+        }
+    }
+
+
+
+    define-command -hidden open-buffer-on-new-window  %{
+        nop %sh{
+            selected_buffer=$(echo "$kak_buflist" | tr ' ' '\n' | fzf --prompt="select buffer> " --tmux="center,95%" --preview="[[ -f {} ]] && bat -n --color=always {}")
+            [[ -z "$selected_buffer" ]] && exit 1
+
+            target="${kak_session}:${selected_buffer}"
+
+            pane_and_window=$(tmux list-panes -a -F '#{pane_id} #{pane_title} #{window_id}' | \
+                   while read -r id title window_id; do
+                       [[ "$title" == "$target" ]] && echo "$id $window_id" && break
+                   done)
+
+            pane=$(echo $pane_and_window | cut -d' ' -f1)
+            win=$(echo $pane_and_window | cut -d' ' -f2)
+
+            if [[ -n "$pane" ]]; then
+                tmux select-window -t "$win"
+                tmux select-pane -t "$pane"
+                tmux break-pane
+            else
+                win="kak-$(openssl rand -hex 3)"
+                tmux new-window -n "$win" \
+                    "tmux select-pane -T \"$target\"; kak -c \"$kak_session\" -e \"buffer $selected_buffer\""
+            fi
+        }
+    }
+
+    map -docstring "open-file-on-new-pane" global user <h> ':open-file-on-new-pane<ret>'
+    map -docstring "open-buffer-on-new-pane" global user <H> ':open-buffer-on-new-pane<ret>'
+    map -docstring "open-file-on-new-window" global user <n> ':open-file-on-new-window<ret>'
+    map -docstring "open-buffer-on-new-window" global user <N> ':open-buffer-on-new-window<ret>'
 }

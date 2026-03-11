@@ -9,7 +9,7 @@ evaluate-commands %sh{
 }
 
 set-option global ui_options terminal_assistant=cat \
-    terminal_status_on_top=false terminal_set_title=true \
+    terminal_status_on_top=false terminal_set_title=false \
     terminal_padding_fill=false terminal_info_max_width=0 \
     terminal_enable_mouse=true terminal_synchronized=no
 
@@ -48,36 +48,36 @@ set-face global GitModified    "%opt{bg},%opt{green}"
 set-face global BlackOnWhiteBg "%opt{bg},%opt{fg}"
 
 hook global WinSetOption filetype=rust %{
-        add-highlighter window/ regex '//\h*(TODO:?|FIXME:?)[^\n]*'                0:yellow       1:rgb:000000,yellow
-        add-highlighter window/ regex '//\h*(BUG:?|DEBUG:?)[^\n]*'                 0:red          1:rgb:000000,red
-        add-highlighter window/ regex '//\h*(NOTE:?|EXPLAINER:?)[^\n]*'            0:green        1:rgb:000000,green
-        add-highlighter window/ regex '/\*\s*(TODO:?|FIXME:?)([^\n]*|\s+)*\*/'     0:yellow       1:rgb:000000,yellow
-        add-highlighter window/ regex '/\*\s*(BUG:?|DEBUG:?)([^\n]*|\s+)*\*/'      0:red          1:rgb:000000,red
-        add-highlighter window/ regex '/\*\s*(NOTE:?|EXPLAINER:?)([^\n]*|\s+)*\*/' 0:green        1:rgb:000000,green
+        add-highlighter -override window/ regex '//\h*(TODO:?|FIXME:?)[^\n]*'                0:yellow       1:rgb:000000,yellow
+        add-highlighter -override window/ regex '//\h*(BUG:?|DEBUG:?)[^\n]*'                 0:red          1:rgb:000000,red
+        add-highlighter -override window/ regex '//\h*(NOTE:?|EXPLAINER:?)[^\n]*'            0:green        1:rgb:000000,green
+        add-highlighter -override window/ regex '/\*\s*(TODO:?|FIXME:?)([^\n]*|\s+)*\*/'     0:yellow       1:rgb:000000,yellow
+        add-highlighter -override window/ regex '/\*\s*(BUG:?|DEBUG:?)([^\n]*|\s+)*\*/'      0:red          1:rgb:000000,red
+        add-highlighter -override window/ regex '/\*\s*(NOTE:?|EXPLAINER:?)([^\n]*|\s+)*\*/' 0:green        1:rgb:000000,green
 }
 
 hook global WinSetOption filetype=(crystal|julia|python|sh|bash) %{
-        add-highlighter window/ regex '#\h*(TODO:?|FIXME:?)[^\n]*'                 0:yellow       1:rgb:000000,yellow
-        add-highlighter window/ regex '#\h*(BUG:?|DEBUG:?)[^\n]*'                  0:red          1:rgb:000000,red
-        add-highlighter window/ regex '#\h*(NOTE:?|EXPLAINER:?)[^\n]*'             0:green        1:rgb:000000,green
+        add-highlighter -override window/ regex '#\h*(TODO:?|FIXME:?)[^\n]*'                 0:yellow       1:rgb:000000,yellow
+        add-highlighter -override window/ regex '#\h*(BUG:?|DEBUG:?)[^\n]*'                  0:red          1:rgb:000000,red
+        add-highlighter -override window/ regex '#\h*(NOTE:?|EXPLAINER:?)[^\n]*'             0:green        1:rgb:000000,green
 }
 
 hook global WinSetOption filetype=(c|cpp|hare|go) %{
-        add-highlighter window/ regex '//\h*(TODO:?|FIXME:?)[^\n]*'                0:yellow       1:rgb:000000,yellow
-        add-highlighter window/ regex '//\h*(BUG:?|DEBUG:?)[^\n]*'                 0:red          1:rgb:000000,red
-        add-highlighter window/ regex '//\h*(NOTE:?|EXPLAINER:?)[^\n]*'            0:green        1:rgb:000000,green
+        add-highlighter -override window/ regex '//\h*(TODO:?|FIXME:?)[^\n]*'                0:yellow       1:rgb:000000,yellow
+        add-highlighter -override window/ regex '//\h*(BUG:?|DEBUG:?)[^\n]*'                 0:red          1:rgb:000000,red
+        add-highlighter -override window/ regex '//\h*(NOTE:?|EXPLAINER:?)[^\n]*'            0:green        1:rgb:000000,green
 }
 
 hook global WinSetOption filetype=(markdown|html) %{
-        add-highlighter window/ regex '<!--\h*(TODO:?|FIXME:?)[^\n]*'              0:yellow       1:rgb:000000,yellow
-        add-highlighter window/ regex '<!--\h*(BUG:?|DEBUG:?)[^\n]*'               0:red          1:rgb:000000,red
-        add-highlighter window/ regex '<!--\h*(NOTE:?|EXPLAINER:?)[^\n]*'          0:green        1:rgb:000000,green
+        add-highlighter -override window/ regex '<!--\h*(TODO:?|FIXME:?)[^\n]*'              0:yellow       1:rgb:000000,yellow
+        add-highlighter -override window/ regex '<!--\h*(BUG:?|DEBUG:?)[^\n]*'               0:red          1:rgb:000000,red
+        add-highlighter -override window/ regex '<!--\h*(NOTE:?|EXPLAINER:?)[^\n]*'          0:green        1:rgb:000000,green
 }
 hook global WinSetOption filetype=.* %{
-    add-highlighter buffer/ show-whitespaces -tab "⋅" -lf " "
-    add-highlighter buffer/ show-matching
-    add-highlighter buffer/ number-lines -relative -min-digits 6 -hlcursor
-    add-highlighter buffer/ number-lines -min-digits 6 -separator '' -hlcursor
+    add-highlighter -override buffer/ show-whitespaces -tab "⋅" -lf " "
+    add-highlighter -override buffer/ show-matching
+    add-highlighter -override buffer/ number-lines -relative -min-digits 6 -hlcursor
+    add-highlighter -override buffer/ number-lines -min-digits 6 -separator '' -hlcursor
     set-face buffer LineNumberCursor   "%opt{aqua},%opt{bg1}"
     set-face buffer PrimaryCursor      "%opt{fg},%opt{bg2}"
     set-face buffer PrimaryCursorEol   "default,%opt{fg}"
