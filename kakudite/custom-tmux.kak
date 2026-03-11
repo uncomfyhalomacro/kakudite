@@ -113,7 +113,7 @@ fi')
     define-command -hidden open-buffer-on-new-pane %{
         evaluate-commands %sh{
             selected_buffer=$(echo "$kak_buflist" | tr ' ' '\n' | fzf --prompt="select buffer> " --tmux="center,95%" --preview="[[ -f {} ]] && bat -n --color=always {}")
-            [[ -n $selected_file ]] && printf "tmux-terminal-vertical %s\n" "kak -c '$kak_session' -e 'edit ${selected_buffer}'"
+            [[ -n $selected_buffer ]] && printf "tmux-terminal-vertical %s\n" "kak -c '$kak_session' -e 'edit ${selected_buffer}'"
         }
     }
 
