@@ -90,6 +90,22 @@ fi')
     map -docstring "mkdir: passes a directory to makedir so user can modify it for later" \
         global user <m> ': mkdir<ret>'
 
+
+    define-command -override -docstring 'i-edit: interactive find a directory with fzf to run an edit command for later' i-edit %{
+        execute-keys %sh{
+            selected_dir=$(fd --relative-path -t d | fzf --tmux='center,95%' --preview='if [[ -f "{}" ]]
+then
+bat -n --color=always {}
+else
+eza -l --color=always {}
+fi')
+            printf ":edit %s\n" "${selected_dir}"
+        }
+    }
+
+    map -docstring "i-edit: interactive find a directory with fzf to run an edit command for later" \
+        global user <e> ':i-edit<ret>'
+
     # Replaces filepicker
     define-command -docstring 'open-fzf-select-file: Open a floating fzf window to select a file'\
     open-fzf-select-file %{
