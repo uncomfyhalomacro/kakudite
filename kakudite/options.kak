@@ -11,10 +11,9 @@ evaluate-commands %sh{
 set-option global ui_options terminal_assistant=cat \
     terminal_status_on_top=false terminal_set_title=false \
     terminal_padding_fill=false terminal_info_max_width=0 \
-    terminal_enable_mouse=true terminal_synchronized=no
+    terminal_enable_mouse=true terminal_synchronized=true
 
 set-option global startup_info_version 20250603
-set-option global indentwidth 4
 
 # Gruvbox light
 # TODO: make this programmable with three themes
