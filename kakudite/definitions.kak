@@ -29,10 +29,26 @@ define-command -hidden -docstring 'makedir: create-new-directory' makedir -param
     }
 }
 
+define-command -hidden -docstring 'makedir: create-new-directory' makedir -params 1 %{
+    nop %sh{
+        mkdir -p "$PWD/$1"
+    }
+}
+
+
 define-command -docstring 'mkdir: passes a directory to makedir so user can modify it for later' mkdir %{
     prompt menu: -shell-script-candidates "fd -t d | sort" %{
         execute-keys %sh{
-            printf ":makedir %s" "$kak_text"
+            printf ":makedir %s\n" "$kak_text"
+        }
+    }
+}
+
+
+define-command -override -docstring 'i-edit: interactive find a directory with fzf to run an edit command for later' i-edit %{
+    prompt menu: -shell-script-candidates "fd -t d | sort" %{
+        execute-keys %sh{
+            printf ":edit %s\n" "$kak_text"
         }
     }
 }
