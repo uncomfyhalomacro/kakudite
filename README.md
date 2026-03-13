@@ -18,7 +18,6 @@ kak -e 'bundle-install'
 
 # Requires
 
-- xplr
 - notify-send
 - rust
 - zellij

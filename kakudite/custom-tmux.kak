@@ -107,23 +107,11 @@ fi')
         }
     }
 
-    define-command -docstring 'open-xplr: Open a floating file manager' \
-    open-xplr %{
-       nop %sh{
-           cwd=$(dirname "$kak_buffile" 2>/dev/null)
-           tmux popup -d $PWD -E -- env KAK_CLIENT=$kak_client KAK_SESSION=$kak_session xplr "$PWD"
-       }
-    }
-
     map -docstring "open-file-picker: opens a new file using fd --relative-path and/or fzf" \
         global user <f> ': open-fzf-select-file<ret>'
 
     map -docstring "open-buffer-picker: opens a new buffer using fd --relative-path and/or fzf" \
         global user <b> ': open-fzf-select-buffer<ret>'
-
-    map -docstring "open-xplr: opens xplr file explorer" \
-        global user   <e>   ': open-xplr<ret>'
-
 
     define-command -hidden open-file-on-new-pane %{
         nop %sh{
