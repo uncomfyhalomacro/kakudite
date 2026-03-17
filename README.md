@@ -20,7 +20,8 @@ kak -e 'bundle-install'
 
 - notify-send
 - rust
-- zellij
+- zellij (optional)
+- tmux (recommended)
 - julia or juliaup
 - GNU parallel
 - eza
