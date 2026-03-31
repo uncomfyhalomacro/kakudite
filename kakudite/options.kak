@@ -47,24 +47,24 @@ set-face global GitModified    "%opt{bg},%opt{green}"
 set-face global BlackOnWhiteBg "%opt{bg},%opt{fg}"
 
 hook global WinSetOption filetype=rust %{
-        add-highlighter -override window/ regex '//\h*(TODO:?|FIXME:?)[^\n]*'                0:yellow       1:rgb:000000,yellow
-        add-highlighter -override window/ regex '//\h*(BUG:?|DEBUG:?)[^\n]*'                 0:red          1:rgb:000000,red
-        add-highlighter -override window/ regex '//\h*(NOTE:?|EXPLAINER:?)[^\n]*'            0:green        1:rgb:000000,green
+        add-highlighter -override window/ regex '[ \t]*//\h*(TODO:?|FIXME:?)[^\n]*(\n[ \t]*//[^\n]*)*'                0:yellow       1:rgb:000000,yellow
+        add-highlighter -override window/ regex '[ \t]*//\h*(BUG:?|DEBUG:?)[^\n]*(\n[ \t]*//[^\n]*)*'                 0:red          1:rgb:000000,red
+        add-highlighter -override window/ regex '[ \t]*//\h*(NOTE:?|EXPLAINER:?)[^\n]*(\n[ \t]*//[^\n]*)*'            0:green        1:rgb:000000,green
         add-highlighter -override window/ regex '/\*\s*(TODO:?|FIXME:?)([^\n]*|\s+)*\*/'     0:yellow       1:rgb:000000,yellow
         add-highlighter -override window/ regex '/\*\s*(BUG:?|DEBUG:?)([^\n]*|\s+)*\*/'      0:red          1:rgb:000000,red
         add-highlighter -override window/ regex '/\*\s*(NOTE:?|EXPLAINER:?)([^\n]*|\s+)*\*/' 0:green        1:rgb:000000,green
 }
 
 hook global WinSetOption filetype=(crystal|julia|python|sh|bash) %{
-        add-highlighter -override window/ regex '#\h*(TODO:?|FIXME:?)[^\n]*'                 0:yellow       1:rgb:000000,yellow
-        add-highlighter -override window/ regex '#\h*(BUG:?|DEBUG:?)[^\n]*'                  0:red          1:rgb:000000,red
-        add-highlighter -override window/ regex '#\h*(NOTE:?|EXPLAINER:?)[^\n]*'             0:green        1:rgb:000000,green
+        add-highlighter -override window/ regex '[ \t]*#\h*(TODO:?|FIXME:?)[^\n]*(\n[ \t]*#[^\n]*)*'                 0:yellow       1:rgb:000000,yellow
+        add-highlighter -override window/ regex '[ \t]*#\h*(BUG:?|DEBUG:?)[^\n]*(\n[ \t]*#[^\n]*)*'                  0:red          1:rgb:000000,red
+        add-highlighter -override window/ regex '[ \t]*#\h*(NOTE:?|EXPLAINER:?)[^\n]*(\n[ \t]*#[^\n]*)*'             0:green        1:rgb:000000,green
 }
 
 hook global WinSetOption filetype=(c|cpp|hare|go) %{
-        add-highlighter -override window/ regex '//\h*(TODO:?|FIXME:?)[^\n]*'                0:yellow       1:rgb:000000,yellow
-        add-highlighter -override window/ regex '//\h*(BUG:?|DEBUG:?)[^\n]*'                 0:red          1:rgb:000000,red
-        add-highlighter -override window/ regex '//\h*(NOTE:?|EXPLAINER:?)[^\n]*'            0:green        1:rgb:000000,green
+        add-highlighter -override window/ regex '[ \t]*//\h*(TODO:?|FIXME:?)[^\n]*(\n[ \t]*//[^\n]*)*'                0:yellow       1:rgb:000000,yellow
+        add-highlighter -override window/ regex '[ \t]*//\h*(BUG:?|DEBUG:?)[^\n]*(\n[ \t]*//[^\n]*)*'                 0:red          1:rgb:000000,red
+        add-highlighter -override window/ regex '[ \t]*//\h*(NOTE:?|EXPLAINER:?)[^\n]*(\n[ \t]*//[^\n]*)*'            0:green        1:rgb:000000,green
 }
 
 hook global WinSetOption filetype=(markdown|html) %{
