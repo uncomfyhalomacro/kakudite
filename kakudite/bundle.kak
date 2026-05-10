@@ -115,13 +115,13 @@ bundle kakoune-lsp https://github.com/kakoune-lsp/kakoune-lsp  %{
          }
     }
 
-    hook -group lsp-filetype-markdown-typst global BufSetOption filetype=(markdown|typst) %{
+    hook -group lsp-filetype-markdown global BufSetOption filetype=(markdown) %{
         set-option buffer lsp_servers %{
-            [harper-ls]
-            filetypes = ["markdown", "typst"]
-            command = "harper-ls"
-            args = ["--stdio"]
-            root_globs = ["*.typ", "*.md"]
+            [zk]
+            filetypes = ["markdown"]
+            command = "zk"
+            args = ["lsp"]
+            root_globs = [".zk"]
         }
     }
 
