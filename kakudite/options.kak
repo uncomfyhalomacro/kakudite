@@ -76,7 +76,7 @@ hook global WinSetOption filetype=.* %{
     add-highlighter -override buffer/ show-whitespaces -tab "⋅" -lf " "
     add-highlighter -override buffer/ show-matching
     add-highlighter -override buffer/ number-lines -relative -min-digits 6 -hlcursor
-    add-highlighter -override buffer/ number-lines -min-digits 6 -separator '' -hlcursor
+    # add-highlighter -override buffer/ number-lines -min-digits 6 -separator '' -hlcursor
     set-face buffer LineNumberCursor   "%opt{aqua},%opt{bg1}"
     set-face buffer PrimaryCursor      "%opt{fg},%opt{bg2}"
     set-face buffer PrimaryCursorEol   "default,%opt{fg}"
