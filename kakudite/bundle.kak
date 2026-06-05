@@ -7,7 +7,7 @@ evaluate-commands %sh{
   printf "%s\n" "source '$plugins/kak-bundle/rc/kak-bundle.kak'"
 }
 
-bundle-noload kak-bundle https://github.com/jdugan6240/kak-bundle
+bundle-noload kak-bundle https://codeberg.org/jdugan6240/kak-bundle
 
 hook global User bundle-after-install %{
   # This is run after bundle-install completes.
