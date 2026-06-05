@@ -165,7 +165,6 @@ bundle-updater kakoune-lsp %{
 
 bundle-install-hook kakoune-lsp %{
     cargo install --path . --root "${HOME}/.local"
-    julia --project=@kak-lsp "${kak_config}"/scripts/julia-ls-install
     # mkdir -p "${HOME}/.config/kak-lsp"
     # cp -n "${kak_config}/kak-lsp.toml" "${HOME}/.config/kak-lsp/kak-lsp.toml"
 }
