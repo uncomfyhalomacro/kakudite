@@ -30,12 +30,12 @@ bundle kakoune-lsp https://github.com/kakoune-lsp/kakoune-lsp  %{
          set-option buffer lsp_servers %{
             [biome]
             filetypes = ["javascript", "typescript", "html", "css"]
-            root_globs = ["biome.json", "package.json", "tsconfig.json"]
+            roots = ["biome.json", "package.json", "tsconfig.json"]
             command = "biome"
             args = ["lsp-proxy"]
             [deno]
             filetypes = ["javascript", "typescript", "html", "css"]
-            root_globs = ["deno.json", "package.json"]
+            roots = ["deno.json", "package.json"]
             command = "deno"
             args = ["lsp"]
             settings_section = "deno"
@@ -54,7 +54,7 @@ bundle kakoune-lsp https://github.com/kakoune-lsp/kakoune-lsp  %{
            [taplo]
            filetypes = ["toml"]
            command = "taplo"
-           root_globs = [".git", ".hg"]
+           roots = [".git", ".hg"]
            args = ["lsp", "stdio"]
          }
     }
@@ -62,7 +62,7 @@ bundle kakoune-lsp https://github.com/kakoune-lsp/kakoune-lsp  %{
     hook -group lsp-filetype-dart global BufSetOption filetype=dart %{
          set-option buffer lsp_servers %{
            [dartls]
-           root_globs = ["pubspec.yaml"]
+           roots = ["pubspec.yaml"]
            command = "dart"
            filetypes = ["dart"]
            args = ["language-server", "--protocol=lsp"]
@@ -81,7 +81,7 @@ bundle kakoune-lsp https://github.com/kakoune-lsp/kakoune-lsp  %{
          set-option buffer lsp_servers %{
              [rust-analyzer]
              filetypes = ["rust"]
-             root_globs = ["Cargo.toml", "Cargo.lock"]
+             roots = ["Cargo.toml", "Cargo.lock"]
              command = "rust-analyzer"
              args = []
              settings_section = "rust-analyzer"
@@ -94,13 +94,13 @@ bundle kakoune-lsp https://github.com/kakoune-lsp/kakoune-lsp  %{
          set-option buffer lsp_servers %{
              [ruff]
              filetypes = ["python"]
-             root_globs = ["pyproject.toml", "uv.lock", "requirements.txt"]
+             roots = ["pyproject.toml", "uv.lock", "requirements.txt"]
              command = "ruff"
              args = ["server"]
 
              [ty]
              filetypes = ["python"]
-             root_globs = ["pyproject.toml", "uv.lock", "requirements.txt"]
+             roots = ["pyproject.toml", "uv.lock", "requirements.txt"]
              command = "ty"
              args = ["server"]
          }
@@ -110,7 +110,7 @@ bundle kakoune-lsp https://github.com/kakoune-lsp/kakoune-lsp  %{
          set-option buffer lsp_servers %{
              [gopls]
              filetypes = ["go"]
-             root_globs = ["go.mod", "go.sum", "go.work", "go.templ"]
+             roots = ["go.mod", "go.sum", "go.work", "go.templ"]
              command = "gopls"
          }
     }
@@ -121,7 +121,7 @@ bundle kakoune-lsp https://github.com/kakoune-lsp/kakoune-lsp  %{
             filetypes = ["markdown"]
             command = "zk"
             args = ["lsp"]
-            root_globs = [".zk"]
+            roots = [".zk"]
         }
     }
 
@@ -130,7 +130,7 @@ bundle kakoune-lsp https://github.com/kakoune-lsp/kakoune-lsp  %{
             [tinymist]
             filetypes = ["typst"]
             command = "tinymist"
-            root_globs = ["main.typ"]
+            roots = ["main.typ"]
             [tinymist.settings.tinymist.config]
             typstExtraArgs = "main.typ"
         }
