@@ -153,3 +153,35 @@ hook global WinCreate .* %{
 set-option global modelinefmt \
 '%val{client}@[%val{session}]%opt{lsp_modeline_message_requests} LSP: %opt{lsp_modeline_progress} E: %opt{lsp_diagnostic_error_count} W: %opt{lsp_diagnostic_warning_count} {BufferList}U+%sh{printf "%04x" "$kak_cursor_char_value"}{StatusLine} %sh{printf "📝︎%s" $(printf %s\\n $kak_buflist |wc -w) }{StatusLine} {{context_info}} {{mode_info}} %val{bufname} %val{cursor_line}:%val{cursor_char_column} {BlackOnWhiteBg}[%opt{filetype}]'
 
+hook global BufCreate .* %{
+    evaluate-commands %sh{
+        if [[ -z "${kak_buffile}" ]]
+        then
+            printf "set-option global ui_options terminal_title=%s@%s:%s" "${LOGNAME}" "${HOSTNAME%%.*}" "${kak_bufname}"
+        else
+            printf "set-option global ui_options terminal_title=%s@%s:%s" "${LOGNAME}" "${HOSTNAME%%.*}" "${kak_buffile}"
+        fi
+    }
+}
+
+hook global BufOpenFile .* %{
+    evaluate-commands %sh{
+        if [[ -z "${kak_buffile}" ]]
+        then
+            printf "set-option global ui_options terminal_title=%s@%s:%s" "${LOGNAME}" "${HOSTNAME%%.*}" "${kak_bufname}"
+        else
+            printf "set-option global ui_options terminal_title=%s@%s:%s" "${LOGNAME}" "${HOSTNAME%%.*}" "${kak_buffile}"
+        fi
+    }
+}
+
+hook global BufNewFile .* %{
+    evaluate-commands %sh{
+        if [[ -z "${kak_buffile}" ]]
+        then
+            printf "set-option global ui_options terminal_title=%s@%s:%s" "${LOGNAME}" "${HOSTNAME%%.*}" "${kak_bufname}"
+        else
+            printf "set-option global ui_options terminal_title=%s@%s:%s" "${LOGNAME}" "${HOSTNAME%%.*}" "${kak_buffile}"
+        fi
+    }
+}
