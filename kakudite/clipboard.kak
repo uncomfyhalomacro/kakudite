@@ -9,23 +9,23 @@ clipboard-yank \
         UNAME_OUT="$(uname)"
         if [[ $UNAME_OUT == "Linux" && -n "${WAYLAND_DISPLAY}" ]]
         then
-            wl-copy --trim-newline "$kak_selection"
+            nohup wl-copy --trim-newline "$kak_selection" 2>/dev/null &
             exit 0
         else
             if [[ -x "$(command -v xsel)" ]]
             then
-                printf '%s' "$kak_selection" | xsel -b
+                nohup xsel -b <<< "$kak_selection" 2>/dev/null &
                 exit 0
             elif [ -x "$(command -v xclip)" ];
             then
-                printf '%s' "$kak_selection" | xclip -sel clip
+                nohup xclip -sel clip <<< "$kak_selection" 2>/dev/null &
                 exit 0
             fi
 
         fi
         if [[ $UNAME_OUT == "Darwin" ]]
         then
-        	printf '%s' "$kak_selection" | pbcopy
+        	nohup pbcopy <<< "$kak_selection" 2>/dev/null &
         	exit 0
         fi
 	exit 1
