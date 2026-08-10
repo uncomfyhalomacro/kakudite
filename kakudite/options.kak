@@ -164,6 +164,28 @@ hook global BufCreate .* %{
     }
 }
 
+hook global WinDisplay .* %{
+    evaluate-commands %sh{
+        if [[ -z "${kak_buffile}" ]]
+        then
+            printf "set-option global ui_options terminal_title=%s@%s:%s" "${LOGNAME}" "${HOSTNAME%%.*}" "${kak_bufname}"
+        else
+            printf "set-option global ui_options terminal_title=%s@%s:%s" "${LOGNAME}" "${HOSTNAME%%.*}" "${kak_buffile}"
+        fi
+    }
+}
+
+hook global BufWritePost .* %{
+    evaluate-commands %sh{
+        if [[ -z "${kak_buffile}" ]]
+        then
+            printf "set-option global ui_options terminal_title=%s@%s:%s" "${LOGNAME}" "${HOSTNAME%%.*}" "${kak_bufname}"
+        else
+            printf "set-option global ui_options terminal_title=%s@%s:%s" "${LOGNAME}" "${HOSTNAME%%.*}" "${kak_buffile}"
+        fi
+    }
+}
+
 hook global BufOpenFile .* %{
     evaluate-commands %sh{
         if [[ -z "${kak_buffile}" ]]
