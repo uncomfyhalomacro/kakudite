@@ -13,6 +13,21 @@ set-option global ui_options terminal_assistant=cat \
     terminal_padding_fill=false terminal_info_max_width=0 \
     terminal_enable_mouse=true terminal_synchronized=false
 
+evaluate-commands %sh{
+    # Check if ripgrep exists
+    if command -v rg >/dev/null 2>&1; then
+        # ripgrep exists, use it
+        printf "set-option global grepcmd 'rg -Hn'\n"
+    else
+        # ripgrep does NOT exist, use our POSIX fallback.
+        # We wrap it in 'sh -c' so Kakoune can append the search string, 
+        # which gets caught by '$0' and injected into the grep command.
+        
+        # Note: We use %{...} to safely quote the command for Kakoune
+        printf "set-option global grepcmd %%{sh -c 'find . -type d -name \".git\" -prune -o -type f -exec grep -n \"\$0\" /dev/null {} +'}\n"
+    fi
+}
+
 set-option global startup_info_version 20270000
 
 # Gruvbox light
